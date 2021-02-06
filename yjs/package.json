@@ -1,0 +1,20 @@
+{
+  "name": "yjs-vendor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "repository": "git@github.com:nikgraf/athena.git",
+  "author": "Nik Graf <nik@nikgraf.com>",
+  "private": true,
+  "dependencies": {
+    "yjs": "^13.4.6"
+  },
+  "scripts": {
+    "dist": "rollup -c"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "rollup": "^2.34.1"
+  }
+}

@@ -2,7 +2,7 @@
 
 End-to-end encrypted collaborative notes app
 
-(https://www.serenity.re/en/notes)[https://www.serenity.re/en/notes]
+[https://www.serenity.re/en/notes](https://www.serenity.re/en/notes)
 
 ## Setup & Development
 

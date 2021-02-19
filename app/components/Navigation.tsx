@@ -71,49 +71,55 @@ const styles = StyleSheet.create({
 
 function Notes() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={headerOptions}>
       <Stack.Screen
         name="Notes"
         component={HomeScreen}
-        options={{ ...headerOptions, headerLeft: null }}
+        options={{ headerLeft: null }}
       />
       <Stack.Screen
         name="Note"
         component={NoteScreen}
         options={({ navigation, route }) => ({
-          ...headerOptions,
-          headerRight: () => (
-            <View style={styles.headerRight}>
-              <IconButton
-                icon="account-multiple"
-                onPress={() => {
-                  navigation.navigate("NoteSettings", { id: route.params.id });
-                }}
-              />
-              <IconButton
-                icon="dots-horizontal-circle-outline"
-                onPress={() => {
-                  navigation.navigate("NoteSettings", { id: route.params.id });
-                }}
-              />
-            </View>
-          ),
+          headerRight: (props) => {
+            console.log("headerRight props");
+            return (
+              <View style={styles.headerRight}>
+                <IconButton
+                  icon="account-multiple"
+                  onPress={() => {
+                    navigation.navigate("NoteSettings", {
+                      id: route.params.id,
+                    });
+                  }}
+                />
+                <IconButton
+                  icon="dots-horizontal-circle-outline"
+                  onPress={() => {
+                    navigation.navigate("NoteSettings", {
+                      id: route.params.id,
+                    });
+                  }}
+                />
+              </View>
+            );
+          },
         })}
       />
       <Stack.Screen
         name="AddCollaboratorToNote"
         component={AddCollaboratorToNoteScreen}
-        options={{ ...headerOptions, title: "Add Collaborator to Note" }}
+        options={{ title: "Add Collaborator to Note" }}
       />
       <Stack.Screen
         name="NoteSettings"
         component={NoteSettingsScreen}
-        options={{ ...headerOptions, title: "Note Settings" }}
+        options={{ title: "Note Settings" }}
       />
       <Stack.Screen
         name="NoteCollaborator"
         component={NoteCollaboratorScreen}
-        options={{ ...headerOptions, title: "Note Collaborator" }}
+        options={{ title: "Note Collaborator" }}
       />
     </Stack.Navigator>
   );
@@ -121,26 +127,26 @@ function Notes() {
 
 function Settings() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={headerOptions}>
       <Stack.Screen
         name="Settings"
         component={SettingsScreen}
-        options={{ ...headerOptions, headerLeft: null }}
+        options={{ headerLeft: null }}
       />
       <Stack.Screen
         name="VerifyAddDeviceToExistingUserScreen"
         component={VerifyAddDeviceToExistingUserScreen}
-        options={{ ...headerOptions, title: "Verify new Device" }}
+        options={{ title: "Verify new Device" }}
       />
       <Stack.Screen
         name="AddLicenseTokenScreen"
         component={AddLicenseTokenScreen}
-        options={{ ...headerOptions, title: "Add License Key" }}
+        options={{ title: "Add License Key" }}
       />
       <Stack.Screen
         name="DeviceScreen"
         component={DeviceScreen}
-        options={{ ...headerOptions, title: "Device" }}
+        options={{ title: "Device" }}
       />
     </Stack.Navigator>
   );
@@ -148,31 +154,31 @@ function Settings() {
 
 function Contacts() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={headerOptions}>
       <Stack.Screen
         name="ContactsList"
         component={ContactsScreen}
-        options={{ ...headerOptions, headerLeft: null, title: "Contacts" }}
+        options={{ headerLeft: null, title: "Contacts" }}
       />
       <Stack.Screen
         name="Contact"
         component={ContactScreen}
-        options={{ ...headerOptions, title: "Contact" }}
+        options={{ title: "Contact" }}
       />
       <Stack.Screen
         name="ContactInvitation"
         component={ContactInvitationScreen}
-        options={{ ...headerOptions, title: "Contact Invitation" }}
+        options={{ title: "Contact Invitation" }}
       />
       <Stack.Screen
         name="AcceptContactInvitationScreen"
         component={AcceptContactInvitationScreen}
-        options={{ ...headerOptions, title: "Accept Contact Invitation" }}
+        options={{ title: "Accept Contact Invitation" }}
       />
       <Stack.Screen
         name="CreateContactInvitationScreen"
         component={CreateContactInvitationScreen}
-        options={{ ...headerOptions, title: "Create Contact Invitation" }}
+        options={{ title: "Create Contact Invitation" }}
       />
     </Stack.Navigator>
   );
@@ -254,6 +260,7 @@ export default function Navigation() {
         <ThemeProvider theme={theme}>
           <NavigationContainer>
             <RootStack.Navigator
+              screenOptions={headerOptions}
               initialRouteName={
                 deviceResult.type === "device" && userResult.type === "user"
                   ? "MainApp"
@@ -273,7 +280,7 @@ export default function Navigation() {
               <RootStack.Screen
                 name="AddDeviceToExistingUserScreen"
                 component={AddDeviceToExistingUserScreen}
-                options={{ ...headerOptions, title: "Link new Device" }}
+                options={{ title: "Link new Device" }}
               />
               <RootStack.Screen
                 name="MainApp"

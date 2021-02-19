@@ -6,7 +6,7 @@ import * as Random from "expo-random";
 import formatDistanceToNow from "../../utils/formatDistanceToNow";
 import { Y } from "../../vendor/index.js";
 import * as repositoryStore from "../../utils/repositoryStore";
-import { RepositoryListEntry } from "../../types";
+import { RepositoryStoreEntry } from "../../types";
 import useRepositories from "../../hooks/useRepositories";
 import usePrivateInfo from "../../hooks/usePrivateInfo";
 import useUser from "../../hooks/useUser";
@@ -144,7 +144,7 @@ export default function Notes({ navigation }) {
               backgroundColor: colors.background,
             }}
             data={notesList}
-            renderItem={({ item }: { item: RepositoryListEntry }) => {
+            renderItem={({ item }: { item: RepositoryStoreEntry }) => {
               let names = [];
               if (userResult.type === "user" && item.collaborators) {
                 names = item.collaborators

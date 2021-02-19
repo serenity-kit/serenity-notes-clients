@@ -251,7 +251,7 @@ const useSync = () => {
 
     const subscriptionId = repositoryStore.subscribeToRepositories(
       async (info) => {
-        if (info.type === "createdOne" || info.type === "updatedOne") {
+        if (info.type === "createdOrUpdatedOne") {
           mutationQueue.addMutation({
             repository: info.repository,
             utils: {

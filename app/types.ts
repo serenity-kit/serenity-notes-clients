@@ -47,16 +47,22 @@ export type Repository = {
   isCreator?: boolean;
   updates?: RepositoryUpdate[];
   updatedAt?: string;
+  lastContentUpdateIntegrityId?: string;
 };
 
-export type RepositoryListEntry = {
+export type RepositoryStoreEntry = {
   id: string;
   name: string;
+  content: string;
+  format: "yjs-13-base64";
   serverId?: string;
+  groupSession?: PickledGroupSession;
+  groupSessionCreatedAt?: string;
+  groupSessionMessageIds?: string[];
   collaborators?: RepositoryCollaborator[];
-  updatedAt: string;
-  lastUpdatedAt: string; // TODO deprecated in favour of updatedAt
+  updates?: RepositoryUpdate[];
   lastContentUpdateIntegrityId?: string;
+  updatedAt?: string;
 };
 
 export type DeviceKeys = {

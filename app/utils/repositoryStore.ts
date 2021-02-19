@@ -4,12 +4,19 @@ import deepEqual from "fast-deep-equal/es6";
 import { uInt8ArrayToBase64, base64ToUInt8Array } from "./encoding";
 import {
   Repository,
-  RepositoryListEntry,
+  RepositoryStoreEntry,
   PickledGroupSession,
   RepositoryCollaborator,
   RepositoryUpdate,
 } from "../types";
 import * as yUtils from "../utils/yUtils";
+
+try {
+  // cleanup outdated store item, removed after 1.4.1
+  AsyncStorage.removeItem("repos");
+} catch (err) {
+  // failed to remove
+}
 
 type RepositorySubscriptionCallback = (repository?: Repository) => void;
 
@@ -21,16 +28,16 @@ type RepositorySubscriptionEntry = {
 
 type RepositoriesSubscriptionCallbackArgument =
   | {
-      repositoryList: RepositoryListEntry[];
+      repositoryList: RepositoryStoreEntry[];
       repository: Repository;
-      type: "createdOne" | "updatedOne";
+      type: "createdOrUpdatedOne";
     }
   | {
-      repositoryList: RepositoryListEntry[];
+      repositoryList: RepositoryStoreEntry[];
       type: "deletedOne";
     }
   | {
-      repositoryList: RepositoryListEntry[];
+      repositoryList: RepositoryStoreEntry[];
       type: "deletedAll";
     };
 
@@ -41,21 +48,6 @@ type RepositoriesSubscriptionCallback = (
 type RepositoriesSubscriptionEntry = {
   subscriptionId: string;
   callback: RepositoriesSubscriptionCallback;
-};
-
-type RepositoryStoreEntry = {
-  id: string;
-  name: string;
-  content: string;
-  format: "yjs-13-base64";
-  serverId?: string;
-  groupSession?: PickledGroupSession;
-  groupSessionCreatedAt?: string;
-  groupSessionMessageIds?: string[];
-  collaborators?: RepositoryCollaborator[];
-  updates?: RepositoryUpdate[];
-  lastContentUpdateIntegrityId?: string;
-  updatedAt?: string;
 };
 
 type RepositoryInput = {
@@ -79,8 +71,19 @@ let repositoryStoreIdCounter = 0;
 let repositoriesStoreSubscriptions: RepositoriesSubscriptionEntry[] = [];
 let repositoriesStoreIdCounter = 0;
 
-export const getRepositoryList = async (): Promise<RepositoryListEntry[]> => {
-  return JSON.parse((await AsyncStorage.getItem("repos")) || "[]");
+export const getRepositoryList = async (): Promise<RepositoryStoreEntry[]> => {
+  const allKeys = await AsyncStorage.getAllKeys();
+  const repoKeys = allKeys.filter(
+    // length 40 because that's the length of repo + uuid
+    (key) => key.startsWith("repo") && key.length === 40
+  );
+
+  const serializedRepos = await AsyncStorage.multiGet(repoKeys);
+  const repos = serializedRepos.map(([, serializedRepo]) => {
+    if (!serializedRepo) return null;
+    return JSON.parse(serializedRepo);
+  });
+  return repos;
 };
 
 export const setRepository = async (repositoryInput: RepositoryInput) => {
@@ -125,56 +128,11 @@ export const setRepository = async (repositoryInput: RepositoryInput) => {
     content: uInt8ArrayToBase64(repository.content),
   };
 
-  function calculateLastUpdatedAt(updates?: RepositoryUpdate[]) {
-    if (!updates || updates.length === 0) return new Date().toISOString();
-    const mostRecentUpdate = updates.sort(
-      (updateA, updateB) =>
-        // @ts-ignore
-        new Date(updateB.createdAt) - new Date(updateA.createdAt)
-    )[0];
-    return mostRecentUpdate.createdAt;
-  }
-
-  const repos = await getRepositoryList();
-  // find if the repo exists using findIndex
-  const repoIndex = repos.findIndex((repo) => repo.id === repository.id);
-  const isNewRepo = repoIndex === -1;
-  if (isNewRepo) {
-    repos.push({
-      id: repository.id,
-      name: repository.name,
-      serverId: repository.serverId,
-      collaborators: repository.collaborators,
-      updatedAt: repository.updatedAt || storedRepo?.updatedAt,
-      lastUpdatedAt: repository.updatedAt || storedRepo?.updatedAt,
-      lastContentUpdateIntegrityId: repository.lastContentUpdateIntegrityId,
-    });
-  } else {
-    repos[repoIndex] = {
-      id: repository.id,
-      name: repository.name,
-      serverId: repository.serverId,
-      collaborators: repository.collaborators,
-      updatedAt:
-        repository.updatedAt ||
-        storedRepo?.updatedAt ||
-        // TODO deprecated, should be removed once version <1.3.0 is not used anymore
-        calculateLastUpdatedAt(repository.updates),
-      lastUpdatedAt:
-        repository.updatedAt ||
-        storedRepo?.updatedAt ||
-        // TODO deprecated, should be removed once version <1.3.0 is not used anymore
-        calculateLastUpdatedAt(repository.updates),
-      lastContentUpdateIntegrityId: repository.lastContentUpdateIntegrityId,
-    };
-  }
-
-  await AsyncStorage.setItem("repos", JSON.stringify(repos));
   const result = await AsyncStorage.setItem(
     `repo${repository.id}`,
     JSON.stringify(repo)
   );
-
+  const repos = await getRepositoryList();
   const subscriptionRepo = {
     ...repo,
     content: base64ToUInt8Array(repo.content),
@@ -185,19 +143,11 @@ export const setRepository = async (repositoryInput: RepositoryInput) => {
     }
   });
   repositoriesStoreSubscriptions.forEach((entry) => {
-    if (isNewRepo) {
-      entry.callback({
-        repositoryList: repos,
-        repository: subscriptionRepo,
-        type: "createdOne",
-      });
-    } else {
-      entry.callback({
-        repositoryList: repos,
-        repository: subscriptionRepo,
-        type: "updatedOne",
-      });
-    }
+    entry.callback({
+      repositoryList: repos,
+      repository: subscriptionRepo,
+      type: "createdOrUpdatedOne",
+    });
   });
   return result;
 };
@@ -227,7 +177,6 @@ export const deleteRepository = async (repositoryId: string) => {
     (info) => info.id !== repositoryId
   );
   await AsyncStorage.removeItem(`repo${repositoryId}`);
-  await AsyncStorage.setItem("repos", JSON.stringify(filteredReposInfo));
 
   repositoryStoreSubscriptions.forEach((entry) => {
     if (entry.repositoryId === repositoryId) {
@@ -245,7 +194,7 @@ export const deleteRepository = async (repositoryId: string) => {
 export const deleteRepositories = async () => {
   const reposInfo = await getRepositoryList();
   const keys = reposInfo.map((info) => `repo${info.id}`);
-  await AsyncStorage.multiRemove([...keys, "repos"]);
+  await AsyncStorage.multiRemove(keys);
   repositoryStoreSubscriptions.forEach((entry) => {
     entry.callback(null);
   });

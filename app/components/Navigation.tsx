@@ -1,14 +1,9 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, ThemeProvider } from "react-native-elements";
-import {
-  IconButton,
-  DefaultTheme,
-  Provider as PaperProvider,
-} from "react-native-paper";
+import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import HomeScreen from "./screens/HomeScreen";
 import NoteScreen from "./screens/NoteScreen";
 import SettingsScreen from "./screens/SettingsScreen";
@@ -62,13 +57,6 @@ const headerOptions = {
   },
 };
 
-const styles = StyleSheet.create({
-  headerRight: {
-    display: "flex",
-    flexDirection: "row",
-  },
-});
-
 function Notes() {
   return (
     <Stack.Navigator screenOptions={headerOptions}>
@@ -77,35 +65,7 @@ function Notes() {
         component={HomeScreen}
         options={{ headerLeft: null }}
       />
-      <Stack.Screen
-        name="Note"
-        component={NoteScreen}
-        options={({ navigation, route }) => ({
-          headerRight: (props) => {
-            console.log("headerRight props");
-            return (
-              <View style={styles.headerRight}>
-                <IconButton
-                  icon="account-multiple"
-                  onPress={() => {
-                    navigation.navigate("NoteSettings", {
-                      id: route.params.id,
-                    });
-                  }}
-                />
-                <IconButton
-                  icon="dots-horizontal-circle-outline"
-                  onPress={() => {
-                    navigation.navigate("NoteSettings", {
-                      id: route.params.id,
-                    });
-                  }}
-                />
-              </View>
-            );
-          },
-        })}
-      />
+      <Stack.Screen name="Note" component={NoteScreen} />
       <Stack.Screen
         name="AddCollaboratorToNote"
         component={AddCollaboratorToNoteScreen}
@@ -246,7 +206,11 @@ export default function Navigation() {
   // fetch the licenseTokens once the app loads
   React.useEffect(() => {
     if (userResult.type === "user" && deviceResult.type === "device") {
-      fetchAllLicenseTokens(client, deviceResult.device);
+      try {
+        fetchAllLicenseTokens(client, deviceResult.device);
+      } catch (err) {
+        console.log("Failed to fetchAllLicenseTokens");
+      }
     }
   }, [deviceResult.type, userResult.type]);
 

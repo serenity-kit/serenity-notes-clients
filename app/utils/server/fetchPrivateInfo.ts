@@ -35,7 +35,7 @@ const fetchPrivateInfo = async (client: any, device: Olm.Account) => {
       await privateInfoStore.setPrivateInfo(yDocPrivateInfo);
     }
   } else {
-    console.error("Failed:", result);
+    console.log("Failed fetchPrivateInfo");
     throw new Error("Failed to load private info");
   }
 };

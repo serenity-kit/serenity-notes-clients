@@ -80,7 +80,8 @@ const createRepository = async (
       groupSessionCreatedAt: new Date().toISOString(),
     });
   } else {
-    console.log("createRepositoryResult: ", createRepositoryResult);
+    // TODO put back into queue wirh a backoff
+    // console.log("createRepositoryResult: ", createRepositoryResult);
     throw new Error("createRepository mutation failed");
   }
 };

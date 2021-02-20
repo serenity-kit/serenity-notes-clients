@@ -94,7 +94,7 @@ const updateRepository = async (
     );
 
     if (!result.data?.updateRepositoryContent?.content?.encryptedContent)
-      Alert.alert("Failed to send content update to the server.");
+      throw new Error("Failed to send content update to the server.");
   } else {
     const groupSession = createGroupSession();
     // NOTE due fallbackKeys there always will be one key for each device
@@ -161,7 +161,7 @@ const updateRepository = async (
             .groupSessionMessageIds,
       });
     } else {
-      Alert.alert("Failed to send content update to the server.");
+      throw new Error("Failed to send content update to the server.");
     }
   }
 };

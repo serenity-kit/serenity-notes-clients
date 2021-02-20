@@ -1,6 +1,8 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import { Asset } from "expo-asset";
 import { View, StyleSheet, Platform } from "react-native";
+import { IconButton } from "react-native-paper";
+import { Icon } from "react-native-elements";
 import * as FileSystem from "expo-file-system";
 import { WebView } from "react-native-webview";
 import deepEqual from "fast-deep-equal/es6";
@@ -12,6 +14,9 @@ import ScrollScreenContainer from "../ui/ScrollScreenContainer";
 import Text from "../ui/Text";
 import LoadingView from "../ui/LoadingView";
 import ServerSyncInfo from "../ui/ServerSyncInfo";
+import { Repository } from "../../types";
+import colors from "../../styles/colors";
+import * as mutationQueue from "../../hooks/useSyncUtils/mutationQueue";
 
 let source =
   Platform.OS === "ios" ? require("../../assets/index.html") : { html: null };
@@ -35,7 +40,105 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
   },
+  headerRight: {
+    display: "flex",
+    flexDirection: "row",
+  },
 });
+
+type HeaderRightProps = {
+  navigation: any;
+  repository: Repository;
+};
+
+const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
+  const [
+    uploadSyncState,
+    setUploadSyncState,
+  ] = useState<mutationQueue.RepositorySyncState>({
+    state: "unknown",
+  });
+
+  useEffect(() => {
+    setUploadSyncState(mutationQueue.getRepositorySyncState(repository.id));
+    const subscriptionId = mutationQueue.subscribeToRepository(
+      repository.id,
+      (syncState) => {
+        setUploadSyncState(syncState);
+      }
+    );
+    return () => {
+      mutationQueue.unsubscribeToRepository(subscriptionId);
+    };
+  }, []);
+
+  let failedDownload = true;
+  if (repository?.updates) {
+    failedDownload = repository.updates.some(
+      (update) => update.type === "failed"
+    );
+  }
+  return (
+    <View style={styles.headerRight}>
+      <Icon
+        name="arrow-up-bold-outline"
+        type="material-community"
+        color={
+          uploadSyncState.state === "unknown"
+            ? "#aaa"
+            : uploadSyncState.state === "retry-in-progress"
+            ? colors.error
+            : colors.success
+        }
+        size={20}
+        onPress={() => {
+          navigation.navigate("NoteSettings", {
+            id: repository.id,
+          });
+        }}
+        style={{
+          position: "relative",
+          top: 14,
+          left: 2,
+          overflow: "visible",
+        }}
+      />
+      <Icon
+        name="arrow-down-bold-outline"
+        type="material-community"
+        color={failedDownload ? colors.warning : colors.success}
+        size={20}
+        onPress={() => {
+          navigation.navigate("NoteSettings", {
+            id: repository.id,
+          });
+        }}
+        style={{
+          position: "relative",
+          top: 18,
+          right: 2,
+          overflow: "visible",
+        }}
+      />
+      <IconButton
+        icon="account-multiple"
+        onPress={() => {
+          navigation.navigate("NoteSettings", {
+            id: repository.id,
+          });
+        }}
+      />
+      <IconButton
+        icon="dots-horizontal-circle-outline"
+        onPress={() => {
+          navigation.navigate("NoteSettings", {
+            id: repository.id,
+          });
+        }}
+      />
+    </View>
+  );
+};
 
 export default function NoteScreen({ route, navigation }) {
   const { id, isNew } = route.params;
@@ -46,6 +149,7 @@ export default function NoteScreen({ route, navigation }) {
   const [, updateState] = React.useState();
   const [isDeleted, setIsDeleted] = React.useState(false);
   const forceUpdate = useCallback(() => updateState({}), []);
+
   useEffect(() => {
     const initDoc = async (id) => {
       if (Platform.OS !== "ios") {
@@ -58,6 +162,15 @@ export default function NoteScreen({ route, navigation }) {
         Y.applyUpdate(yDocRef.current, repo.content);
         contentRef.current = repo.content;
         forceUpdate();
+        navigation.setOptions({
+          headerRight: () => (
+            <HeaderRight
+              navigation={navigation}
+              repositoryId={id}
+              repository={repo}
+            />
+          ),
+        });
       } else {
         forceUpdate();
       }
@@ -81,6 +194,15 @@ export default function NoteScreen({ route, navigation }) {
           )});
           true;
         `);
+        navigation.setOptions({
+          headerRight: () => (
+            <HeaderRight
+              navigation={navigation}
+              repositoryId={id}
+              repository={repository}
+            />
+          ),
+        });
       }
     );
 

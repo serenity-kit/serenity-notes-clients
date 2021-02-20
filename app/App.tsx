@@ -1,17 +1,14 @@
 import "react-native-get-random-values";
-import Constants from "expo-constants";
 import React from "react";
 import { Alert } from "react-native";
-import { createClient, fetchExchange, Provider } from "urql";
+import { Provider } from "urql";
 import { initOlm } from "./utils/device";
 import Navigation from "./components/Navigation";
 import { initDeviceStore } from "./utils/deviceStore";
 import { SyncInfoProvider } from "./context/SyncInfoContext";
-
-const client = createClient({
-  url: Constants.manifest.extra.apiUrl,
-  exchanges: [fetchExchange],
-});
+import * as mutationQueueStore from "./stores/mutationQueueStore";
+import { setRestoredMutations } from "./hooks/useSyncUtils/mutationQueue";
+import client from "./utils/urqlClient";
 
 export default function App() {
   const [initialized, setInitialized] = React.useState(false);
@@ -20,6 +17,8 @@ export default function App() {
       try {
         await initOlm();
         await initDeviceStore();
+        const existingMutations = await mutationQueueStore.getMutationQueue();
+        setRestoredMutations(existingMutations);
         setInitialized(true);
       } catch (e) {
         Alert.alert("Failed to initialize encryption utilities.");

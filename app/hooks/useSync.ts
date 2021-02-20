@@ -1,6 +1,6 @@
 import React from "react";
 import { AppState, AppStateStatus } from "react-native";
-import { useClient, useMutation } from "urql";
+import { useClient } from "urql";
 import useDevice from "./useDevice";
 import useUser from "./useUser";
 import usePrivateUserSigningKey from "./usePrivateUserSigningKey";
@@ -13,9 +13,6 @@ import * as Random from "expo-random";
 import { v4 as uuidv4 } from "uuid";
 import * as mutationQueue from "./useSyncUtils/mutationQueue";
 import useMyVerifiedDevices from "../hooks/useMyVerifiedDevices";
-import createRepositoryMutation from "../graphql/createRepositoryMutation";
-import updateRepositoryContentMutation from "../graphql/updateRepositoryContentMutation";
-import updateRepositoryContentAndGroupSessionMutation from "../graphql/updateRepositoryContentAndGroupSessionMutation";
 import unclaimedOneTimeKeysCount from "../utils/server/unclaimedOneTimeKeysCount";
 import sendOneTimeKeys from "../utils/server/sendOneTimeKeys";
 import { useSyncInfo, SyncStateInput } from "../context/SyncInfoContext";
@@ -169,13 +166,6 @@ const useSync = () => {
   const userResult = useUser();
   const privateUserSigningKeyResult = usePrivateUserSigningKey();
   const fetchMyVerifiedDevices = useMyVerifiedDevices();
-  const [, executeCreateRepository] = useMutation(createRepositoryMutation);
-  const [, executeUpdateRepositoryContent] = useMutation(
-    updateRepositoryContentMutation
-  );
-  const [, executeUpdateRepositoryContentAndGroupSession] = useMutation(
-    updateRepositoryContentAndGroupSessionMutation
-  );
   const [appState, setAppState] = React.useState<AppStateStatus>(
     AppState.currentState
   );
@@ -263,13 +253,9 @@ const useSync = () => {
       async (info) => {
         if (info.type === "createdOrUpdatedOne") {
           mutationQueue.addMutation({
-            repository: info.repository,
-            utils: {
-              client,
-              fetchMyVerifiedDevices,
-              executeCreateRepository,
-              executeUpdateRepositoryContent,
-              executeUpdateRepositoryContentAndGroupSession,
+            repository: {
+              id: info.repository.id,
+              serverId: info.repository.serverId,
             },
             forceNewGroupSession: false,
             retryCount: 0,
@@ -293,13 +279,9 @@ const useSync = () => {
     const repos = await repositoryStore.getRepositoryList();
     repos.forEach((repository) => {
       mutationQueue.addMutation({
-        repository,
-        utils: {
-          client,
-          fetchMyVerifiedDevices,
-          executeCreateRepository,
-          executeUpdateRepositoryContent,
-          executeUpdateRepositoryContentAndGroupSession,
+        repository: {
+          id: repository.id,
+          serverId: repository.serverId,
         },
         forceNewGroupSession: true,
         retryCount: 0,

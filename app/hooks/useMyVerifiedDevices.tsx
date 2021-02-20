@@ -1,11 +1,7 @@
 import { useClient } from "urql";
-import myDevices from "../graphql/myDevices";
 import useDevice from "./useDevice";
 import usePrivateUserSigningKey from "./usePrivateUserSigningKey";
-import { createAuthenticationToken } from "../utils/device";
-import { generateSigningPublicKey, verifyDevice } from "../utils/signing";
-import * as privateUserSigningKeyStore from "../utils/privateUserSigningKeyStore";
-import * as deviceStore from "../utils/deviceStore";
+import fetchMyVerifiedDevices from "../utils/server/fetchMyVerifiedDevices";
 
 const useMyVerifiedDevices = () => {
   const client = useClient();
@@ -13,39 +9,8 @@ const useMyVerifiedDevices = () => {
   useDevice();
   usePrivateUserSigningKey();
 
-  const fetchMyVerifiedDevices = async () => {
-    const device = await deviceStore.getDevice();
-    const privateUserSigningKey = await privateUserSigningKeyStore.getPrivateUserSigningKey();
-
-    const result = await client
-      .query(
-        myDevices,
-        {},
-        {
-          fetchOptions: {
-            headers: {
-              authorization: `signed-utc-msg ${createAuthenticationToken(
-                device
-              )}`,
-            },
-          },
-        }
-      )
-      .toPromise();
-
-    if (result?.data?.devices) {
-      const publicUserSigningKey = generateSigningPublicKey(
-        privateUserSigningKey
-      );
-      return result?.data?.devices.filter((device: any) => {
-        return verifyDevice(device, publicUserSigningKey);
-      });
-    } else {
-      throw new Error("Failed to load devices");
-    }
-  };
-
-  return fetchMyVerifiedDevices;
+  const fetchMyVerifiedDevicesWithClient = () => fetchMyVerifiedDevices(client);
+  return fetchMyVerifiedDevicesWithClient;
 };
 
 export default useMyVerifiedDevices;

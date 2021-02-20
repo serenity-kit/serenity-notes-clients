@@ -2,19 +2,13 @@ import deepEqual from "fast-deep-equal/es6";
 import createRepository from "./createRepository";
 import updateRepository from "./updateRepository";
 import * as repositoryStore from "../../utils/repositoryStore";
+import * as mutationQueueStore from "../../stores/mutationQueueStore";
 import sleep from "../../utils/sleep";
 
 export type Mutation = {
   repository: {
     id: string;
     serverId?: string;
-  };
-  utils: {
-    client: any;
-    fetchMyVerifiedDevices: any;
-    executeCreateRepository: any;
-    executeUpdateRepositoryContent: any;
-    executeUpdateRepositoryContentAndGroupSession: any;
   };
   forceNewGroupSession: boolean;
   retryCount: number;
@@ -40,6 +34,16 @@ let queueIsActive = false;
 let repositorySubscriptions: RepositorySubscriptionEntry[] = [];
 let repositorySubscriptionsIdCounter = 0;
 
+// should only be used when restoring the mutations
+export const setRestoredMutations = (restoredMutations: Mutation[]) => {
+  console.log("Restored Mutations:", restoredMutations);
+  mutations = restoredMutations;
+  if (mutations.length > 0) {
+    // start queue in case there were mutations in there
+    runNextMutation();
+  }
+};
+
 const execute = async (mutation: Mutation) => {
   // need to check for the latest version of the repository in the store
   const repo = await repositoryStore.getRepository(mutation.repository.id);
@@ -50,12 +54,7 @@ const execute = async (mutation: Mutation) => {
     activeCreateRepositoryRequests.push(mutation.repository.id);
     let error: Error | undefined = undefined;
     try {
-      await createRepository(
-        mutation.utils.client,
-        mutation.repository.id,
-        mutation.utils.fetchMyVerifiedDevices,
-        mutation.utils.executeCreateRepository
-      );
+      await createRepository(mutation.repository.id);
     } catch (err) {
       error = err;
     } finally {
@@ -93,10 +92,7 @@ const execute = async (mutation: Mutation) => {
     try {
       lastUpdateRepositories[mutation.repository.id] = repository;
       await updateRepository(
-        mutation.utils.client,
         mutation.repository.id,
-        mutation.utils.executeUpdateRepositoryContent,
-        mutation.utils.executeUpdateRepositoryContentAndGroupSession,
         mutation.forceNewGroupSession
       );
     } catch (err) {
@@ -135,6 +131,8 @@ export const addMutation = async (mutation: Mutation) => {
 const runNextMutation = async () => {
   queueIsActive = true;
   const mutation = mutations[0];
+  // persist mutations before running one, so they can be restored in case the app gets closed
+  await mutationQueueStore.setMutationQueue(mutations);
   // remove first mutation so one with the same id can be added again since
   // there could be another change and the latest change should always be synced
   mutations = mutations.slice(1);
@@ -142,6 +140,8 @@ const runNextMutation = async () => {
     mutationInProgress = mutation;
     await execute(mutation);
     mutationInProgress = undefined;
+    // not necessary to wait for it
+    mutationQueueStore.setMutationQueue(mutations);
     repositorySubscriptions.forEach((entry) => {
       if (entry.repositoryId === mutation.repository.id) {
         entry.callback({ state: "success" });
@@ -158,6 +158,8 @@ const runNextMutation = async () => {
       await sleep(2500);
     }
   }
+  // persist mutations with the latest changes
+  await mutationQueueStore.setMutationQueue(mutations);
   if (mutations.length > 0) {
     await runNextMutation();
   } else {

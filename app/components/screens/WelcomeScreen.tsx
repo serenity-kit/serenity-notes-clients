@@ -6,16 +6,17 @@ import {
   Linking,
   Text as ReactNativeText,
 } from "react-native";
-import Button from "../ui/Button";
 import Spacer from "../ui/Spacer";
 import Text from "../ui/Text";
+import OutlineButton from "../ui/OutlineButton";
+import colors from "../../styles/colors";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     justifyContent: "flex-end",
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingVertical: 60,
   },
 
@@ -51,23 +52,26 @@ export default function WelcomeScreen({ navigation }) {
       <Spacer />
       <Spacer />
       <Spacer />
-      <Button
-        mode="contained"
+      <OutlineButton
+        iconType="plus"
+        align="center"
         onPress={() => {
           navigation.navigate("Onboarding");
         }}
       >
         Setup new Device & new User
-      </Button>
-      <Spacer />
-      <Button
-        mode="outlined"
+      </OutlineButton>
+      <Spacer size="s" />
+      <OutlineButton
+        secondary
+        iconType="plus"
+        align="center"
         onPress={() => {
           navigation.navigate("AddDeviceToExistingUserScreen");
         }}
       >
         Add new Device to existing User
-      </Button>
+      </OutlineButton>
       <Spacer />
       <Spacer />
       <Spacer />
@@ -76,7 +80,7 @@ export default function WelcomeScreen({ navigation }) {
         <Spacer size="s" />
         <View style={styles.list}>
           <Text>- Collaborative editing</Text>
-          <Text>- End to end encrypted</Text>
+          <Text>- End-to-end encrypted</Text>
           <Text>- Offline first</Text>
         </View>
         <Spacer />

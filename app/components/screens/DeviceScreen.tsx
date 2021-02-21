@@ -16,6 +16,8 @@ import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
 import useDevice from "../../hooks/useDevice";
 import { getIdentityKeys } from "../../utils/device";
 import wipeStores from "../../utils/wipeStores";
+import ListWrapper from "../ui/ListWrapper";
+import OutlineButton from "../ui/OutlineButton";
 
 export default function DeviceScreen({ navigation, route }) {
   const { idKey } = route.params;
@@ -90,10 +92,24 @@ export default function DeviceScreen({ navigation, route }) {
 
   return (
     <ScrollScreenContainer>
-      <ListItem
+      <ListHeader>Info</ListHeader>
+      <ListWrapper>
+        <ListItemInfo label="Name">
+          {yLinkedDevice.get("name") || "Name missing (something went wrong)"}
+        </ListItemInfo>
+        <ListItemInfo label="ID Key" topDivider>
+          {idKey}
+        </ListItemInfo>
+
+        <ListItemInfo label="Signing Key" topDivider>
+          {yLinkedDevice.get("signingKey") ||
+            "Key missing (something went wrong)"}
+        </ListItemInfo>
+      </ListWrapper>
+      <Spacer />
+      <OutlineButton
+        iconType="minus"
         disabled={deleteDisabled}
-        topDivider
-        bottomDivider
         onPress={async () => {
           if (processStep === "deletingDevice") return;
           Alert.alert("Info", "Are you sure to delete the device?", [
@@ -109,30 +125,10 @@ export default function DeviceScreen({ navigation, route }) {
           ]);
         }}
       >
-        <Icon
-          name="minus-circle"
-          type="feather"
-          color={deleteDisabled ? "#aaa" : "black"}
-        />
-        <ListItem.Content>
-          <ListItem.Title style={{ color: deleteDisabled ? "#aaa" : "black" }}>
-            {deleteDisabled
-              ? "Delete Device (can't delete last device)"
-              : "Delete Device"}
-          </ListItem.Title>
-        </ListItem.Content>
-      </ListItem>
-      <Spacer />
-      <ListHeader>Info</ListHeader>
-      <ListItemInfo label="Name">
-        {yLinkedDevice.get("name") || "Name missing (something went wrong)"}
-      </ListItemInfo>
-      <ListItemInfo label="ID Key">{idKey}</ListItemInfo>
-
-      <ListItemInfo label="Signing Key">
-        {yLinkedDevice.get("signingKey") ||
-          "Key missing (something went wrong)"}
-      </ListItemInfo>
+        {deleteDisabled
+          ? "Delete Device (can't delete last device)"
+          : "Delete Device"}
+      </OutlineButton>
     </ScrollScreenContainer>
   );
 }

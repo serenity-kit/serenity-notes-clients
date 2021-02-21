@@ -1,11 +1,11 @@
 import React from "react";
 import { Alert } from "react-native";
-import { TextInput } from "react-native-paper";
 import { useClient } from "urql";
 import useDevice from "../../hooks/useDevice";
-import Button from "../ui/Button";
+import OutlineButton from "../ui/OutlineButton";
 import Spacer from "../ui/Spacer";
 import Text from "../ui/Text";
+import TextInput from "../ui/TextInput";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
 import connectToLicense from "../../utils/server/connectToLicense";
 
@@ -25,16 +25,15 @@ export default function AddLicenseTokenScreen({ navigation }) {
       <Text>Please fill in your License key and press the button.</Text>
       <Spacer />
       <TextInput
-        mode="outlined"
-        label="License Key"
+        placeholder="License Key"
         value={licenseToken}
         onChangeText={(value) => setLicenseToken(value)}
         multiline
         disabled={processStep !== "default"}
-        style={{ backgroundColor: "#fff" }}
       />
       <Spacer />
-      <Button
+      <OutlineButton
+        align="center"
         disabled={processStep === "adding"}
         loading={processStep === "adding"}
         onPress={async () => {
@@ -58,7 +57,7 @@ export default function AddLicenseTokenScreen({ navigation }) {
         }}
       >
         Add Licence
-      </Button>
+      </OutlineButton>
     </ScrollScreenContainer>
   );
 }

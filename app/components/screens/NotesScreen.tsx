@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, FlatList, Text, Alert } from "react-native";
-import { ListItem, Icon } from "react-native-elements";
+import { ListItem } from "react-native-elements";
 import { v4 as uuidv4 } from "uuid";
 import * as Random from "expo-random";
 import formatDistanceToNow from "../../utils/formatDistanceToNow";
@@ -15,6 +15,8 @@ import ServerSyncInfo from "../ui/ServerSyncInfo";
 import useHasActiveLicense from "../../hooks/useHasActiveLicense";
 import colors from "../../styles/colors";
 import Spacer from "../ui/Spacer";
+import OutlineButton from "../ui/OutlineButton";
+import ListItemDivider from "../ui/ListItemDivider";
 
 const getuuid = async () =>
   uuidv4({ random: await Random.getRandomBytesAsync(16) });
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
     height: 44,
-    borderBottomColor: "#bbb",
+    borderBottomColor: colors.divider,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });
@@ -76,9 +78,9 @@ export default function Notes({ navigation }) {
     <View style={styles.container}>
       <ServerSyncInfo />
 
-      <ListItem
-        topDivider
-        bottomDivider
+      <OutlineButton
+        align="center"
+        iconType="plus"
         onPress={async () => {
           const maxNotes = 3;
           if (
@@ -110,11 +112,8 @@ export default function Notes({ navigation }) {
           navigation.navigate("Note", { id, isNew: true });
         }}
       >
-        <Icon name="plus-circle" type="feather" />
-        <ListItem.Content>
-          <ListItem.Title>Add Note</ListItem.Title>
-        </ListItem.Content>
-      </ListItem>
+        Add Note
+      </OutlineButton>
       <Spacer />
 
       {notesList.length === 0 ? (
@@ -124,7 +123,6 @@ export default function Notes({ navigation }) {
       ) : (
         <>
           <ListItem
-            bottomDivider
             containerStyle={{
               backgroundColor: colors.background,
               paddingTop: 20,
@@ -142,9 +140,17 @@ export default function Notes({ navigation }) {
           <FlatList
             style={{
               backgroundColor: colors.background,
+              marginLeft: 10,
+              marginRight: 10,
             }}
             data={notesList}
-            renderItem={({ item }: { item: RepositoryStoreEntry }) => {
+            renderItem={({
+              item,
+              index,
+            }: {
+              item: RepositoryStoreEntry;
+              index: number;
+            }) => {
               let names = [];
               if (userResult.type === "user" && item.collaborators) {
                 names = item.collaborators
@@ -159,33 +165,65 @@ export default function Notes({ navigation }) {
               }
 
               return (
-                <ListItem
-                  key={item.id}
-                  bottomDivider
-                  onPress={() => {
-                    navigation.navigate("Note", { id: item.id, isNew: false });
-                  }}
-                >
-                  <ListItem.Content>
-                    <ListItem.Title numberOfLines={1}>
-                      {item.name}
-                    </ListItem.Title>
+                <React.Fragment key={item.id}>
+                  {index === 0 ? null : <ListItemDivider />}
+                  <ListItem
+                    underlayColor={colors.underlay}
+                    onPress={() => {
+                      navigation.navigate("Note", {
+                        id: item.id,
+                        isNew: false,
+                      });
+                    }}
+                    style={{
+                      borderTopLeftRadius: index === 0 ? 6 : 0,
+                      borderTopRightRadius: index === 0 ? 6 : 0,
+                      borderBottomLeftRadius:
+                        index === notesList.length - 1 ? 6 : 0,
+                      borderBottomRightRadius:
+                        index === notesList.length - 1 ? 6 : 0,
+                    }}
+                    containerStyle={{
+                      borderColor: colors.divider,
+                      borderLeftWidth: StyleSheet.hairlineWidth,
+                      borderRightWidth: StyleSheet.hairlineWidth,
+                      borderTopLeftRadius: index === 0 ? 6 : 0,
+                      borderTopRightRadius: index === 0 ? 6 : 0,
+                      borderTopWidth:
+                        index === 0 ? StyleSheet.hairlineWidth : 0,
+                      borderBottomLeftRadius:
+                        index === notesList.length - 1 ? 6 : 0,
+                      borderBottomRightRadius:
+                        index === notesList.length - 1 ? 6 : 0,
+                      borderBottomWidth:
+                        index === notesList.length - 1
+                          ? StyleSheet.hairlineWidth
+                          : 0,
+                    }}
+                  >
+                    <ListItem.Content>
+                      <ListItem.Title numberOfLines={1}>
+                        {item.name}
+                      </ListItem.Title>
+                      <ListItem.Subtitle
+                        numberOfLines={1}
+                        style={{ fontSize: 12, color: "#8A8B96" }}
+                      >
+                        {names.length > 0
+                          ? `Shared with ${names.join(", ")}`
+                          : "Private"}
+                      </ListItem.Subtitle>
+                    </ListItem.Content>
                     <ListItem.Subtitle
-                      numberOfLines={1}
                       style={{ fontSize: 12, color: "#8A8B96" }}
                     >
-                      {names.length > 0
-                        ? `Shared with ${names.join(", ")}`
-                        : "Private"}
+                      {item.updatedAt
+                        ? formatDistanceToNow(new Date(item.updatedAt))
+                        : "-"}
                     </ListItem.Subtitle>
-                  </ListItem.Content>
-                  <ListItem.Subtitle style={{ fontSize: 12, color: "#8A8B96" }}>
-                    {item.updatedAt
-                      ? formatDistanceToNow(new Date(item.updatedAt))
-                      : "-"}
-                  </ListItem.Subtitle>
-                  <ListItem.Chevron />
-                </ListItem>
+                    <ListItem.Chevron color={colors.primary} />
+                  </ListItem>
+                </React.Fragment>
               );
             }}
           />

@@ -1,6 +1,6 @@
 import React from "react";
-import { Alert, Share } from "react-native";
-import { TextInput, Divider } from "react-native-paper";
+import { Alert, Share, View } from "react-native";
+import { Divider } from "react-native-paper";
 import { useMutation, useClient } from "urql";
 import useDevice from "../../hooks/useDevice";
 import usePrivateUserSigningKey from "../../hooks/usePrivateUserSigningKey";
@@ -13,10 +13,11 @@ import { generateVerificationCode } from "../../utils/verification";
 import unclaimedOneTimeKeysCount from "../../utils/server/unclaimedOneTimeKeysCount";
 import sleep from "../../utils/sleep";
 import { useUtilsContext } from "../../context/UtilsContext";
-import Button from "../ui/Button";
 import Spacer from "../ui/Spacer";
 import Text from "../ui/Text";
+import TextInput from "../ui/TextInput";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
+import OutlineButton from "../ui/OutlineButton";
 import * as privateInfoStore from "../../utils/privateInfoStore";
 import useMyVerifiedDevices from "../../hooks/useMyVerifiedDevices";
 import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
@@ -177,52 +178,57 @@ export default function AddDeviceScreen({ navigation }) {
   };
 
   return (
-    <ScrollScreenContainer horizontalPadding>
+    <ScrollScreenContainer>
       <Spacer />
-      <Text>
-        <Text weight={"bold"}>Step 1: </Text>
-        {`On your new Device select "Add new Device to existing User" on the Welcome screen.`}
-      </Text>
+
+      <View style={{ marginLeft: 10, marginRight: 10 }}>
+        <Text>
+          <Text weight={"bold"}>Step 1: </Text>
+          {`On your new Device select "Add new Device to existing User" on the Welcome screen.`}
+        </Text>
+        <Spacer />
+        <Divider />
+        <Spacer />
+        <Text>
+          <Text weight={"bold"}>Step 2: </Text>
+          {`Retrieve the "Device Identification" from the new device an paste it in here.`}
+        </Text>
+        <Spacer />
+        <TextInput
+          value={message}
+          onChangeText={(value) => setMessage(value)}
+          placeholder="Device Identification"
+        />
+      </View>
       <Spacer />
-      <Divider />
-      <Spacer />
-      <Text>
-        <Text weight={"bold"}>Step 2: </Text>
-        {`Retrieve the "Device Identification" from the new device an paste it in here.`}
-      </Text>
-      <Spacer />
-      <TextInput
-        value={message}
-        onChangeText={(value) => setMessage(value)}
-        mode="outlined"
-        label="Device Identification"
-        multiline
-        style={{ backgroundColor: "#fff" }}
-      />
-      <Spacer />
-      <Button
+
+      <OutlineButton
+        align="center"
+        iconType="plus"
         onPress={addDeviceToBackend}
         disabled={processStep !== "default"}
         loading={processStep === "addingDevice"}
       >
         Add new Device to your User
-      </Button>
-      <Spacer />
-      <Divider />
-      <Spacer />
-      <Text>
-        <Text weight={"bold"}>Step 3: </Text>
-        {`On your new Device select "Add new Device to existing User" on the Welcome screen.`}
-      </Text>
-      <Spacer />
-      <TextInput
-        value={`${serverSecret}${verificationCode2}`}
-        mode="outlined"
-        label="Verification Code"
-        style={{ backgroundColor: "#fff" }}
-      />
-      <Spacer />
-      <Button
+      </OutlineButton>
+      <View style={{ marginLeft: 10, marginRight: 10 }}>
+        <Spacer />
+        <Divider />
+        <Spacer />
+        <Text>
+          <Text weight={"bold"}>Step 3: </Text>
+          {`On your new Device select "Add new Device to existing User" on the Welcome screen.`}
+        </Text>
+        <Spacer />
+        <TextInput
+          value={`${serverSecret}${verificationCode2}`}
+          placeholder="Verification Code"
+        />
+        <Spacer />
+      </View>
+      <OutlineButton
+        align="center"
+        iconType="share"
         onPress={async () => {
           await Share.share({
             message: `${serverSecret}${verificationCode2}`,
@@ -231,13 +237,13 @@ export default function AddDeviceScreen({ navigation }) {
         disabled={processStep !== "copyVerificationCode"}
       >
         Share Verification Code
-      </Button>
+      </OutlineButton>
       {processStep === "encryptingAndSending" ? (
         <>
           <Spacer />
-          <Button loading disabled>
+          <OutlineButton align="center" loading disabled onPress={() => null}>
             Encrypting and uploading data
-          </Button>
+          </OutlineButton>
         </>
       ) : null}
     </ScrollScreenContainer>

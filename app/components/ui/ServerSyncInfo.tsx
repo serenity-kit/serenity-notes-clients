@@ -1,9 +1,10 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { sizes } from "../../styles/fonts";
 import { useSyncInfo } from "../../context/SyncInfoContext";
 import LoadingEllipsis from "./LoadingEllipsis";
+import colors from "../../styles/colors";
 
 const styles = StyleSheet.create({
   hint: {
@@ -11,8 +12,13 @@ const styles = StyleSheet.create({
     fontSize: sizes.medium,
     lineHeight: sizes.medium * 1.4,
     backgroundColor: "#eefdee",
-
     padding: sizes.medium * 0.8,
+  },
+  hintWrapper: {
+    marginBottom: 10,
+    borderColor: colors.divider,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: StyleSheet.hairlineWidth,
   },
   warningHint: {
     color: "#503b00",
@@ -20,6 +26,12 @@ const styles = StyleSheet.create({
     lineHeight: sizes.medium * 1.4,
     backgroundColor: "#fff6dd",
     padding: sizes.medium * 0.8,
+  },
+  warningHintWrapper: {
+    marginBottom: 10,
+    borderColor: colors.divider,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: StyleSheet.hairlineWidth,
   },
 });
 
@@ -49,9 +61,11 @@ const ServerSyncInfo: React.FC = () => {
               includeSeconds: true,
             });
       return (
-        <Text style={styles.hint}>
-          Last server sync was {timeDiff}. Syncing now <LoadingEllipsis />
-        </Text>
+        <View style={styles.hintWrapper}>
+          <Text style={styles.hint}>
+            Last server sync was {timeDiff}. Syncing now <LoadingEllipsis />
+          </Text>
+        </View>
       );
     } else {
       return null;
@@ -59,9 +73,11 @@ const ServerSyncInfo: React.FC = () => {
   }
   if (!loadRepositoriesSyncState.lastSuccessDatetime) {
     return (
-      <Text style={styles.warningHint}>
-        Failed to sync with the server. Trying again <LoadingEllipsis />
-      </Text>
+      <View style={styles.warningHintWrapper}>
+        <Text style={styles.warningHint}>
+          Failed to sync with the server. Trying again <LoadingEllipsis />
+        </Text>
+      </View>
     );
   }
 
@@ -77,10 +93,12 @@ const ServerSyncInfo: React.FC = () => {
             includeSeconds: true,
           });
     return (
-      <Text style={styles.warningHint}>
-        Failed to sync with the server since {timeDiff}. Trying again{" "}
-        <LoadingEllipsis />
-      </Text>
+      <View style={styles.warningHintWrapper}>
+        <Text style={styles.warningHint}>
+          Failed to sync with the server since {timeDiff}. Trying again{" "}
+          <LoadingEllipsis />
+        </Text>
+      </View>
     );
   }
 

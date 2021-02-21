@@ -21,6 +21,8 @@ import ServerSyncInfo from "../ui/ServerSyncInfo";
 import { DeviceKeys } from "../../types";
 import { verifyDevice } from "../../utils/signing";
 import colors from "../../styles/colors";
+import OutlineButton from "../ui/OutlineButton";
+import ListWrapper from "../ui/ListWrapper";
 
 const styles = StyleSheet.create({
   container: {
@@ -173,11 +175,13 @@ export default function AddCollaboratorToNoteScreen({ route, navigation }) {
 
       {/* style and show red error message box */}
       {contactsAndContactInvitationsResult.type === "error" ? (
-        <ListItem bottomDivider>
-          <ListItem.Content>
-            <ListItem.Title>Failed to fetch contact data</ListItem.Title>
-          </ListItem.Content>
-        </ListItem>
+        <ListWrapper style={{ marginTop: 10 }}>
+          <ListItem>
+            <ListItem.Content>
+              <ListItem.Title>Failed to fetch contact data</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        </ListWrapper>
       ) : null}
 
       {contactsAndContactInvitationsResult.type === "loading" ? (
@@ -199,8 +203,10 @@ export default function AddCollaboratorToNoteScreen({ route, navigation }) {
               ? yContact.get("userSigningKey")
               : null;
             return (
-              <ListItem
-                bottomDivider
+              <OutlineButton
+                style={{ marginTop: 5 }}
+                iconType="plus"
+                disabled={processStep === "addingCollaborator"}
                 onPress={async () => {
                   setProcessStep("addingCollaborator");
                   await addCollaboratorToRepository(
@@ -214,22 +220,8 @@ export default function AddCollaboratorToNoteScreen({ route, navigation }) {
                   setProcessStep("default");
                 }}
               >
-                <Icon
-                  name="plus-circle"
-                  type="feather"
-                  color={processStep === "addingCollaborator" ? "#aaa" : "#000"}
-                />
-                <ListItem.Content>
-                  <ListItem.Title
-                    style={{
-                      color:
-                        processStep === "addingCollaborator" ? "#aaa" : "#000",
-                    }}
-                  >
-                    {name}
-                  </ListItem.Title>
-                </ListItem.Content>
-              </ListItem>
+                {name}
+              </OutlineButton>
             );
           }}
         />

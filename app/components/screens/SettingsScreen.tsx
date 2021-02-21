@@ -4,9 +4,12 @@ import { Alert } from "react-native";
 import { useClient } from "urql";
 import * as Updates from "expo-updates";
 import Spacer from "../ui/Spacer";
-import Button from "../ui/Button";
 import ListHeader from "../ui/ListHeader";
 import ListItemInfo from "../ui/ListItemInfo";
+import OutlineButton from "../ui/OutlineButton";
+import ListItemButton from "../ui/ListItemButton";
+import ListItemLink from "../ui/ListItemLink";
+import ListWrapper from "../ui/ListWrapper";
 import { getIdentityKeys } from "../../utils/device";
 import { generateSigningPublicKey } from "../../utils/signing";
 import useDevice from "../../hooks/useDevice";
@@ -98,30 +101,32 @@ export default function SettingsScreen({ navigation }) {
   return (
     <ScrollScreenContainer>
       <ListHeader>Your linked Devices</ListHeader>
-      {Array.from(yLinkedDevices, ([key, yLinkedDevice]) => {
-        const isCurrentDevice =
-          deviceResult.type === "device" &&
-          getIdentityKeys(deviceResult.device).idKey === key;
+      <ListWrapper>
+        {Array.from(yLinkedDevices, ([key, yLinkedDevice], index) => {
+          const isCurrentDevice =
+            deviceResult.type === "device" &&
+            getIdentityKeys(deviceResult.device).idKey === key;
 
-        return (
-          <ListItem
-            key={key}
-            bottomDivider
-            onPress={() => {
-              navigation.navigate("DeviceScreen", { idKey: key });
-            }}
-          >
-            <ListItem.Content>
-              <ListItem.Title>{`${yLinkedDevice.get("name")}${
+          return (
+            <ListItemLink
+              topDivider={index !== 0}
+              key={key}
+              onPress={() => {
+                navigation.navigate("DeviceScreen", { idKey: key });
+              }}
+            >
+              {`${yLinkedDevice.get("name")}${
                 isCurrentDevice ? " (Current Device)" : ""
-              }`}</ListItem.Title>
-            </ListItem.Content>
-            <ListItem.Chevron />
-          </ListItem>
-        );
-      })}
-      <ListItem
-        bottomDivider
+              }`}
+            </ListItemLink>
+          );
+        })}
+      </ListWrapper>
+
+      <ListItemButton
+        style={{
+          marginTop: 10,
+        }}
         onPress={() => {
           const maxLinkedDevices = 3;
           if (
@@ -141,20 +146,9 @@ export default function SettingsScreen({ navigation }) {
           navigation.navigate("VerifyAddDeviceToExistingUserScreen");
         }}
       >
-        <Icon
-          name="plus-circle"
-          type="feather"
-          color={userResult.type === "user" ? "#000" : "#aaa"}
-        />
-        <ListItem.Content>
-          <ListItem.Title
-            style={{ color: userResult.type === "user" ? "#000" : "#aaa" }}
-          >
-            Link Device to your Account
-          </ListItem.Title>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
+        {/* color={userResult.type === "user" ? "#000" : "#aaa"} */}
+        Link Device to your Account
+      </ListItemButton>
 
       {licenseTokensResult.licenseTokens.length === 0 ? null : (
         <>
@@ -192,8 +186,8 @@ export default function SettingsScreen({ navigation }) {
                         }`}
                       </ListItem.Title>
                     </ListItem.Content>
-                    <Button
-                      mode="outlined"
+                    <OutlineButton
+                      align="center"
                       onPress={async () => {
                         if (deviceResult.type !== "device") {
                           Alert.alert(
@@ -224,10 +218,9 @@ export default function SettingsScreen({ navigation }) {
                           );
                         }
                       }}
-                      contentStyle={{ height: 40 }}
                     >
                       Remove
-                    </Button>
+                    </OutlineButton>
                   </ListItem>
                 );
               })}
@@ -239,25 +232,27 @@ export default function SettingsScreen({ navigation }) {
       <Spacer />
 
       <ListHeader>Info</ListHeader>
-      <ListItemInfo label="User ID">
-        {userResult.type === "user"
-          ? userResult.user.id
-          : "User not initialized"}
-      </ListItemInfo>
-      <ListItemInfo label="User Signing Key (public)">
-        {privateUserSigningKeyResult.type === "privateUserSigningKey"
-          ? generateSigningPublicKey(
-              privateUserSigningKeyResult.privateUserSigningKey
-            )
-          : "User Signing Key not initialized"}
-      </ListItemInfo>
+      <ListWrapper>
+        <ListItemInfo label="User ID">
+          {userResult.type === "user"
+            ? userResult.user.id
+            : "User not initialized"}
+        </ListItemInfo>
+        <ListItemInfo topDivider label="User Signing Key (public)">
+          {privateUserSigningKeyResult.type === "privateUserSigningKey"
+            ? generateSigningPublicKey(
+                privateUserSigningKeyResult.privateUserSigningKey
+              )
+            : "User Signing Key not initialized"}
+        </ListItemInfo>
+      </ListWrapper>
 
       <Spacer />
       <ListHeader>Advanced Actions</ListHeader>
 
-      <ListItem
+      <OutlineButton
+        iconType="minus"
         disabled={processStep === "deletingUser"}
-        bottomDivider
         onPress={async () => {
           if (processStep === "deletingUser") return;
           Alert.alert(
@@ -293,21 +288,13 @@ export default function SettingsScreen({ navigation }) {
           );
         }}
       >
-        <Icon
-          name="minus-circle"
-          type="feather"
-          color={processStep === "deletingUser" ? "#aaa" : "black"}
-        />
-        <ListItem.Content>
-          <ListItem.Title
-            style={{ color: processStep === "deletingUser" ? "#aaa" : "black" }}
-          >
-            Delete User Account
-          </ListItem.Title>
-        </ListItem.Content>
-      </ListItem>
-      <ListItem
-        bottomDivider
+        Delete User Account
+      </OutlineButton>
+      <OutlineButton
+        iconType="minus"
+        style={{
+          marginTop: 10,
+        }}
         onPress={async () => {
           Alert.alert(
             "Warning",
@@ -329,11 +316,8 @@ export default function SettingsScreen({ navigation }) {
           );
         }}
       >
-        <Icon name="minus-circle" type="feather" />
-        <ListItem.Content>
-          <ListItem.Title>Remove all local Data</ListItem.Title>
-        </ListItem.Content>
-      </ListItem>
+        Remove all local Data
+      </OutlineButton>
     </ScrollScreenContainer>
   );
 }

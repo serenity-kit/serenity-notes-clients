@@ -6,7 +6,7 @@ import * as privateUserSigningKeyStore from "../../utils/privateUserSigningKeySt
 import * as deviceStore from "../../utils/deviceStore";
 import * as userStore from "../../utils/userStore";
 import * as privateInfoStore from "../../utils/privateInfoStore";
-import Button from "../ui/Button";
+import OutlineButton from "../ui/OutlineButton";
 import Spacer from "../ui/Spacer";
 import Text from "../ui/Text";
 import {
@@ -28,11 +28,12 @@ import usePrivateUserSigningKey from "../../hooks/usePrivateUserSigningKey";
 import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
 import { Y } from "../../vendor/index.js";
 import { Icon } from "react-native-elements";
+import colors from "../../styles/colors";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     justifyContent: "center",
     paddingHorizontal: 20,
     paddingVertical: 60,
@@ -150,7 +151,7 @@ export default function OnboardingScreen({ navigation }) {
       <Text weight="bold">Security</Text>
       <Spacer size="s" />
       <Text>
-        All content is end to end encrypted. That said the data is only as
+        All content is end-to-end encrypted. That said the data is only as
         secure as your device.
       </Text>
       <Spacer />
@@ -199,25 +200,27 @@ export default function OnboardingScreen({ navigation }) {
       <Spacer />
       {processState === "failed" ? (
         <>
-          <Button
+          <OutlineButton
+            align="center"
             disabled={processState !== "failed"}
             onPress={() => {
               initDeviceAndCreateUser();
             }}
           >
             Try again
-          </Button>
+          </OutlineButton>
           <Spacer />
         </>
       ) : null}
-      <Button
+      <OutlineButton
+        align="center"
         disabled={processState !== "ready"}
         onPress={() => {
           navigation.navigate("MainApp", { screen: "Notes" });
         }}
       >
         Get started
-      </Button>
+      </OutlineButton>
       <Spacer />
       <View style={styles.content}>
         {processState === "ready" ? (

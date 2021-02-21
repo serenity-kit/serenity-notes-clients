@@ -1,5 +1,4 @@
 import React from "react";
-import { ListItem, Icon } from "react-native-elements";
 import { useClient } from "urql";
 import Spacer from "../ui/Spacer";
 import ListHeader from "../ui/ListHeader";
@@ -13,6 +12,8 @@ import { Alert } from "react-native";
 import Text from "../ui/Text";
 import usePrivateInfo from "../../hooks/usePrivateInfo";
 import ServerSyncInfo from "../ui/ServerSyncInfo";
+import ListWrapper from "../ui/ListWrapper";
+import OutlineButton from "../ui/OutlineButton";
 
 export default function NoteSettingsScreen({ navigation, route }) {
   const repositoryResult = useRepository(route.params.repositoryId);
@@ -50,15 +51,16 @@ export default function NoteSettingsScreen({ navigation, route }) {
   return (
     <ScrollScreenContainer>
       <ServerSyncInfo />
-
-      <Spacer />
       <ListHeader>Info</ListHeader>
-      <ListItemInfo label={`Name`}>{name}</ListItemInfo>
+      <ListWrapper>
+        <ListItemInfo label={`Name`}>{name}</ListItemInfo>
+      </ListWrapper>
 
       <Spacer />
       <ListHeader>Actions</ListHeader>
-      <ListItem
-        bottomDivider
+      <OutlineButton
+        iconType="minus"
+        disabled={!isRepositoryCreator}
         onPress={async () => {
           if (!repositoryResult.repository.serverId) {
             Alert.alert("Note first must be sucessfully synced to the server.");
@@ -89,19 +91,8 @@ export default function NoteSettingsScreen({ navigation, route }) {
           Alert.alert("Success", "Removed collaborator from the note.");
         }}
       >
-        <Icon
-          name="minus-circle"
-          type="feather"
-          color={isRepositoryCreator ? "#000" : "#aaa"}
-        />
-        <ListItem.Content>
-          <ListItem.Title
-            style={{ color: isRepositoryCreator ? "#000" : "#aaa" }}
-          >
-            Remove collaborator
-          </ListItem.Title>
-        </ListItem.Content>
-      </ListItem>
+        Remove collaborator
+      </OutlineButton>
     </ScrollScreenContainer>
   );
 }

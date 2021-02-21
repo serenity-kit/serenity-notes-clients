@@ -1,10 +1,11 @@
 import React from "react";
 import { useClient } from "urql";
-import { ListItem, Icon } from "react-native-elements";
 import { Alert } from "react-native";
 import Spacer from "../ui/Spacer";
 import ListHeader from "../ui/ListHeader";
 import ListItemInfo from "../ui/ListItemInfo";
+import ListWrapper from "../ui/ListWrapper";
+import OutlineButton from "../ui/OutlineButton";
 import usePrivateInfo from "../../hooks/usePrivateInfo";
 import * as privateInfoStore from "../../utils/privateInfoStore";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
@@ -58,9 +59,23 @@ export default function ContactScreen({ navigation, route }) {
 
   return (
     <ScrollScreenContainer>
-      <ListItem
-        bottomDivider
-        topDivider
+      <ListHeader>Info</ListHeader>
+      <ListWrapper>
+        <ListItemInfo label="Name">
+          {yContact.get("name") || "Name missing (something went wrong)"}
+        </ListItemInfo>
+        <ListItemInfo label="User ID" topDivider>
+          {id || "ID missing (something went wrong)"}
+        </ListItemInfo>
+        <ListItemInfo label="User Signing Key (public)" topDivider>
+          {yContact.get("userSigningKey") ||
+            "Key missing (something went wrong)"}
+        </ListItemInfo>
+      </ListWrapper>
+      <ListHeader>Actions</ListHeader>
+
+      <OutlineButton
+        iconType="minus"
         onPress={async () => {
           if (processStep === "deletingContact") return;
           Alert.alert(
@@ -80,22 +95,8 @@ export default function ContactScreen({ navigation, route }) {
           );
         }}
       >
-        <Icon name="minus-circle" type="feather" />
-        <ListItem.Content>
-          <ListItem.Title>Delete Contact</ListItem.Title>
-        </ListItem.Content>
-      </ListItem>
-      <Spacer />
-      <ListHeader>Info</ListHeader>
-      <ListItemInfo label="Name">
-        {yContact.get("name") || "Name missing (something went wrong)"}
-      </ListItemInfo>
-      <ListItemInfo label="User ID">
-        {id || "ID missing (something went wrong)"}
-      </ListItemInfo>
-      <ListItemInfo label="User Signing Key (public)">
-        {yContact.get("userSigningKey") || "Key missing (something went wrong)"}
-      </ListItemInfo>
+        Delete Contact
+      </OutlineButton>
     </ScrollScreenContainer>
   );
 }

@@ -122,6 +122,7 @@ const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
       />
       <IconButton
         icon="account-multiple"
+        color={colors.primary}
         onPress={() => {
           navigation.navigate("NoteSettings", {
             id: repository.id,
@@ -130,6 +131,7 @@ const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
       />
       <IconButton
         icon="dots-horizontal-circle-outline"
+        color={colors.primary}
         onPress={() => {
           navigation.navigate("NoteSettings", {
             id: repository.id,
@@ -224,7 +226,7 @@ export default function NoteScreen({ route, navigation }) {
     return (
       <View style={styles.container}>
         <Spacer />
-        <LoadingView />
+        <LoadingView style={{ backgroundColor: colors.white }} />
       </View>
     );
   }
@@ -244,7 +246,7 @@ export default function NoteScreen({ route, navigation }) {
         renderLoading={() => (
           <View style={styles.container}>
             <Spacer />
-            <LoadingView />
+            <LoadingView style={{ backgroundColor: colors.white }} />
           </View>
         )}
         onMessage={async (event) => {

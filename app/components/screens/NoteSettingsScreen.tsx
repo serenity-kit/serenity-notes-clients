@@ -1,5 +1,5 @@
 import React from "react";
-import { ListItem, Icon } from "react-native-elements";
+import { ListItem } from "react-native-elements";
 import { useClient } from "urql";
 import Spacer from "../ui/Spacer";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
@@ -20,6 +20,10 @@ import useVerifiedDevicesForRepository from "../../hooks/useVerifiedDevicesForRe
 import { useSyncInfo } from "../../context/SyncInfoContext";
 import ServerSyncInfo from "../ui/ServerSyncInfo";
 import useHasActiveLicense from "../../hooks/useHasActiveLicense";
+import ListWrapper from "../ui/ListWrapper";
+import ListItemDivider from "../ui/ListItemDivider";
+import OutlineButton from "../ui/OutlineButton";
+import colors from "../../styles/colors";
 
 export default function NoteSettingsScreen({ navigation, route }) {
   const repositoryResult = useRepository(route.params.id);
@@ -128,11 +132,104 @@ export default function NoteSettingsScreen({ navigation, route }) {
   return (
     <ScrollScreenContainer>
       <ServerSyncInfo />
+      <ListHeader>Server Sync Info</ListHeader>
+      <ListWrapper>
+        <ListItem>
+          <ListItem.Content>
+            <ListItem.Title>
+              {lastSyncUpdate
+                ? `Sending note updates ${
+                    lastSyncUpdate.type === "success" ? "succeeded" : "failed"
+                  }`
+                : "Sending note updates in progress"}
+            </ListItem.Title>
+            <ListItem.Subtitle style={{ fontSize: 12, color: "#8A8B96" }}>
+              {lastSyncUpdate
+                ? `${new Date(lastSyncUpdate.createdAt).toLocaleTimeString(
+                    "en-US"
+                  )}, ${new Date(lastSyncUpdate.createdAt).toDateString()}`
+                : undefined}
+            </ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
+        <ListItemDivider />
+        <ListItem>
+          <ListItem.Content>
+            <ListItem.Title>
+              {loadRepositoriesSyncState.type === "inprogress"
+                ? "Fetching note updates in progress"
+                : `Fetching note updates ${
+                    loadRepositoriesSyncState.type === "success"
+                      ? "succeeded"
+                      : "failed"
+                  }`}
+            </ListItem.Title>
+            <ListItem.Subtitle style={{ fontSize: 12, color: "#8A8B96" }}>
+              {loadRepositoriesSyncState.type === "inprogress"
+                ? undefined
+                : `${loadRepositoriesSyncState.datetime.toLocaleTimeString(
+                    "en-US"
+                  )}, ${loadRepositoriesSyncState.datetime.toDateString()}`}
+            </ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
+      </ListWrapper>
 
       <Spacer />
-      <ListHeader>Actions</ListHeader>
-      <ListItem
-        bottomDivider
+      <ListHeader>Collaborators</ListHeader>
+      <ListWrapper>
+        {collaboratorsWithMostRecentUpdate.length > 0 ? (
+          collaboratorsWithMostRecentUpdate.map((collaborator, index) => {
+            const yContact = yContacts.get(collaborator.id);
+            const name = yContact ? yContact.get("name") : "Unknown";
+            const formattedCreatedAt = collaborator.mostRecentUpdate
+              ? `${new Date(
+                  collaborator.mostRecentUpdate.createdAt
+                ).toLocaleTimeString("en-US")}, ${new Date(
+                  collaborator.mostRecentUpdate.createdAt
+                ).toDateString()}`
+              : "";
+            return (
+              <React.Fragment key={collaborator.id}>
+                {index !== 0 ? <ListItemDivider /> : null}
+                <ListItem
+                  onPress={() => {
+                    navigation.navigate("NoteCollaborator", {
+                      repositoryId: route.params.id,
+                      collaboratorId: collaborator.id,
+                    });
+                  }}
+                >
+                  <ListItem.Content>
+                    <ListItem.Title>{name}</ListItem.Title>
+                    <ListItem.Subtitle
+                      style={{ fontSize: 12, color: "#8A8B96" }}
+                    >{`${
+                      collaborator.mostRecentUpdate
+                        ? collaborator.mostRecentUpdate.type === "success"
+                          ? "Last update at"
+                          : "Failed to decrypt last update at"
+                        : "Yet no update received"
+                    } ${formattedCreatedAt}`}</ListItem.Subtitle>
+                  </ListItem.Content>
+                  <ListItem.Chevron color={colors.primary} />
+                </ListItem>
+              </React.Fragment>
+            );
+          })
+        ) : (
+          <ListItem>
+            <ListItem.Content>
+              <ListItem.Title>No collaborators</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        )}
+      </ListWrapper>
+
+      <OutlineButton
+        disabled={!isRepositoryCreator}
+        style={{ marginTop: 10 }}
+        iconType="plus"
         onPress={async () => {
           if (!repositoryResult.repository.serverId) {
             Alert.alert("Note first must be sucessfully synced to the server.");
@@ -166,23 +263,64 @@ export default function NoteSettingsScreen({ navigation, route }) {
           });
         }}
       >
-        <Icon
-          name="plus-circle"
-          type="feather"
-          color={isRepositoryCreator ? "#000" : "#aaa"}
-        />
-        <ListItem.Content>
-          <ListItem.Title
-            style={{ color: isRepositoryCreator ? "#000" : "#aaa" }}
-          >
-            Add Collaborator
-          </ListItem.Title>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
+        Add Collaborator
+      </OutlineButton>
 
-      <ListItem
-        bottomDivider
+      <Spacer />
+      <ListHeader>Updates from my linked Devices</ListHeader>
+      <ListWrapper>
+        {myUpdates && myUpdates.length > 0 ? (
+          myUpdates.map((update: RepositoryUpdate, index) => {
+            const date = new Date(update.createdAt);
+            return (
+              <React.Fragment
+                key={`${update.authorDeviceKey}-${update.createdAt}`}
+              >
+                {index !== 0 ? <ListItemDivider /> : null}
+                <ListItem>
+                  <ListItem.Content>
+                    <ListItem.Title>{`${update.authorDeviceKey} (Device ID Key)`}</ListItem.Title>
+                    <ListItem.Subtitle
+                      style={{ fontSize: 12, color: "#8A8B96" }}
+                    >{`${
+                      update.type === "success"
+                        ? "Last update at"
+                        : "Failed to decrypt last update at"
+                    } ${date.toLocaleTimeString(
+                      "en-US"
+                    )}, ${date.toDateString()}`}</ListItem.Subtitle>
+                  </ListItem.Content>
+                </ListItem>
+              </React.Fragment>
+            );
+          })
+        ) : (
+          <ListItem>
+            <ListItem.Content>
+              <ListItem.Title>No updates received</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        )}
+      </ListWrapper>
+
+      <Spacer />
+      <ListHeader>Info</ListHeader>
+      <ListWrapper>
+        <ListItemInfo label="Note ID (local)">{route.params.id}</ListItemInfo>
+        <ListItemDivider />
+        <ListItemInfo label="Note ID (server)">
+          {repositoryResult.repository.serverId
+            ? repositoryResult.repository.serverId
+            : "Not yet synced"}
+        </ListItemInfo>
+      </ListWrapper>
+
+      <Spacer />
+      <ListHeader>Actions</ListHeader>
+
+      <OutlineButton
+        disabled={isRepositoryCreator}
+        iconType="minus"
         onPress={async () => {
           if (!repositoryResult.repository.serverId) {
             Alert.alert("Note first must be sucessfully synced to the server.");
@@ -225,22 +363,15 @@ export default function NoteSettingsScreen({ navigation, route }) {
           );
         }}
       >
-        <Icon
-          name="minus-circle"
-          type="feather"
-          color={isRepositoryCreator ? "#aaa" : "#000"}
-        />
-        <ListItem.Content>
-          <ListItem.Title
-            style={{ color: isRepositoryCreator ? "#aaa" : "#000" }}
-          >
-            Remove myself from the Note
-          </ListItem.Title>
-        </ListItem.Content>
-      </ListItem>
+        Remove myself from the Note
+      </OutlineButton>
 
-      <ListItem
-        bottomDivider
+      <OutlineButton
+        disabled={!isRepositoryCreator}
+        iconType="minus"
+        style={{
+          marginTop: 10,
+        }}
         onPress={async () => {
           if (!repositoryResult.repository.serverId) {
             Alert.alert("Note first must be sucessfully synced to the server.");
@@ -267,150 +398,8 @@ export default function NoteSettingsScreen({ navigation, route }) {
           Alert.alert("Success", "Deleted the Note.");
         }}
       >
-        <Icon
-          name="minus-circle"
-          type="feather"
-          color={isRepositoryCreator ? "#000" : "#aaa"}
-        />
-        <ListItem.Content>
-          <ListItem.Title
-            style={{ color: isRepositoryCreator ? "#000" : "#aaa" }}
-          >
-            Delete Note
-          </ListItem.Title>
-        </ListItem.Content>
-      </ListItem>
-
-      <Spacer />
-      <ListHeader>Server Sync Info</ListHeader>
-      <ListItem bottomDivider>
-        <ListItem.Content>
-          <ListItem.Title>
-            {lastSyncUpdate
-              ? `Sending note updates ${
-                  lastSyncUpdate.type === "success" ? "succeeded" : "failed"
-                }`
-              : "Sending note updates in progress"}
-          </ListItem.Title>
-          <ListItem.Subtitle style={{ fontSize: 12, color: "#8A8B96" }}>
-            {lastSyncUpdate
-              ? `${new Date(lastSyncUpdate.createdAt).toLocaleTimeString(
-                  "en-US"
-                )}, ${new Date(lastSyncUpdate.createdAt).toDateString()}`
-              : undefined}
-          </ListItem.Subtitle>
-        </ListItem.Content>
-      </ListItem>
-      <ListItem bottomDivider>
-        <ListItem.Content>
-          <ListItem.Title>
-            {loadRepositoriesSyncState.type === "inprogress"
-              ? "Fetching note updates in progress"
-              : `Fetching note updates ${
-                  loadRepositoriesSyncState.type === "success"
-                    ? "succeeded"
-                    : "failed"
-                }`}
-          </ListItem.Title>
-          <ListItem.Subtitle style={{ fontSize: 12, color: "#8A8B96" }}>
-            {loadRepositoriesSyncState.type === "inprogress"
-              ? undefined
-              : `${loadRepositoriesSyncState.datetime.toLocaleTimeString(
-                  "en-US"
-                )}, ${loadRepositoriesSyncState.datetime.toDateString()}`}
-          </ListItem.Subtitle>
-        </ListItem.Content>
-      </ListItem>
-
-      <Spacer />
-      <ListHeader>Collaborators</ListHeader>
-      {collaboratorsWithMostRecentUpdate.length > 0 ? (
-        collaboratorsWithMostRecentUpdate.map((collaborator) => {
-          const yContact = yContacts.get(collaborator.id);
-          const name = yContact ? yContact.get("name") : "Unknown";
-          const formattedCreatedAt = collaborator.mostRecentUpdate
-            ? `${new Date(
-                collaborator.mostRecentUpdate.createdAt
-              ).toLocaleTimeString("en-US")}, ${new Date(
-                collaborator.mostRecentUpdate.createdAt
-              ).toDateString()}`
-            : "";
-          return (
-            <ListItem
-              key={collaborator.id}
-              bottomDivider
-              onPress={() => {
-                navigation.navigate("NoteCollaborator", {
-                  repositoryId: route.params.id,
-                  collaboratorId: collaborator.id,
-                });
-              }}
-            >
-              <ListItem.Content>
-                <ListItem.Title>{name}</ListItem.Title>
-                <ListItem.Subtitle
-                  style={{ fontSize: 12, color: "#8A8B96" }}
-                >{`${
-                  collaborator.mostRecentUpdate
-                    ? collaborator.mostRecentUpdate.type === "success"
-                      ? "Last update at"
-                      : "Failed to decrypt last update at"
-                    : "Yet no update received"
-                } ${formattedCreatedAt}`}</ListItem.Subtitle>
-              </ListItem.Content>
-              <ListItem.Chevron />
-            </ListItem>
-          );
-        })
-      ) : (
-        <ListItem bottomDivider>
-          <ListItem.Content>
-            <ListItem.Title>No collaborators</ListItem.Title>
-          </ListItem.Content>
-        </ListItem>
-      )}
-
-      <Spacer />
-      <ListHeader>Updates from my linked Devices</ListHeader>
-      {myUpdates && myUpdates.length > 0 ? (
-        myUpdates.map((update: RepositoryUpdate) => {
-          const date = new Date(update.createdAt);
-          return (
-            <ListItem
-              key={`${update.authorDeviceKey}-${update.createdAt}`}
-              bottomDivider
-            >
-              <ListItem.Content>
-                <ListItem.Title>{`${update.authorDeviceKey} (Device ID Key)`}</ListItem.Title>
-                <ListItem.Subtitle
-                  style={{ fontSize: 12, color: "#8A8B96" }}
-                >{`${
-                  update.type === "success"
-                    ? "Last update at"
-                    : "Failed to decrypt last update at"
-                } ${date.toLocaleTimeString(
-                  "en-US"
-                )}, ${date.toDateString()}`}</ListItem.Subtitle>
-              </ListItem.Content>
-            </ListItem>
-          );
-        })
-      ) : (
-        <ListItem bottomDivider>
-          <ListItem.Content>
-            <ListItem.Title>No updates received</ListItem.Title>
-          </ListItem.Content>
-        </ListItem>
-      )}
-
-      <Spacer />
-      <ListHeader>Info</ListHeader>
-      <ListItemInfo label="Note ID (local)">{route.params.id}</ListItemInfo>
-      <ListItemInfo label="Note ID (server)">
-        {repositoryResult.repository.serverId
-          ? repositoryResult.repository.serverId
-          : "Not yet synced"}
-      </ListItemInfo>
+        Delete Note
+      </OutlineButton>
     </ScrollScreenContainer>
   );
 }

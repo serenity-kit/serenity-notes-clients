@@ -35,7 +35,7 @@ const Tab = createBottomTabNavigator();
 
 const theme = {
   colors: {
-    primary: "black",
+    primary: colors.text,
   },
 };
 
@@ -43,13 +43,16 @@ const nativePaperTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: "black",
-    accent: "#ccc",
+    primary: colors.text,
+    accent: colors.textBrightest,
   },
 };
 
 const headerOptions = {
-  headerTintColor: "black",
+  headerTintColor: colors.primary,
+  headerTitleStyle: {
+    color: colors.text,
+  },
   headerStyle: {
     backgroundColor: colors.background,
     shadowColor: "transparent",
@@ -148,7 +151,8 @@ function MainApp() {
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: "black",
+        inactiveTintColor: colors.text,
+        activeTintColor: colors.primary,
         style: {
           // // https://ethercreative.github.io/react-native-shadow-generator/
           shadowColor: "#000",

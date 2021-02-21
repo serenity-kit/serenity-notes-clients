@@ -1,20 +1,25 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
+import colors from "../../styles/colors";
 
 const styles = StyleSheet.create({
   loadingView: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     height: "100%",
     flex: 1,
     justifyContent: "center",
   },
 });
 
-const LoadingView: React.FC = () => (
-  <View style={styles.loadingView}>
+type Props = {
+  style?: any;
+};
+
+const LoadingView = (props: Props) => (
+  <View style={[styles.loadingView, props.style]}>
     {/** TODO make it black and fade in after 200ms */}
-    <ActivityIndicator color="#ddd" size="small" />
+    <ActivityIndicator color={colors.textBrightest} size="small" />
   </View>
 );
 

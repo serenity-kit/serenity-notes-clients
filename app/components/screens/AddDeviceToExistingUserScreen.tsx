@@ -98,14 +98,14 @@ export default function AddDeviceToExistingUserScreen({ navigation }) {
         <Spacer />
         <Text>
           <Text weight={"bold"}>Step 1: </Text>
-          {`On your existing Device go to "Setting" and then "Verify new Device"`}
+          {`On your existing Device go to "Setting" and then "Link Device to your Account".`}
         </Text>
         <Spacer />
         <Divider />
         <Spacer />
         <Text>
           <Text weight={"bold"}>Step 2: </Text>
-          {`Copy & paste the "Device Identification" to your existing Device`}
+          {`Copy the "Device Identification" to your existing Device.`}
         </Text>
         <Spacer />
         <TextInput
@@ -132,8 +132,8 @@ export default function AddDeviceToExistingUserScreen({ navigation }) {
         <Divider />
         <Spacer />
         <Text>
-          <Text weight={"bold"}>Step 3: </Text> Finalize adding the device by
-          entering the verification code presented on your existing device.
+          <Text weight={"bold"}>Step 3: </Text> Enter the{" "}
+          {'"Verification Code"'} presented on your existing device.
         </Text>
         <Spacer />
         <TextInput
@@ -165,14 +165,14 @@ export default function AddDeviceToExistingUserScreen({ navigation }) {
             if (!verificationMessage) {
               setProcessStep("default");
               Alert.alert(
-                "Couldn't find the verification on the server. Please verify the verification code."
+                'Couldn\'t find the verification on the server. Please verify the "Verification Code".'
               );
               return;
             }
           } catch (err) {
             setProcessStep("default");
             Alert.alert(
-              "Couldn't find the verification on the server. Please verify the verification code."
+              'Couldn\'t find the verification on the server. Please verify the "Verification Code".'
             );
             return;
           }

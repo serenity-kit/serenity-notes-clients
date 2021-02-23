@@ -217,7 +217,7 @@ export default function AddDeviceScreen({ navigation }) {
         <Spacer />
         <Text>
           <Text weight={"bold"}>Step 3: </Text>
-          {`On your new Device select "Add new Device to existing User" on the Welcome screen.`}
+          {`Copy the "Verification Code" in your new Device.`}
         </Text>
         <Spacer />
         <TextInput

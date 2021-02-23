@@ -171,14 +171,14 @@ export default function SettingsScreen({ navigation }) {
               </ListItem>
             </>
           ) : (
-            <>
+            <ListWrapper>
               {licenseTokensResult.licenseTokens.map((licenseToken) => {
                 const subscriptionPlan =
                   licenseToken.subscriptionPlan === "PERSONAL_PRO"
                     ? "Personal Pro"
                     : "Team";
                 return (
-                  <ListItem key={licenseToken.token} bottomDivider>
+                  <ListItem key={licenseToken.token}>
                     <ListItem.Content>
                       <ListItem.Title>
                         {`Plan: ${subscriptionPlan}${
@@ -224,7 +224,7 @@ export default function SettingsScreen({ navigation }) {
                   </ListItem>
                 );
               })}
-            </>
+            </ListWrapper>
           )}
         </>
       )}

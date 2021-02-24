@@ -1,11 +1,11 @@
 import React from "react";
 import * as repositoryStore from "../utils/repositoryStore";
-import { RepositoryListEntry } from "../types";
+import { RepositoryStoreEntry } from "../types";
 
 type State =
   | { type: "loading" }
   | { type: "notFound" }
-  | { type: "repositories"; repositoryList: RepositoryListEntry[] };
+  | { type: "repositories"; repositoryList: RepositoryStoreEntry[] };
 
 export default function useRepositories(): State {
   const [state, setState] = React.useState<State>({ type: "loading" });

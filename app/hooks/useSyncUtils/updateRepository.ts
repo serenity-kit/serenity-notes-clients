@@ -12,12 +12,12 @@ import {
 import claimOneTimeKeys from "../../utils/server/claimOneTimeKeys";
 import { uInt8ArrayToBase64 } from "../../utils/base64";
 import verifiedDevicesForRepository from "./verifiedDevicesForRepository";
+import updateRepositoryContentMutation from "../../graphql/updateRepositoryContentMutation";
+import updateRepositoryContentAndGroupSessionMutation from "../../graphql/updateRepositoryContentAndGroupSessionMutation";
+import client from "../../utils/urqlClient";
 
 const updateRepository = async (
-  client,
-  repositoryId,
-  executeUpdateRepositoryContent,
-  executeUpdateRepositoryContentAndGroupSession,
+  repositoryId: string,
   forceNewGroupSession: boolean
 ) => {
   const currentDevice = deviceStore.getDevice();
@@ -74,27 +74,30 @@ const updateRepository = async (
       groupSession: serializeGroupSession(groupSession),
     });
 
-    const result = await executeUpdateRepositoryContent(
-      {
-        input: {
-          repositoryId: repo.serverId,
-          encryptedContent: encryptedContent,
-          groupSessionMessageIds: repo.groupSessionMessageIds,
-        },
-      },
-      {
-        fetchOptions: {
-          headers: {
-            authorization: `signed-utc-msg ${createAuthenticationToken(
-              currentDevice
-            )}`,
+    const result = await client
+      .mutation(
+        updateRepositoryContentMutation,
+        {
+          input: {
+            repositoryId: repo.serverId,
+            encryptedContent: encryptedContent,
+            groupSessionMessageIds: repo.groupSessionMessageIds,
           },
         },
-      }
-    );
+        {
+          fetchOptions: {
+            headers: {
+              authorization: `signed-utc-msg ${createAuthenticationToken(
+                currentDevice
+              )}`,
+            },
+          },
+        }
+      )
+      .toPromise();
 
     if (!result.data?.updateRepositoryContent?.content?.encryptedContent)
-      Alert.alert("Failed to send content update to the server.");
+      throw new Error("Failed to send content update to the server.");
   } else {
     const groupSession = createGroupSession();
     // NOTE due fallbackKeys there always will be one key for each device
@@ -130,24 +133,27 @@ const updateRepository = async (
       groupSessionCreatedAt: new Date().toISOString(),
     });
 
-    const result = await executeUpdateRepositoryContentAndGroupSession(
-      {
-        input: {
-          repositoryId: repo.serverId,
-          encryptedContent: encryptedContent,
-          groupSessionMessages,
-        },
-      },
-      {
-        fetchOptions: {
-          headers: {
-            authorization: `signed-utc-msg ${createAuthenticationToken(
-              currentDevice
-            )}`,
+    const result = await client
+      .mutation(
+        updateRepositoryContentAndGroupSessionMutation,
+        {
+          input: {
+            repositoryId: repo.serverId,
+            encryptedContent: encryptedContent,
+            groupSessionMessages,
           },
         },
-      }
-    );
+        {
+          fetchOptions: {
+            headers: {
+              authorization: `signed-utc-msg ${createAuthenticationToken(
+                currentDevice
+              )}`,
+            },
+          },
+        }
+      )
+      .toPromise();
 
     if (
       result.data?.updateRepositoryContentAndGroupSession
@@ -161,7 +167,7 @@ const updateRepository = async (
             .groupSessionMessageIds,
       });
     } else {
-      Alert.alert("Failed to send content update to the server.");
+      throw new Error("Failed to send content update to the server.");
     }
   }
 };

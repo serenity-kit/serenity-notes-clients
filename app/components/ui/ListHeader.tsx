@@ -9,7 +9,6 @@ type Props = {
 export default function ListHeader(props: Props) {
   return (
     <ListItem
-      bottomDivider
       containerStyle={{
         backgroundColor: colors.background,
         paddingTop: 20,

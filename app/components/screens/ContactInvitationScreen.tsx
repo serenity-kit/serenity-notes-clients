@@ -7,6 +7,8 @@ import ListItemInfo from "../ui/ListItemInfo";
 import usePrivateInfo from "../../hooks/usePrivateInfo";
 import * as privateInfoStore from "../../utils/privateInfoStore";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
+import ListWrapper from "../ui/ListWrapper";
+import OutlineButton from "../ui/OutlineButton";
 import deleteContactInvitation from "../../utils/server/deleteContactInvitation";
 import useMyVerifiedDevices from "../../hooks/useMyVerifiedDevices";
 import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
@@ -74,34 +76,24 @@ export default function ContactInvitationScreen({ navigation, route }) {
 
   return (
     <ScrollScreenContainer>
-      <ListItem
-        bottomDivider
-        topDivider
-        onPress={deleteContactInvitationAction}
-      >
-        <Icon
-          name="minus-circle"
-          type="feather"
-          color={processStep === "deletingInvitation" ? "#aaa" : "#000"}
-        />
-
-        <ListItem.Content>
-          <ListItem.Title
-            style={{
-              color: processStep === "deletingInvitation" ? "#aaa" : "#000",
-            }}
-          >
-            Delete Contact Invitation
-          </ListItem.Title>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
-
       <ListHeader>Info</ListHeader>
-      <ListItemInfo label="Name">
-        {contactInvitation.get("name") || "Name missing (something went wrong)"}
-      </ListItemInfo>
-      <ListItemInfo label="Invitation Code">{invitationCode}</ListItemInfo>
+      <ListWrapper>
+        <ListItemInfo label="Name">
+          {contactInvitation.get("name") ||
+            "Name missing (something went wrong)"}
+        </ListItemInfo>
+        <ListItemInfo label="Invitation Code" topDivider>
+          {invitationCode}
+        </ListItemInfo>
+      </ListWrapper>
+      <ListHeader>Actions</ListHeader>
+      <OutlineButton
+        onPress={deleteContactInvitationAction}
+        disabled={processStep === "deletingInvitation"}
+        iconType="minus"
+      >
+        Delete Contact Invitation
+      </OutlineButton>
     </ScrollScreenContainer>
   );
 }

@@ -1,12 +1,16 @@
 import React from "react";
 import { StyleSheet, View, SectionList, Text } from "react-native";
-import { ListItem, Icon } from "react-native-elements";
+import { ListItem } from "react-native-elements";
 import useDevice from "../../hooks/useDevice";
 import usePrivateInfo from "../../hooks/usePrivateInfo";
 import useContactsAndContactInvitations from "../../hooks/useContactsAndContactInvitations";
 import EmptyList from "../ui/EmptyList";
 import LoadingView from "../ui/LoadingView";
+import ListItemButton from "../ui/ListItemButton";
+import ListItemLink from "../ui/ListItemLink";
+import ListWrapper from "../ui/ListWrapper";
 import colors from "../../styles/colors";
+import ListItemDivider from "../ui/ListItemDivider";
 
 const styles = StyleSheet.create({
   container: {
@@ -40,39 +44,31 @@ export default function ContactsScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ListItem
-        bottomDivider
-        topDivider
+      <ListItemButton
         onPress={async () => {
           navigation.navigate("AcceptContactInvitationScreen");
         }}
       >
-        <Icon name="plus-circle" type="feather" />
-        <ListItem.Content>
-          <ListItem.Title>Accept Contact Invitation</ListItem.Title>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
-      <ListItem
-        bottomDivider
+        Accept Contact Invitation
+      </ListItemButton>
+      <ListItemButton
+        style={{ marginTop: 10 }}
         onPress={async () => {
           navigation.navigate("CreateContactInvitationScreen");
         }}
       >
-        <Icon name="plus-circle" type="feather" />
-        <ListItem.Content>
-          <ListItem.Title>Create Contact Invitation</ListItem.Title>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
+        Create Contact Invitation
+      </ListItemButton>
 
       {/* style and show red error message box */}
       {contactsAndContactInvitationsResult.type === "error" ? (
-        <ListItem bottomDivider>
-          <ListItem.Content>
-            <ListItem.Title>Failed to fetch contact data</ListItem.Title>
-          </ListItem.Content>
-        </ListItem>
+        <ListWrapper style={{ marginTop: 10 }}>
+          <ListItem>
+            <ListItem.Content>
+              <ListItem.Title>Failed to fetch contact data</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        </ListWrapper>
       ) : null}
 
       {contactsAndContactInvitationsResult.type === "loading" ? (
@@ -87,6 +83,7 @@ export default function ContactsScreen({ navigation }) {
         <>
           {contactsAndContactInvitationsResult.type === "result" ? (
             <SectionList
+              style={{ marginLeft: 10, marginRight: 10 }}
               sections={[
                 {
                   title: "Open Invitations",
@@ -106,10 +103,11 @@ export default function ContactsScreen({ navigation }) {
               ]}
               renderSectionHeader={({ section: { title } }) => (
                 <ListItem
-                  bottomDivider
                   containerStyle={{
                     backgroundColor: colors.background,
                     paddingTop: 20,
+                    marginLeft: -10,
+                    marginRight: -10,
                   }}
                 >
                   <ListItem.Content>
@@ -122,12 +120,21 @@ export default function ContactsScreen({ navigation }) {
                 </ListItem>
               )}
               keyExtractor={(item) => item.id}
-              renderItem={({ item }: { item }) => {
+              renderItem={({ item, index }) => {
                 if (item.type === "contactsEmpty") {
                   return (
-                    <ListItem bottomDivider>
+                    <ListItem
+                      style={{
+                        borderRadius: 6,
+                      }}
+                      containerStyle={{
+                        borderColor: colors.divider,
+                        borderWidth: StyleSheet.hairlineWidth,
+                        borderRadius: 6,
+                      }}
+                    >
                       <ListItem.Content>
-                        <ListItem.Title style={{ color: "#aaa" }}>
+                        <ListItem.Title style={{ color: colors.textBrightest }}>
                           No confirmed contacts
                         </ListItem.Title>
                       </ListItem.Content>
@@ -136,9 +143,18 @@ export default function ContactsScreen({ navigation }) {
                 }
                 if (item.type === "contactInvitationsEmpty") {
                   return (
-                    <ListItem bottomDivider>
+                    <ListItem
+                      style={{
+                        borderRadius: 6,
+                      }}
+                      containerStyle={{
+                        borderColor: colors.divider,
+                        borderWidth: StyleSheet.hairlineWidth,
+                        borderRadius: 6,
+                      }}
+                    >
                       <ListItem.Content>
-                        <ListItem.Title style={{ color: "#aaa" }}>
+                        <ListItem.Title style={{ color: colors.textBrightest }}>
                           No open invitations
                         </ListItem.Title>
                       </ListItem.Content>
@@ -151,19 +167,66 @@ export default function ContactsScreen({ navigation }) {
                     ? yContactInvitation.get("name")
                     : "Name missing (something went wrong)";
                   return (
-                    <ListItem
-                      bottomDivider
-                      onPress={() => {
-                        navigation.navigate("ContactInvitation", {
-                          id: item.id,
-                        });
-                      }}
-                    >
-                      <ListItem.Content>
-                        <ListItem.Title>{name}</ListItem.Title>
-                      </ListItem.Content>
-                      <ListItem.Chevron />
-                    </ListItem>
+                    <React.Fragment>
+                      {index !== 0 ? <ListItemDivider /> : null}
+                      <ListItemLink
+                        style={{
+                          borderTopLeftRadius: index === 0 ? 6 : 0,
+                          borderTopRightRadius: index === 0 ? 6 : 0,
+                          borderBottomLeftRadius:
+                            index ===
+                            contactsAndContactInvitationsResult
+                              .contactInvitations.length -
+                              1
+                              ? 6
+                              : 0,
+                          borderBottomRightRadius:
+                            index ===
+                            contactsAndContactInvitationsResult
+                              .contactInvitations.length -
+                              1
+                              ? 6
+                              : 0,
+                        }}
+                        containerStyle={{
+                          borderColor: colors.divider,
+                          borderLeftWidth: StyleSheet.hairlineWidth,
+                          borderRightWidth: StyleSheet.hairlineWidth,
+                          borderTopLeftRadius: index === 0 ? 6 : 0,
+                          borderTopRightRadius: index === 0 ? 6 : 0,
+                          borderTopWidth:
+                            index === 0 ? StyleSheet.hairlineWidth : 0,
+                          borderBottomLeftRadius:
+                            index ===
+                            contactsAndContactInvitationsResult
+                              .contactInvitations.length -
+                              1
+                              ? 6
+                              : 0,
+                          borderBottomRightRadius:
+                            index ===
+                            contactsAndContactInvitationsResult
+                              .contactInvitations.length -
+                              1
+                              ? 6
+                              : 0,
+                          borderBottomWidth:
+                            index ===
+                            contactsAndContactInvitationsResult
+                              .contactInvitations.length -
+                              1
+                              ? StyleSheet.hairlineWidth
+                              : 0,
+                        }}
+                        onPress={() => {
+                          navigation.navigate("ContactInvitation", {
+                            id: item.id,
+                          });
+                        }}
+                      >
+                        {name}
+                      </ListItemLink>
+                    </React.Fragment>
                   );
                 }
                 const yContact = yContacts.get(item.contactUserId);
@@ -171,8 +234,46 @@ export default function ContactsScreen({ navigation }) {
                   ? yContact.get("name")
                   : "Name missing (something went wrong)";
                 return (
-                  <ListItem
-                    bottomDivider
+                  <ListItemLink
+                    topDivider={index !== 0}
+                    style={{
+                      borderTopLeftRadius: index === 0 ? 6 : 0,
+                      borderTopRightRadius: index === 0 ? 6 : 0,
+                      borderBottomLeftRadius:
+                        index ===
+                        contactsAndContactInvitationsResult.contacts.length - 1
+                          ? 6
+                          : 0,
+                      borderBottomRightRadius:
+                        index ===
+                        contactsAndContactInvitationsResult.contacts.length - 1
+                          ? 6
+                          : 0,
+                    }}
+                    containerStyle={{
+                      borderColor: colors.divider,
+                      borderLeftWidth: StyleSheet.hairlineWidth,
+                      borderRightWidth: StyleSheet.hairlineWidth,
+                      borderTopLeftRadius: index === 0 ? 6 : 0,
+                      borderTopRightRadius: index === 0 ? 6 : 0,
+                      borderTopWidth:
+                        index === 0 ? StyleSheet.hairlineWidth : 0,
+                      borderBottomLeftRadius:
+                        index ===
+                        contactsAndContactInvitationsResult.contacts.length - 1
+                          ? 6
+                          : 0,
+                      borderBottomRightRadius:
+                        index ===
+                        contactsAndContactInvitationsResult.contacts.length - 1
+                          ? 6
+                          : 0,
+                      borderBottomWidth:
+                        index ===
+                        contactsAndContactInvitationsResult.contacts.length - 1
+                          ? StyleSheet.hairlineWidth
+                          : 0,
+                    }}
                     onPress={() => {
                       navigation.navigate("Contact", {
                         id: item.id,
@@ -180,11 +281,8 @@ export default function ContactsScreen({ navigation }) {
                       });
                     }}
                   >
-                    <ListItem.Content>
-                      <ListItem.Title>{name}</ListItem.Title>
-                    </ListItem.Content>
-                    <ListItem.Chevron />
-                  </ListItem>
+                    {name}
+                  </ListItemLink>
                 );
               }}
             />

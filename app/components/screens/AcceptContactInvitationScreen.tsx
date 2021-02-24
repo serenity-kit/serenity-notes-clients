@@ -1,6 +1,5 @@
 import React from "react";
-import { Alert } from "react-native";
-import { TextInput } from "react-native-paper";
+import { Alert, View } from "react-native";
 import { useClient } from "urql";
 import useDevice from "../../hooks/useDevice";
 import usePrivateUserSigningKey from "../../hooks/usePrivateUserSigningKey";
@@ -14,11 +13,12 @@ import { Y } from "../../vendor/index.js";
 import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
 import acceptContactInvitation from "../../utils/server/acceptContactInvitation";
 import useMyVerifiedDevices from "../../hooks/useMyVerifiedDevices";
-import Button from "../ui/Button";
 import Spacer from "../ui/Spacer";
 import Text from "../ui/Text";
+import TextInput from "../ui/TextInput";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
 import * as contactInvitationIdentification from "../../utils/contactInvitationIdentification";
+import OutlineButton from "../ui/OutlineButton";
 
 export default function AcceptContactInvitationScreen({ navigation }) {
   const [processStep, setProcessStep] = React.useState<
@@ -92,38 +92,38 @@ export default function AcceptContactInvitationScreen({ navigation }) {
   };
 
   return (
-    <ScrollScreenContainer horizontalPadding>
-      <Spacer />
-      <Text>
-        {`Please paste the received "Invitation Code" into the first text input.`}
-      </Text>
-      <Spacer />
-      <TextInput
-        mode="outlined"
-        label="Contact Identification"
-        value={invitationCode}
-        onChangeText={(value) => setInvitationCode(value)}
-        multiline
-        disabled={processStep !== "default"}
-        style={{ backgroundColor: "#fff" }}
-      />
-      <Spacer />
-      <TextInput
-        mode="outlined"
-        label="Contact's Name"
-        value={contactName}
-        onChangeText={(value) => setContactName(value)}
-        disabled={processStep !== "default"}
-        style={{ backgroundColor: "#fff" }}
-      />
-      <Spacer />
-      <Button
+    <ScrollScreenContainer>
+      <View style={{ paddingHorizontal: 10 }}>
+        <Spacer />
+        <Text>
+          {`Please paste the received "Invitation Code" into the first text input.`}
+        </Text>
+        <Spacer />
+        <TextInput
+          placeholder="Contact Identification"
+          value={invitationCode}
+          onChangeText={(value) => setInvitationCode(value)}
+          multiline
+          disabled={processStep !== "default"}
+        />
+        <Spacer size="s" />
+        <TextInput
+          placeholder="Contact's Name"
+          value={contactName}
+          onChangeText={(value) => setContactName(value)}
+          disabled={processStep !== "default"}
+        />
+        <Spacer />
+      </View>
+      <OutlineButton
         onPress={acceptContactInvitationStep}
         disabled={processStep !== "default"}
         loading={processStep === "addingContact"}
+        align="center"
+        iconType="plus"
       >
         Add contact
-      </Button>
+      </OutlineButton>
     </ScrollScreenContainer>
   );
 }

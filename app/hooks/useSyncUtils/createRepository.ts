@@ -10,19 +10,17 @@ import {
 } from "../../utils/device";
 import claimOneTimeKeys from "../../utils/server/claimOneTimeKeys";
 import { uInt8ArrayToBase64 } from "../../utils/base64";
+import createRepositoryMutation from "../../graphql/createRepositoryMutation";
+import fetchMyVerifiedDevices from "../../utils/server/fetchMyVerifiedDevices";
+import client from "../../utils/urqlClient";
 
-const createRepository = async (
-  client,
-  repositoryId,
-  fetchMyVerifiedDevices,
-  executeCreateRepository
-) => {
+const createRepository = async (repositoryId: string) => {
   const currentDevice = deviceStore.getDevice();
   if (!currentDevice) {
     Alert.alert("Device not initialized.");
     return;
   }
-  const verifiedDevices = await fetchMyVerifiedDevices();
+  const verifiedDevices = await fetchMyVerifiedDevices(client);
   const groupSession = createGroupSession();
   // NOTE due fallbackKeys there always will be one key for each device
   const oneTimeKeysWithDeviceIdKey = await claimOneTimeKeys(
@@ -49,25 +47,28 @@ const createRepository = async (
     repo.updatedAt
   );
 
-  const createRepositoryResult = await executeCreateRepository(
-    {
-      input: {
-        content: {
-          encryptedContent,
-          groupSessionMessages,
+  const createRepositoryResult = await client
+    .mutation(
+      createRepositoryMutation,
+      {
+        input: {
+          content: {
+            encryptedContent,
+            groupSessionMessages,
+          },
         },
       },
-    },
-    {
-      fetchOptions: {
-        headers: {
-          authorization: `signed-utc-msg ${createAuthenticationToken(
-            currentDevice
-          )}`,
+      {
+        fetchOptions: {
+          headers: {
+            authorization: `signed-utc-msg ${createAuthenticationToken(
+              currentDevice
+            )}`,
+          },
         },
-      },
-    }
-  );
+      }
+    )
+    .toPromise();
 
   if (createRepositoryResult?.data?.createRepository?.repository?.id) {
     const repo2 = await repositoryStore.getRepository(repositoryId);
@@ -80,7 +81,6 @@ const createRepository = async (
       groupSessionCreatedAt: new Date().toISOString(),
     });
   } else {
-    console.log("createRepositoryResult: ", createRepositoryResult);
     throw new Error("createRepository mutation failed");
   }
 };

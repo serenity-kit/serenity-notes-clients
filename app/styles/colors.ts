@@ -1,10 +1,15 @@
 export default {
+  white: "#fff",
   background: "#f8f8f8",
   divider: "#e4e5ed",
-  primary: "#4454cf",
+  text: "#1F1F1F",
+  textBright: "#4F5057",
+  textBrightest: "#8A8B96",
+  primary: "#4454CF",
   primaryHover: "#5367DB",
-  primaryActive: "#3E4FCE",
+  primaryActive: "#3c479a",
   success: "#48AD83",
   warning: "#F09334",
   error: "#CE3E6A",
+  underlay: "#333",
 };

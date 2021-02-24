@@ -1,6 +1,6 @@
 import React from "react";
-import { Share, Alert } from "react-native";
-import { TextInput, Divider } from "react-native-paper";
+import { Share, Alert, View } from "react-native";
+import { Divider } from "react-native-paper";
 import { useClient, useMutation } from "urql";
 import * as deviceStore from "../../utils/deviceStore";
 import useDevice from "../../hooks/useDevice";
@@ -19,9 +19,10 @@ import {
 import getFallbackKey from "../../utils/device/getFallbackKey";
 import sendOneTimeKeysMutation from "../../graphql/sendOneTimeKeysMutation";
 import { generateVerificationCode } from "../../utils/verification";
-import Button from "../ui/Button";
+import OutlineButton from "../ui/OutlineButton";
 import Spacer from "../ui/Spacer";
 import Text from "../ui/Text";
+import TextInput from "../ui/TextInput";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
 import fetchAddDeviceVerification from "../../utils/server/fetchAddDeviceVerification";
 import useMyVerifiedDevices from "../../hooks/useMyVerifiedDevices";
@@ -92,29 +93,31 @@ export default function AddDeviceToExistingUserScreen({ navigation }) {
     return null;
 
   return (
-    <ScrollScreenContainer horizontalPadding>
-      <Spacer />
-      <Text>
-        <Text weight={"bold"}>Step 1: </Text>
-        {`On your existing Device go to "Setting" and then "Verify new Device"`}
-      </Text>
-      <Spacer />
-      <Divider />
-      <Spacer />
-      <Text>
-        <Text weight={"bold"}>Step 2: </Text>
-        {`Copy & paste the "Device Identification" to your existing Device`}
-      </Text>
-      <Spacer />
-      <TextInput
-        mode="outlined"
-        label="Device Identification"
-        value={message}
-        multiline
-        style={{ backgroundColor: "#fff" }}
-      />
-      <Spacer />
-      <Button
+    <ScrollScreenContainer>
+      <View style={{ marginHorizontal: 10 }}>
+        <Spacer />
+        <Text>
+          <Text weight={"bold"}>Step 1: </Text>
+          {`On your existing Device go to "Setting" and then "Link Device to your Account".`}
+        </Text>
+        <Spacer />
+        <Divider />
+        <Spacer />
+        <Text>
+          <Text weight={"bold"}>Step 2: </Text>
+          {`Copy the "Device Identification" to your existing Device.`}
+        </Text>
+        <Spacer />
+        <TextInput
+          placeholder="Device Identification"
+          value={message}
+          multiline
+        />
+        <Spacer />
+      </View>
+      <OutlineButton
+        align="center"
+        iconType="share"
         disabled={processStep === "verifying"}
         onPress={async () => {
           await Share.share({
@@ -123,24 +126,26 @@ export default function AddDeviceToExistingUserScreen({ navigation }) {
         }}
       >
         Share Device Identification
-      </Button>
-      <Spacer />
-      <Divider />
-      <Spacer />
-      <Text>
-        <Text weight={"bold"}>Step 3: </Text> Finalize adding the device by
-        entering the verification code presented on your existing device.
-      </Text>
-      <Spacer />
-      <TextInput
-        mode="outlined"
-        label="Verification Code"
-        value={verificationCode}
-        onChangeText={(value) => setVerificationCode(value)}
-        style={{ backgroundColor: "#fff" }}
-      />
-      <Spacer />
-      <Button
+      </OutlineButton>
+      <View style={{ marginHorizontal: 10 }}>
+        <Spacer />
+        <Divider />
+        <Spacer />
+        <Text>
+          <Text weight={"bold"}>Step 3: </Text> Enter the{" "}
+          {'"Verification Code"'} presented on your existing device.
+        </Text>
+        <Spacer />
+        <TextInput
+          placeholder="Verification Code"
+          value={verificationCode}
+          onChangeText={(value) => setVerificationCode(value)}
+        />
+        <Spacer />
+      </View>
+      <OutlineButton
+        align="center"
+        iconType="verify"
         disabled={processStep === "verifying"}
         loading={processStep === "verifying"}
         onPress={async () => {
@@ -160,14 +165,14 @@ export default function AddDeviceToExistingUserScreen({ navigation }) {
             if (!verificationMessage) {
               setProcessStep("default");
               Alert.alert(
-                "Couldn't find the verification on the server. Please verify the verification code."
+                'Couldn\'t find the verification on the server. Please verify the "Verification Code".'
               );
               return;
             }
           } catch (err) {
             setProcessStep("default");
             Alert.alert(
-              "Couldn't find the verification on the server. Please verify the verification code."
+              'Couldn\'t find the verification on the server. Please verify the "Verification Code".'
             );
             return;
           }
@@ -242,7 +247,8 @@ export default function AddDeviceToExistingUserScreen({ navigation }) {
         }}
       >
         Verify
-      </Button>
+      </OutlineButton>
+      <Spacer />
     </ScrollScreenContainer>
   );
 }

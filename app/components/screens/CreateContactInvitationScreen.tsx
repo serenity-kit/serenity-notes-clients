@@ -1,6 +1,6 @@
 import React from "react";
-import { Alert, Share } from "react-native";
-import { TextInput, Divider } from "react-native-paper";
+import { Alert, Share, View } from "react-native";
+import { Divider } from "react-native-paper";
 import { useClient } from "urql";
 import useDevice from "../../hooks/useDevice";
 import usePrivateUserSigningKey from "../../hooks/usePrivateUserSigningKey";
@@ -12,11 +12,14 @@ import { Y } from "../../vendor/index.js";
 import useMyVerifiedDevices from "../../hooks/useMyVerifiedDevices";
 import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
 import createContactInvitation from "../../utils/server/createContactInvitation";
-import Button from "../ui/Button";
+import OutlineButton from "../ui/OutlineButton";
 import Spacer from "../ui/Spacer";
 import Text from "../ui/Text";
+import TextInput from "../ui/TextInput";
+import ListItemLink from "../ui/ListItemLink";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
 import * as contactInvitationIdentification from "../../utils/contactInvitationIdentification";
+import ListWrapper from "../ui/ListWrapper";
 
 export default function CreateContactInvitation({ navigation }) {
   const [processStep, setProcessStep] = React.useState<
@@ -95,46 +98,50 @@ export default function CreateContactInvitation({ navigation }) {
   };
 
   return (
-    <ScrollScreenContainer horizontalPadding>
-      <Spacer />
-      <Text color={processStep !== "default" ? "grey" : "default"}>
-        {`Provide the contact's name. Hint: The contact's name will only be visible to you.`}
-      </Text>
-      <Spacer />
-      <TextInput
-        mode="outlined"
-        label="Contact's Name"
-        value={contactName}
-        onChangeText={(value) => setContactName(value)}
-        disabled={processStep !== "default"}
-        style={{ backgroundColor: "#fff" }}
-      />
-      <Spacer />
-      <Button
+    <ScrollScreenContainer>
+      <View style={{ paddingHorizontal: 10 }}>
+        <Spacer />
+        <Text color={processStep !== "default" ? "grey" : "default"}>
+          {`Provide the contact's name. Hint: The contact's name will only be visible to you.`}
+        </Text>
+        <Spacer />
+        <TextInput
+          placeholder="Contact's Name"
+          value={contactName}
+          onChangeText={(value) => setContactName(value)}
+          disabled={processStep !== "default"}
+        />
+        <Spacer />
+      </View>
+      <OutlineButton
+        align="center"
+        iconType="plus"
         onPress={createContactInvitationAction}
         disabled={processStep !== "default"}
         loading={processStep === "creatingInvitation"}
       >
         Create Invitation
-      </Button>
-      <Spacer />
-      <Divider />
-      <Spacer />
-      <Text color={processStep !== "invitationCreated" ? "grey" : "default"}>
-        Send the invitation code to your contact. Once they accepted you can
-        collaborate on notes.
-      </Text>
-      <Spacer />
-      <TextInput
-        mode="outlined"
-        label="Invitation Code"
-        value={invitationCode}
-        disabled={processStep !== "invitationCreated"}
-        multiline
-        style={{ backgroundColor: "#fff" }}
-      />
-      <Spacer />
-      <Button
+      </OutlineButton>
+      <View style={{ paddingHorizontal: 10 }}>
+        <Spacer />
+        <Divider />
+        <Spacer />
+        <Text color={processStep !== "invitationCreated" ? "grey" : "default"}>
+          Send the invitation code to your contact. Once they accepted you can
+          add them to notes and collaborate.
+        </Text>
+        <Spacer />
+        <TextInput
+          placeholder="Invitation Code"
+          value={invitationCode}
+          disabled={processStep !== "invitationCreated"}
+          multiline
+        />
+        <Spacer />
+      </View>
+      <OutlineButton
+        align="center"
+        iconType="share"
         onPress={async () => {
           await Share.share({
             message: invitationCode,
@@ -144,16 +151,18 @@ export default function CreateContactInvitation({ navigation }) {
         disabled={processStep !== "invitationCreated"}
       >
         Share Invitation Code
-      </Button>
+      </OutlineButton>
       <Spacer />
-      <Button
-        onPress={() => {
-          navigation.navigate("ContactsList");
-        }}
-        disabled={processStep !== "invitationCodeCopied"}
-      >
-        Back to Contacts Overview
-      </Button>
+      <ListWrapper>
+        <ListItemLink
+          onPress={() => {
+            navigation.navigate("ContactsList");
+          }}
+          disabled={processStep !== "invitationCodeCopied"}
+        >
+          Back to Contacts Overview
+        </ListItemLink>
+      </ListWrapper>
       <Spacer />
     </ScrollScreenContainer>
   );

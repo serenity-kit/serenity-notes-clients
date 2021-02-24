@@ -1,6 +1,6 @@
 import React from "react";
 import { AppState, AppStateStatus } from "react-native";
-import { useClient, useMutation } from "urql";
+import { useClient } from "urql";
 import useDevice from "./useDevice";
 import useUser from "./useUser";
 import usePrivateUserSigningKey from "./usePrivateUserSigningKey";
@@ -13,9 +13,6 @@ import * as Random from "expo-random";
 import { v4 as uuidv4 } from "uuid";
 import * as mutationQueue from "./useSyncUtils/mutationQueue";
 import useMyVerifiedDevices from "../hooks/useMyVerifiedDevices";
-import createRepositoryMutation from "../graphql/createRepositoryMutation";
-import updateRepositoryContentMutation from "../graphql/updateRepositoryContentMutation";
-import updateRepositoryContentAndGroupSessionMutation from "../graphql/updateRepositoryContentAndGroupSessionMutation";
 import unclaimedOneTimeKeysCount from "../utils/server/unclaimedOneTimeKeysCount";
 import sendOneTimeKeys from "../utils/server/sendOneTimeKeys";
 import { useSyncInfo, SyncStateInput } from "../context/SyncInfoContext";
@@ -39,116 +36,126 @@ const fetchRepositories = async (
   device: Olm.Account,
   setLoadRepositoriesSyncState: (syncState: SyncStateInput) => void
 ) => {
-  const repositoryList = await repositoryStore.getRepositoryList();
-  const lastContentUpdateIntegrityIdsByRepository = repositoryList
-    .filter((repo) => repo.lastContentUpdateIntegrityId)
-    .map((repo) => {
-      return {
-        repositoryId: repo.serverId,
-        lastContentUpdateIntegrityId: repo.lastContentUpdateIntegrityId,
-      };
-    });
+  try {
+    const repositoryList = await repositoryStore.getRepositoryList();
+    const lastContentUpdateIntegrityIdsByRepository = repositoryList
+      .filter((repo) => repo.lastContentUpdateIntegrityId)
+      .map((repo) => {
+        return {
+          repositoryId: repo.serverId,
+          lastContentUpdateIntegrityId: repo.lastContentUpdateIntegrityId,
+        };
+      });
 
-  const result = await client
-    .query(
-      repositoriesQuery,
-      { lastContentUpdateIntegrityIdsByRepository },
-      {
-        fetchOptions: {
-          headers: {
-            authorization: `signed-utc-msg ${createAuthenticationToken(
-              device
-            )}`,
+    const result = await client
+      .query(
+        repositoriesQuery,
+        { lastContentUpdateIntegrityIdsByRepository },
+        {
+          fetchOptions: {
+            headers: {
+              authorization: `signed-utc-msg ${createAuthenticationToken(
+                device
+              )}`,
+            },
           },
-        },
-      }
-    )
-    .toPromise();
-
-  if (result?.data?.allRepositories) {
-    result?.data?.allRepositories.forEach(
-      async (repo: RepositoryResultFromServer) => {
-        if (repo.__typename === "RepositoryTombstone") {
-          const localRepo = await repositoryStore.getRepositoryByServerId(
-            repo.id
-          );
-          if (localRepo) {
-            repositoryStore.deleteRepository(localRepo.id);
-          }
-          return;
         }
-        try {
-          const localRepo = await repositoryStore.getRepositoryByServerId(
-            repo.id
-          );
-          const yDoc = new Y.Doc();
-          if (localRepo) {
-            // Filter out the already decrypted contentEntries to avoid
-            // unnecessarily decrypting already decrypted entries.
-            // This should not be necessary since by sending the
-            // lastContentUpdateIntegrityIdsByRepository no duplicated entry
-            // should come back, but better be safe than sorry …
-            const contentEntries = repo.content.filter((contentEntry) => {
-              if (!localRepo.updates) return false;
-              const contentEntryAlreadyDecryted = localRepo.updates.some(
-                (update) => update.contentId === contentEntry.id
+      )
+      .toPromise();
+
+    if (result?.data?.allRepositories) {
+      result?.data?.allRepositories.forEach(
+        async (repo: RepositoryResultFromServer) => {
+          if (repo.__typename === "RepositoryTombstone") {
+            const localRepo = await repositoryStore.getRepositoryByServerId(
+              repo.id
+            );
+            if (localRepo) {
+              repositoryStore.deleteRepository(localRepo.id);
+            }
+            return;
+          }
+          try {
+            const localRepo = await repositoryStore.getRepositoryByServerId(
+              repo.id
+            );
+            const yDoc = new Y.Doc();
+            if (localRepo) {
+              // Filter out the already decrypted contentEntries to avoid
+              // unnecessarily decrypting already decrypted entries.
+              // This should not be necessary since by sending the
+              // lastContentUpdateIntegrityIdsByRepository no duplicated entry
+              // should come back, but better be safe than sorry …
+              const contentEntries = repo.content.filter((contentEntry) => {
+                if (!localRepo.updates) return false;
+                const contentEntryAlreadyDecryted = localRepo.updates.some(
+                  (update) => update.contentId === contentEntry.id
+                );
+                return !contentEntryAlreadyDecryted;
+              });
+              Y.applyUpdate(yDoc, localRepo.content);
+
+              const { updates, updatedAt } = await updateYDocWithContentEntries(
+                yDoc,
+                contentEntries,
+                localRepo.id,
+                localRepo.updatedAt,
+                client
               );
-              return !contentEntryAlreadyDecryted;
-            });
-            Y.applyUpdate(yDoc, localRepo.content);
-
-            const { updates, updatedAt } = await updateYDocWithContentEntries(
-              yDoc,
-              contentEntries,
-              localRepo.id,
-              localRepo.updatedAt,
-              client
-            );
-            await repositoryStore.setRepository({
-              ...localRepo,
-              lastContentUpdateIntegrityId: repo.lastContentUpdateIntegrityId,
-              content: Y.encodeStateAsUpdate(yDoc),
-              collaborators: repo.collaborators,
-              isCreator: repo.isCreator,
-              updates,
-              updatedAt,
-            });
-          } else {
-            // new repository coming from the server
-            const id = await getuuid();
-            const { updates, updatedAt } = await updateYDocWithContentEntries(
-              yDoc,
-              repo.content,
-              id,
-              undefined,
-              client
-            );
-            await repositoryStore.setRepository({
-              id,
-              serverId: repo.id,
-              lastContentUpdateIntegrityId: repo.lastContentUpdateIntegrityId,
-              content: Y.encodeStateAsUpdate(yDoc),
-              format: "yjs-13-base64",
-              collaborators: repo.collaborators,
-              isCreator: repo.isCreator,
-              updates,
-              updatedAt,
-            });
+              await repositoryStore.setRepository({
+                ...localRepo,
+                lastContentUpdateIntegrityId: repo.lastContentUpdateIntegrityId,
+                content: Y.encodeStateAsUpdate(yDoc),
+                collaborators: repo.collaborators,
+                isCreator: repo.isCreator,
+                updates,
+                updatedAt,
+              });
+            } else {
+              // new repository coming from the server
+              const id = await getuuid();
+              const { updates, updatedAt } = await updateYDocWithContentEntries(
+                yDoc,
+                repo.content,
+                id,
+                undefined,
+                client
+              );
+              await repositoryStore.setRepository({
+                id,
+                serverId: repo.id,
+                lastContentUpdateIntegrityId: repo.lastContentUpdateIntegrityId,
+                content: Y.encodeStateAsUpdate(yDoc),
+                format: "yjs-13-base64",
+                collaborators: repo.collaborators,
+                isCreator: repo.isCreator,
+                updates,
+                updatedAt,
+              });
+            }
+          } catch (err) {
+            console.warn("Failed to decrypt:", repo.id);
+            console.warn(err);
           }
-        } catch (err) {
-          console.warn("Failed to decrypt:", repo.id);
-          console.warn(err);
         }
-      }
-    );
-    setLoadRepositoriesSyncState({ type: "success" });
-  } else {
+      );
+      setLoadRepositoriesSyncState({ type: "success" });
+    } else {
+      setLoadRepositoriesSyncState({
+        type: "failed",
+        error: result.error?.message
+          ? result.error.message
+          : "Missing message.",
+        errorType: result.error?.networkError ? "NETWORK" : "UNKOWN",
+      });
+    }
+  } catch (err) {
+    console.log("Unknown fetchRepositories error.");
     setLoadRepositoriesSyncState({
       type: "failed",
-      error: result.error?.message ? result.error.message : "Missing message.",
-      errorType: result.error?.networkError ? "NETWORK" : "UNKOWN",
+      error: "Unknown fetchRepositories error.",
+      errorType: "UNKOWN",
     });
-    throw new Error("Failed to load repos");
   }
 };
 
@@ -159,13 +166,6 @@ const useSync = () => {
   const userResult = useUser();
   const privateUserSigningKeyResult = usePrivateUserSigningKey();
   const fetchMyVerifiedDevices = useMyVerifiedDevices();
-  const [, executeCreateRepository] = useMutation(createRepositoryMutation);
-  const [, executeUpdateRepositoryContent] = useMutation(
-    updateRepositoryContentMutation
-  );
-  const [, executeUpdateRepositoryContentAndGroupSession] = useMutation(
-    updateRepositoryContentAndGroupSessionMutation
-  );
   const [appState, setAppState] = React.useState<AppStateStatus>(
     AppState.currentState
   );
@@ -225,7 +225,7 @@ const useSync = () => {
           await sendOneTimeKeys(client, deviceResult.device);
         }
       } catch (err) {
-        console.error(err);
+        console.log("Failed to fetch unclaimedOneTimeKeysCount");
         // TODO track errors and notify user if this doesn't work for a long time
       }
     }, 6000); // TODO switch to an interval defined by server or with backup
@@ -251,17 +251,14 @@ const useSync = () => {
 
     const subscriptionId = repositoryStore.subscribeToRepositories(
       async (info) => {
-        if (info.type === "createdOne" || info.type === "updatedOne") {
+        if (info.type === "createdOrUpdatedOne") {
           mutationQueue.addMutation({
-            repository: info.repository,
-            utils: {
-              client,
-              fetchMyVerifiedDevices,
-              executeCreateRepository,
-              executeUpdateRepositoryContent,
-              executeUpdateRepositoryContentAndGroupSession,
+            repository: {
+              id: info.repository.id,
+              serverId: info.repository.serverId,
             },
             forceNewGroupSession: false,
+            retryCount: 0,
           });
         }
       }
@@ -282,15 +279,12 @@ const useSync = () => {
     const repos = await repositoryStore.getRepositoryList();
     repos.forEach((repository) => {
       mutationQueue.addMutation({
-        repository,
-        utils: {
-          client,
-          fetchMyVerifiedDevices,
-          executeCreateRepository,
-          executeUpdateRepositoryContent,
-          executeUpdateRepositoryContentAndGroupSession,
+        repository: {
+          id: repository.id,
+          serverId: repository.serverId,
         },
         forceNewGroupSession: true,
+        retryCount: 0,
       });
     });
   }, [fetchMyVerifiedDevices]);

@@ -106,7 +106,7 @@ const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
       <Icon
         name="arrow-down-bold-outline"
         type="material-community"
-        color={failedDownload ? colors.warning : colors.success}
+        color={failedDownload ? colors.error : colors.success}
         size={20}
         onPress={() => {
           navigation.navigate("NoteSettings", {

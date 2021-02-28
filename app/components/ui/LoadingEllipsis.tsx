@@ -1,13 +1,5 @@
 import React, { useRef } from "react";
-import { Text, StyleSheet, Animated } from "react-native";
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    borderColor: "green",
-    borderWidth: 1,
-  },
-});
+import { Text, Animated } from "react-native";
 
 type FadeToParams = {
   dot: Animated.Value;

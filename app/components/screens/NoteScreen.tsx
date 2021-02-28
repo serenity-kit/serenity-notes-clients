@@ -159,11 +159,7 @@ export default function NoteScreen({ route, navigation }) {
         forceUpdate();
         navigation.setOptions({
           headerRight: () => (
-            <HeaderRight
-              navigation={navigation}
-              repositoryId={id}
-              repository={repo}
-            />
+            <HeaderRight navigation={navigation} repository={repo} />
           ),
         });
       } else {
@@ -191,11 +187,7 @@ export default function NoteScreen({ route, navigation }) {
         `);
         navigation.setOptions({
           headerRight: () => (
-            <HeaderRight
-              navigation={navigation}
-              repositoryId={id}
-              repository={repository}
-            />
+            <HeaderRight navigation={navigation} repository={repository} />
           ),
         });
       }

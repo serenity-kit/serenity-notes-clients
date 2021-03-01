@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 });
 
 export default function Notes({ navigation }) {
-  const repositoriesState = useRepositories();
+  const repositoriesState = useRepositories(navigation);
   const privateInfoResult = usePrivateInfo();
   const hasActiveLicenseResult = useHasActiveLicense();
   const userResult = useUser();

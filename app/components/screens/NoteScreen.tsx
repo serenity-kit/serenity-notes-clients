@@ -106,7 +106,7 @@ const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
           animationActive={false}
           color={failedDownload ? colors.error : colors.success}
           style={{
-            marginLeft: 4,
+            marginLeft: 2,
           }}
         />
       </View>

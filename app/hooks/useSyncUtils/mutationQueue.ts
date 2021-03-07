@@ -18,12 +18,26 @@ export type RepositorySyncState = {
   state: "unknown" | "in-progress" | "retry-in-progress" | "success";
 };
 
+export type RepositoryErrorSyncState = {
+  repositoryId: string;
+  state: "retry-in-progress" | "success";
+};
+
 type RepositorySubscriptionCallback = (data: RepositorySyncState) => void;
 
 export type RepositorySubscriptionEntry = {
   callback: RepositorySubscriptionCallback;
   subscriptionId: string;
   repositoryId: string;
+};
+
+type RepositoriesWithRetriesSubscriptionCallback = (
+  data: RepositoryErrorSyncState
+) => void;
+
+export type RepositoriesWithRetriesSubscriptionEntry = {
+  callback: RepositoriesWithRetriesSubscriptionCallback;
+  subscriptionId: string;
 };
 
 const activeCreateRepositoryRequests = [];
@@ -33,6 +47,8 @@ let mutationInProgress: undefined | Mutation = undefined;
 let queueIsActive = false;
 let repositorySubscriptions: RepositorySubscriptionEntry[] = [];
 let repositorySubscriptionsIdCounter = 0;
+let repositoriesWithRetriesSubscriptions: RepositoriesWithRetriesSubscriptionEntry[] = [];
+let repositoriesWithRetriesSubscriptionsIdCounter = 0;
 
 // should only be used when restoring the mutations
 export const setRestoredMutations = (restoredMutations: Mutation[]) => {
@@ -122,6 +138,16 @@ export const addMutation = async (mutation: Mutation) => {
       });
     }
   });
+
+  repositoriesWithRetriesSubscriptions.forEach((entry) => {
+    if (mutation.retryCount > 0) {
+      entry.callback({
+        repositoryId: mutation.repository.id,
+        state: "retry-in-progress",
+      });
+    }
+  });
+
   mutations.push(mutation);
   if (!queueIsActive) {
     await runNextMutation();
@@ -145,6 +171,14 @@ const runNextMutation = async () => {
     repositorySubscriptions.forEach((entry) => {
       if (entry.repositoryId === mutation.repository.id) {
         entry.callback({ state: "success" });
+      }
+    });
+    repositoriesWithRetriesSubscriptions.forEach((entry) => {
+      if (mutation.retryCount > 0) {
+        entry.callback({
+          repositoryId: mutation.repository.id,
+          state: "success",
+        });
       }
     });
   } catch (err) {
@@ -194,6 +228,28 @@ export const subscribeToRepository = (
 
 export const unsubscribeToRepository = (subscriptionId) => {
   repositorySubscriptions = repositorySubscriptions.filter(
+    (entry) => entry.subscriptionId !== subscriptionId
+  );
+};
+
+export const getRepositoryIdsWithRetries = () => {
+  const repositoryIds = mutations
+    .filter((mutation) => mutation.retryCount > 0)
+    .map((mutation) => mutation.repository.id);
+  return Array.from(new Set(repositoryIds));
+};
+
+export const subscribeToRepositoriesWithRetries = (
+  callback: (syncState: RepositoryErrorSyncState) => void
+) => {
+  repositoriesWithRetriesSubscriptionsIdCounter++;
+  const subscriptionId = repositoriesWithRetriesSubscriptionsIdCounter.toString();
+  repositoriesWithRetriesSubscriptions.push({ callback, subscriptionId });
+  return subscriptionId;
+};
+
+export const unsubscribeToRepositoriesWithRetries = (subscriptionId) => {
+  repositoriesWithRetriesSubscriptions = repositoriesWithRetriesSubscriptions.filter(
     (entry) => entry.subscriptionId !== subscriptionId
   );
 };

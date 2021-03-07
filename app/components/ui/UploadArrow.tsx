@@ -9,11 +9,17 @@ type FadeToParams = {
 };
 
 const styles = StyleSheet.create({
-  block: {
-    width: 10,
+  bottomBlock: {
+    width: 6,
     height: 3,
-    borderRadius: 1,
-    marginTop: 2,
+    marginLeft: 2,
+    borderBottomLeftRadius: 1,
+    borderBottomRightRadius: 1,
+  },
+  block: {
+    width: 6,
+    height: 3,
+    marginLeft: 2,
   },
   triangle: {
     width: 0,
@@ -22,7 +28,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderLeftWidth: 5,
     borderRightWidth: 5,
-    borderBottomWidth: 5,
+    borderBottomWidth: 6,
     borderLeftColor: "transparent",
     borderRightColor: "transparent",
   },
@@ -41,11 +47,12 @@ const UploadArrow = (props: Props) => {
   const animatedValue1 = useRef(new Animated.Value(1)).current;
   const animatedValue2 = useRef(new Animated.Value(1)).current;
   const animatedValue3 = useRef(new Animated.Value(1)).current;
+  const animatedValue4 = useRef(new Animated.Value(1)).current;
 
   function fadeTo({ animatedValue, targetValue, delay, isLast }: FadeToParams) {
     Animated.timing(animatedValue, {
       toValue: targetValue,
-      duration: 1200,
+      duration: 1500,
       delay,
       useNativeDriver: false,
     }).start(() => {
@@ -78,17 +85,29 @@ const UploadArrow = (props: Props) => {
         animatedValue: animatedValue3,
         targetValue: opacityTarget,
         delay: 900,
+        isLast: false,
+      });
+      fadeTo({
+        animatedValue: animatedValue4,
+        targetValue: opacityTarget,
+        delay: 1200,
         isLast: true,
       });
     }
   }, [props.animationActive, animationInProgress]);
 
   return (
-    <View>
+    <View style={props.style}>
       <Animated.View
         style={[
           styles.triangle,
-          { borderBottomColor: props.color, opacity: animatedValue3 },
+          { borderBottomColor: props.color, opacity: animatedValue4 },
+        ]}
+      />
+      <Animated.View
+        style={[
+          styles.block,
+          { backgroundColor: props.color, opacity: animatedValue3 },
         ]}
       />
       <Animated.View
@@ -99,7 +118,7 @@ const UploadArrow = (props: Props) => {
       />
       <Animated.View
         style={[
-          styles.block,
+          styles.bottomBlock,
           { backgroundColor: props.color, opacity: animatedValue1 },
         ]}
       />

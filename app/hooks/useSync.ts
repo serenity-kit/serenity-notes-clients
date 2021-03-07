@@ -198,15 +198,21 @@ const useSync = () => {
       return;
 
     if (appWasInactive.current) {
+      const fetchRepositoriesWithSyncInProgressCheck = async () => {
+        if (syncInProgress) return;
+        syncInProgress = true;
+        await fetchRepositories(
+          client,
+          deviceResult.device,
+          setLoadRepositoriesSyncState
+        );
+        syncInProgress = false;
+      };
+
       appWasInactive.current = false;
-      if (syncInProgress) return;
       // fetch right away when the device gets activated
       // Note: await is not used in useEffect
-      fetchRepositories(
-        client,
-        deviceResult.device,
-        setLoadRepositoriesSyncState
-      );
+      fetchRepositoriesWithSyncInProgressCheck();
     }
 
     const intervalId = setInterval(async () => {

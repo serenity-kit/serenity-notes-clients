@@ -28,6 +28,8 @@ type RepositoryResultFromServer = {
   lastContentUpdateIntegrityId: string;
 };
 
+let syncInProgress = false;
+
 const getuuid = async (): Promise<string> =>
   uuidv4({ random: await Random.getRandomBytesAsync(16) });
 
@@ -197,6 +199,7 @@ const useSync = () => {
 
     if (appWasInactive.current) {
       appWasInactive.current = false;
+      if (syncInProgress) return;
       // fetch right away when the device gets activated
       // Note: await is not used in useEffect
       fetchRepositories(
@@ -207,6 +210,8 @@ const useSync = () => {
     }
 
     const intervalId = setInterval(async () => {
+      if (syncInProgress) return;
+      syncInProgress = true;
       await fetchRepositories(
         client,
         deviceResult.device,
@@ -228,7 +233,8 @@ const useSync = () => {
         console.log("Failed to fetch unclaimedOneTimeKeysCount");
         // TODO track errors and notify user if this doesn't work for a long time
       }
-    }, 6000); // TODO switch to an interval defined by server or with backup
+      syncInProgress = false;
+    }, 4000); // TODO switch to an interval defined by server or with backup
 
     return () => {
       clearInterval(intervalId);

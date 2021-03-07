@@ -7,8 +7,9 @@ type State =
   | { type: "notFound" }
   | { type: "repositories"; repositoryList: RepositoryStoreEntry[] };
 
-export default function useRepositories(): State {
+export default function useRepositories(navigation): State {
   const [state, setState] = React.useState<State>({ type: "loading" });
+  const subscriptionIdRef = React.useRef<string>();
 
   React.useEffect(() => {
     const loadRepositories = async () => {
@@ -21,22 +22,35 @@ export default function useRepositories(): State {
     };
 
     loadRepositories();
-    const subscriptionId = repositoryStore.subscribeToRepositories(
-      async (info) => {
-        if (info) {
-          setState({
-            type: "repositories",
-            repositoryList: info.repositoryList,
-          });
-        } else {
-          setState({ type: "notFound" });
+
+    const unsubscribeNavigationFocus = navigation.addListener("focus", () => {
+      loadRepositories();
+      subscriptionIdRef.current = repositoryStore.subscribeToRepositories(
+        async (info) => {
+          if (info) {
+            setState({
+              type: "repositories",
+              repositoryList: info.repositoryList,
+            });
+          } else {
+            setState({ type: "notFound" });
+          }
         }
+      );
+    });
+    const unsubscribeNavigationBlur = navigation.addListener("blur", () => {
+      if (subscriptionIdRef.current) {
+        repositoryStore.unsubscribeToRepositories(subscriptionIdRef.current);
       }
-    );
+    });
     return () => {
-      repositoryStore.unsubscribeToRepositories(subscriptionId);
+      unsubscribeNavigationFocus();
+      unsubscribeNavigationBlur();
+      if (subscriptionIdRef.current) {
+        repositoryStore.unsubscribeToRepositories(subscriptionIdRef.current);
+      }
     };
-  }, []);
+  }, [navigation]);
 
   return state;
 }

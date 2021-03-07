@@ -13,10 +13,13 @@ import useUser from "../../hooks/useUser";
 import EmptyList from "../ui/EmptyList";
 import ServerSyncInfo from "../ui/ServerSyncInfo";
 import useHasActiveLicense from "../../hooks/useHasActiveLicense";
+import useRepositoriesWithMutationRetries from "../../hooks/useRepositoriesWithMutationRetries";
 import colors from "../../styles/colors";
 import Spacer from "../ui/Spacer";
 import OutlineButton from "../ui/OutlineButton";
 import ListItemDivider from "../ui/ListItemDivider";
+import DownloadArrow from "../ui/DownloadArrow";
+import UploadArrow from "../ui/UploadArrow";
 
 const getuuid = async () =>
   uuidv4({ random: await Random.getRandomBytesAsync(16) });
@@ -37,10 +40,13 @@ const styles = StyleSheet.create({
 });
 
 export default function Notes({ navigation }) {
-  const repositoriesState = useRepositories();
+  const repositoriesState = useRepositories(navigation);
   const privateInfoResult = usePrivateInfo();
   const hasActiveLicenseResult = useHasActiveLicense();
   const userResult = useUser();
+  const repositoriesWithMutationRetries = useRepositoriesWithMutationRetries(
+    navigation
+  );
 
   if (
     repositoriesState.type === "loading" ||
@@ -164,6 +170,16 @@ export default function Notes({ navigation }) {
                   });
               }
 
+              let failedToDecryptContent = true;
+              if (item?.updates) {
+                failedToDecryptContent = item.updates.some(
+                  (update) => update.type === "failed"
+                );
+              }
+              const failedUpload = repositoriesWithMutationRetries.includes(
+                item.id
+              );
+
               return (
                 <React.Fragment key={item.id}>
                   {index === 0 ? null : <ListItemDivider />}
@@ -205,6 +221,7 @@ export default function Notes({ navigation }) {
                       <ListItem.Title numberOfLines={1}>
                         {item.name}
                       </ListItem.Title>
+
                       <ListItem.Subtitle
                         numberOfLines={1}
                         style={{ fontSize: 12, color: "#8A8B96" }}
@@ -214,6 +231,43 @@ export default function Notes({ navigation }) {
                           : "Private"}
                       </ListItem.Subtitle>
                     </ListItem.Content>
+
+                    {failedUpload && failedToDecryptContent ? (
+                      <>
+                        <UploadArrow
+                          animationActive={false}
+                          color={colors.error}
+                          style={{
+                            transform: [{ scale: 0.8 }],
+                          }}
+                        />
+                        <DownloadArrow
+                          animationActive={false}
+                          color={colors.error}
+                          style={{
+                            transform: [{ scale: 0.8 }],
+                          }}
+                        />
+                      </>
+                    ) : null}
+                    {failedUpload && !failedToDecryptContent ? (
+                      <UploadArrow
+                        animationActive={false}
+                        color={colors.error}
+                        style={{
+                          transform: [{ scale: 0.8 }],
+                        }}
+                      />
+                    ) : null}
+                    {!failedUpload && failedToDecryptContent ? (
+                      <DownloadArrow
+                        animationActive={false}
+                        color={colors.error}
+                        style={{
+                          transform: [{ scale: 0.8 }],
+                        }}
+                      />
+                    ) : null}
                     <ListItem.Subtitle
                       style={{ fontSize: 12, color: "#8A8B96" }}
                     >
@@ -221,6 +275,7 @@ export default function Notes({ navigation }) {
                         ? formatDistanceToNow(new Date(item.updatedAt))
                         : "-"}
                     </ListItem.Subtitle>
+
                     <ListItem.Chevron color={colors.primary} />
                   </ListItem>
                 </React.Fragment>

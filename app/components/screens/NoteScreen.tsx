@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useCallback, useState } from "react";
 import { Asset } from "expo-asset";
 import { View, StyleSheet, Platform } from "react-native";
 import { IconButton } from "react-native-paper";
-import { Icon } from "react-native-elements";
 import * as FileSystem from "expo-file-system";
 import { WebView } from "react-native-webview";
 import deepEqual from "fast-deep-equal/es6";
@@ -13,6 +12,8 @@ import Spacer from "../ui/Spacer";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
 import Text from "../ui/Text";
 import LoadingView from "../ui/LoadingView";
+import UploadArrow from "../ui/UploadArrow";
+import DownloadArrow from "../ui/DownloadArrow";
 import ServerSyncInfo from "../ui/ServerSyncInfo";
 import { Repository } from "../../types";
 import colors from "../../styles/colors";
@@ -43,6 +44,12 @@ const styles = StyleSheet.create({
   headerRight: {
     display: "flex",
     flexDirection: "row",
+  },
+  syncInfo: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 6, // same as react-native-paper's IconButton
   },
 });
 
@@ -80,46 +87,29 @@ const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
   }
   return (
     <View style={styles.headerRight}>
-      <Icon
-        name="arrow-up-bold-outline"
-        type="material-community"
-        color={
-          uploadSyncState.state === "unknown"
-            ? "#aaa"
-            : uploadSyncState.state === "retry-in-progress"
-            ? colors.error
-            : colors.success
-        }
-        size={20}
-        onPress={() => {
-          navigation.navigate("NoteSettings", {
-            id: repository.id,
-          });
-        }}
-        style={{
-          position: "relative",
-          top: 14,
-          left: 2,
-          overflow: "visible",
-        }}
-      />
-      <Icon
-        name="arrow-down-bold-outline"
-        type="material-community"
-        color={failedDownload ? colors.warning : colors.success}
-        size={20}
-        onPress={() => {
-          navigation.navigate("NoteSettings", {
-            id: repository.id,
-          });
-        }}
-        style={{
-          position: "relative",
-          top: 18,
-          right: 2,
-          overflow: "visible",
-        }}
-      />
+      <View style={styles.syncInfo}>
+        <UploadArrow
+          animationActive={
+            uploadSyncState.state === "in-progress" ||
+            uploadSyncState.state === "retry-in-progress"
+          }
+          color={
+            uploadSyncState.state === "unknown"
+              ? "#aaa"
+              : uploadSyncState.state === "retry-in-progress"
+              ? colors.error
+              : colors.success
+          }
+        />
+        <DownloadArrow
+          // TODO show when a update decryption is in progress
+          animationActive={false}
+          color={failedDownload ? colors.error : colors.success}
+          style={{
+            marginLeft: 2,
+          }}
+        />
+      </View>
       <IconButton
         icon="account-multiple"
         color={colors.primary}
@@ -127,6 +117,9 @@ const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
           navigation.navigate("NoteSettings", {
             id: repository.id,
           });
+        }}
+        style={{
+          marginRight: -4,
         }}
       />
       <IconButton
@@ -166,11 +159,7 @@ export default function NoteScreen({ route, navigation }) {
         forceUpdate();
         navigation.setOptions({
           headerRight: () => (
-            <HeaderRight
-              navigation={navigation}
-              repositoryId={id}
-              repository={repo}
-            />
+            <HeaderRight navigation={navigation} repository={repo} />
           ),
         });
       } else {
@@ -198,11 +187,7 @@ export default function NoteScreen({ route, navigation }) {
         `);
         navigation.setOptions({
           headerRight: () => (
-            <HeaderRight
-              navigation={navigation}
-              repositoryId={id}
-              repository={repository}
-            />
+            <HeaderRight navigation={navigation} repository={repository} />
           ),
         });
       }

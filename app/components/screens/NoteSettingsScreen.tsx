@@ -24,6 +24,8 @@ import ListWrapper from "../ui/ListWrapper";
 import ListItemDivider from "../ui/ListItemDivider";
 import OutlineButton from "../ui/OutlineButton";
 import colors from "../../styles/colors";
+import UploadArrow from "../ui/UploadArrow";
+import DownloadArrow from "../ui/DownloadArrow";
 
 export default function NoteSettingsScreen({ navigation, route }) {
   const repositoryResult = useRepository(route.params.id);
@@ -35,7 +37,6 @@ export default function NoteSettingsScreen({ navigation, route }) {
   );
   const client = useClient();
   const privateInfoResult = usePrivateInfo();
-  const { loadRepositoriesSyncState } = useSyncInfo();
   const hasActiveLicenseResult = useHasActiveLicense();
 
   if (repositoryResult.type === "notFound") {
@@ -78,6 +79,7 @@ export default function NoteSettingsScreen({ navigation, route }) {
     : null;
 
   const yContacts = privateInfoResult.privateInfo.getMap("contacts");
+  const yLinkedDevices = privateInfoResult.privateInfo.getMap("linkedDevices");
 
   function findMyUpdate() {
     if (
@@ -132,15 +134,31 @@ export default function NoteSettingsScreen({ navigation, route }) {
   return (
     <ScrollScreenContainer>
       <ServerSyncInfo />
-      <ListHeader>Server Sync Info</ListHeader>
+      <ListHeader>
+        <UploadArrow
+          animationActive={false}
+          color={
+            lastSyncUpdate?.type === "success" ? colors.success : colors.error
+          }
+          style={{ paddingRight: 8 }}
+        />
+        Send Updates
+      </ListHeader>
       <ListWrapper>
         <ListItem>
           <ListItem.Content>
-            <ListItem.Title>
+            <ListItem.Title
+              style={{
+                color:
+                  lastSyncUpdate?.type === "failed"
+                    ? colors.error
+                    : colors.text,
+              }}
+            >
               {lastSyncUpdate
-                ? `Sending note updates ${
-                    lastSyncUpdate.type === "success" ? "succeeded" : "failed"
-                  }`
+                ? lastSyncUpdate.type === "success"
+                  ? "Sending note updates succeeded"
+                  : "Sending note updates failed"
                 : "Sending note updates in progress"}
             </ListItem.Title>
             <ListItem.Subtitle style={{ fontSize: 12, color: "#8A8B96" }}>
@@ -152,31 +170,71 @@ export default function NoteSettingsScreen({ navigation, route }) {
             </ListItem.Subtitle>
           </ListItem.Content>
         </ListItem>
-        <ListItemDivider />
-        <ListItem>
-          <ListItem.Content>
-            <ListItem.Title>
-              {loadRepositoriesSyncState.type === "inprogress"
-                ? "Fetching note updates in progress"
-                : `Fetching note updates ${
-                    loadRepositoriesSyncState.type === "success"
-                      ? "succeeded"
-                      : "failed"
-                  }`}
-            </ListItem.Title>
-            <ListItem.Subtitle style={{ fontSize: 12, color: "#8A8B96" }}>
-              {loadRepositoriesSyncState.type === "inprogress"
-                ? undefined
-                : `${loadRepositoriesSyncState.datetime.toLocaleTimeString(
-                    "en-US"
-                  )}, ${loadRepositoriesSyncState.datetime.toDateString()}`}
-            </ListItem.Subtitle>
-          </ListItem.Content>
-        </ListItem>
+      </ListWrapper>
+      <Spacer />
+      <ListHeader>
+        <DownloadArrow
+          animationActive={false}
+          color={colors.success}
+          style={{ paddingRight: 8 }}
+        />
+        Updates from my linked Devices
+      </ListHeader>
+      <ListWrapper>
+        {myUpdates && myUpdates.length > 0 ? (
+          myUpdates.map((update: RepositoryUpdate, index) => {
+            const date = new Date(update.createdAt);
+            const yLinkedDevice = yLinkedDevices.get(update.authorDeviceKey);
+            return (
+              <React.Fragment
+                key={`${update.authorDeviceKey}-${update.createdAt}`}
+              >
+                {index !== 0 ? <ListItemDivider /> : null}
+                <ListItem>
+                  <ListItem.Content>
+                    <ListItem.Title>
+                      {yLinkedDevice
+                        ? yLinkedDevice.get("name")
+                        : `${update.authorDeviceKey} (Device ID Key)`}
+                    </ListItem.Title>
+                    <ListItem.Subtitle
+                      style={{
+                        fontSize: 12,
+                        color:
+                          update.type === "failed"
+                            ? colors.error
+                            : colors.textBrightest,
+                      }}
+                    >{`${
+                      update.type === "success"
+                        ? "Last update at"
+                        : "Failed to decrypt last update at"
+                    } ${date.toLocaleTimeString(
+                      "en-US"
+                    )}, ${date.toDateString()}`}</ListItem.Subtitle>
+                  </ListItem.Content>
+                </ListItem>
+              </React.Fragment>
+            );
+          })
+        ) : (
+          <ListItem>
+            <ListItem.Content>
+              <ListItem.Title>No updates received</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        )}
       </ListWrapper>
 
       <Spacer />
-      <ListHeader>Collaborators</ListHeader>
+      <ListHeader>
+        <DownloadArrow
+          animationActive={false}
+          color={colors.success}
+          style={{ paddingRight: 8 }}
+        />
+        Collaborators
+      </ListHeader>
       <ListWrapper>
         {collaboratorsWithMostRecentUpdate.length > 0 ? (
           collaboratorsWithMostRecentUpdate.map((collaborator, index) => {
@@ -203,7 +261,13 @@ export default function NoteSettingsScreen({ navigation, route }) {
                   <ListItem.Content>
                     <ListItem.Title>{name}</ListItem.Title>
                     <ListItem.Subtitle
-                      style={{ fontSize: 12, color: "#8A8B96" }}
+                      style={{
+                        fontSize: 12,
+                        color:
+                          collaborator.mostRecentUpdate?.type === "failed"
+                            ? colors.error
+                            : colors.textBrightest,
+                      }}
                     >{`${
                       collaborator.mostRecentUpdate
                         ? collaborator.mostRecentUpdate.type === "success"
@@ -265,43 +329,6 @@ export default function NoteSettingsScreen({ navigation, route }) {
       >
         Add Collaborator
       </OutlineButton>
-
-      <Spacer />
-      <ListHeader>Updates from my linked Devices</ListHeader>
-      <ListWrapper>
-        {myUpdates && myUpdates.length > 0 ? (
-          myUpdates.map((update: RepositoryUpdate, index) => {
-            const date = new Date(update.createdAt);
-            return (
-              <React.Fragment
-                key={`${update.authorDeviceKey}-${update.createdAt}`}
-              >
-                {index !== 0 ? <ListItemDivider /> : null}
-                <ListItem>
-                  <ListItem.Content>
-                    <ListItem.Title>{`${update.authorDeviceKey} (Device ID Key)`}</ListItem.Title>
-                    <ListItem.Subtitle
-                      style={{ fontSize: 12, color: "#8A8B96" }}
-                    >{`${
-                      update.type === "success"
-                        ? "Last update at"
-                        : "Failed to decrypt last update at"
-                    } ${date.toLocaleTimeString(
-                      "en-US"
-                    )}, ${date.toDateString()}`}</ListItem.Subtitle>
-                  </ListItem.Content>
-                </ListItem>
-              </React.Fragment>
-            );
-          })
-        ) : (
-          <ListItem>
-            <ListItem.Content>
-              <ListItem.Title>No updates received</ListItem.Title>
-            </ListItem.Content>
-          </ListItem>
-        )}
-      </ListWrapper>
 
       <Spacer />
       <ListHeader>Info</ListHeader>

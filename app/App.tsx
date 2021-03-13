@@ -1,6 +1,7 @@
 import "react-native-get-random-values";
 import React from "react";
 import { Alert } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { Provider } from "urql";
 import { initOlm } from "./utils/device";
 import Navigation from "./components/Navigation";
@@ -32,6 +33,7 @@ export default function App() {
 
   return (
     <Provider value={client}>
+      <StatusBar style="dark" />
       <SyncInfoProvider>
         <Navigation />
       </SyncInfoProvider>

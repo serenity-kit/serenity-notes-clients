@@ -1,10 +1,9 @@
 import React from "react";
-import { StyleSheet, View, SectionList, Text } from "react-native";
+import { StyleSheet, View, SectionList } from "react-native";
 import { ListItem } from "react-native-elements";
 import useDevice from "../../hooks/useDevice";
 import usePrivateInfo from "../../hooks/usePrivateInfo";
 import useContactsAndContactInvitations from "../../hooks/useContactsAndContactInvitations";
-import EmptyList from "../ui/EmptyList";
 import LoadingView from "../ui/LoadingView";
 import ListItemButton from "../ui/ListItemButton";
 import ListItemLink from "../ui/ListItemLink";
@@ -73,12 +72,6 @@ export default function ContactsScreen({ navigation }) {
 
       {contactsAndContactInvitationsResult.type === "loading" ? (
         <LoadingView />
-      ) : contactsAndContactInvitationsResult.type === "result" &&
-        contactsAndContactInvitationsResult.contacts.length === 0 &&
-        contactsAndContactInvitationsResult.contactInvitations.length === 0 ? (
-        <EmptyList iconName="users">
-          <Text style={{ fontSize: 18 }}>Empty in Contacts</Text>
-        </EmptyList>
       ) : (
         <>
           {contactsAndContactInvitationsResult.type === "result" ? (

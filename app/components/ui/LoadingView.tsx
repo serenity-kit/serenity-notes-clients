@@ -16,11 +16,19 @@ type Props = {
   style?: any;
 };
 
-const LoadingView = (props: Props) => (
-  <View style={[styles.loadingView, props.style]}>
-    {/** TODO make it black and fade in after 200ms */}
-    <ActivityIndicator color={colors.textBrightest} size="small" />
-  </View>
-);
+const LoadingView = (props: Props) => {
+  const [showLoadingIndicator, setShowLoadingIndicator] = React.useState(false);
+  React.useEffect(() => {
+    const timeout = setTimeout(() => setShowLoadingIndicator(true), 450);
+    return () => clearTimeout(timeout);
+  });
+  return (
+    <View style={[styles.loadingView, props.style]}>
+      {showLoadingIndicator ? (
+        <ActivityIndicator color={colors.textBrightest} size="small" />
+      ) : null}
+    </View>
+  );
+};
 
 export default LoadingView;

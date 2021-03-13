@@ -87,7 +87,12 @@ export default function WelcomeScreen({ navigation }) {
         <Spacer />
         <Spacer />
         <Spacer />
-        <ReactNativeText style={{ textAlign: "center" }}>
+        <ReactNativeText
+          style={{
+            textAlign: "center",
+            paddingHorizontal: 10,
+          }}
+        >
           <Text size="s">
             By signing in you accept our{" "}
             <ReactNativeText
@@ -102,7 +107,9 @@ export default function WelcomeScreen({ navigation }) {
             </ReactNativeText>{" "}
             and{" "}
             <ReactNativeText
-              style={{ textDecorationLine: "underline" }}
+              style={{
+                textDecorationLine: "underline",
+              }}
               onPress={() => {
                 Linking.openURL(
                   "https://www.serenity.re/en/notes/privacy-policy"

@@ -136,15 +136,10 @@ export default function OnboardingScreen({ navigation }) {
       <Text weight="bold">How does the signup work?</Text>
       <Spacer size="s" />
       <Text>
-        First a new secret key is created on your device. The device then
-        creates a new user account at the sync service.
+        A new secret key is created on your device. The device then
+        authenticates itself with the servers and creates a new user account.
       </Text>
-      <Spacer />
 
-      <Text>
-        No username, email or password is required since your device handles the
-        authentication.
-      </Text>
       <Spacer />
       <Spacer />
 
@@ -224,7 +219,7 @@ export default function OnboardingScreen({ navigation }) {
       <Spacer />
       <View style={styles.content}>
         {processState === "ready" ? (
-          <Text>Your device is setup and ready to go.</Text>
+          <Text>Your device is ready.</Text>
         ) : (
           <Text> </Text>
         )}

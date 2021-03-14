@@ -60,9 +60,6 @@ export default function OnboardingScreen({ navigation }) {
   const [processState, setProcessState] = React.useState<
     "default" | "createDeviceAndKeys" | "createUser" | "ready" | "failed"
   >("default");
-  const deviceResult = useDevice();
-  const userResult = useUser();
-  const privateUserSigningKeyResult = usePrivateUserSigningKey();
   const [, createUser] = useMutation(createUserMutation);
   const client = useClient();
 
@@ -120,13 +117,6 @@ export default function OnboardingScreen({ navigation }) {
   React.useEffect(() => {
     initDeviceAndCreateUser();
   }, []);
-
-  if (
-    deviceResult.type === "loading" ||
-    userResult.type === "loading" ||
-    privateUserSigningKeyResult.type === "loading"
-  )
-    return null;
 
   return (
     <View style={styles.container}>

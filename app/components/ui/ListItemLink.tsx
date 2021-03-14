@@ -5,7 +5,7 @@ import colors from "../../styles/colors";
 import ListItemDivider from "../ui/ListItemDivider";
 
 type Props = {
-  children: string;
+  children: React.ReactNode;
   onPress: () => void;
   topDivider?: boolean;
   style?: StyleProp<ViewStyle>;

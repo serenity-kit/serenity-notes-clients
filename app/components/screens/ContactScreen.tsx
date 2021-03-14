@@ -1,7 +1,6 @@
 import React from "react";
 import { useClient } from "urql";
 import { Alert } from "react-native";
-import Spacer from "../ui/Spacer";
 import ListHeader from "../ui/ListHeader";
 import ListItemInfo from "../ui/ListItemInfo";
 import ListWrapper from "../ui/ListWrapper";
@@ -13,13 +12,18 @@ import deleteContact from "../../utils/server/deleteContact";
 import useMyVerifiedDevices from "../../hooks/useMyVerifiedDevices";
 import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
 import useDevice from "../../hooks/useDevice";
+import useContactsAndContactInvitations from "../../hooks/useContactsAndContactInvitations";
 
 export default function ContactScreen({ navigation, route }) {
-  const { id, contactUserId } = route.params;
+  const { userId } = route.params;
   const privateInfoResult = usePrivateInfo();
   const deviceResult = useDevice();
   const client = useClient();
   const fetchMyVerifiedDevices = useMyVerifiedDevices();
+  // also converts accepted contactInvitations to contacts
+  const contactsAndContactInvitations = useContactsAndContactInvitations(
+    navigation
+  );
   const [processStep, setProcessStep] = React.useState<
     "default" | "deletingContact"
   >("default");
@@ -31,13 +35,32 @@ export default function ContactScreen({ navigation, route }) {
     return null;
 
   const deleteContactAction = async () => {
+    if (contactsAndContactInvitations.type !== "result") {
+      Alert.alert(
+        "Error",
+        "Can't connect to the server. Please try again a bit later or contact hi@serenity.re."
+      );
+      return;
+    }
+
+    const contactFromServer = contactsAndContactInvitations.contacts.find(
+      (contact) => contact.contactUserId === userId
+    );
+    if (!contactFromServer) {
+      Alert.alert(
+        "Error",
+        "There was an error trying to remove the contact. Please try again a bit later or contact hi@serenity.re."
+      );
+      return;
+    }
+
     setProcessStep("deletingContact");
 
     try {
-      await deleteContact(client, id, deviceResult.device);
+      await deleteContact(client, contactFromServer.id, deviceResult.device);
       const privateInfoYDoc = await privateInfoStore.getPrivateInfo();
       const yContacts = privateInfoYDoc.getMap("contacts");
-      yContacts.delete(id);
+      yContacts.delete(userId);
       const verifiedDevices = await fetchMyVerifiedDevices();
       await updatePrivateInfo(
         privateInfoYDoc,
@@ -55,20 +78,20 @@ export default function ContactScreen({ navigation, route }) {
   };
 
   const yContacts = privateInfoResult.privateInfo.getMap("contacts");
-  const yContact = yContacts.get(contactUserId);
+  const yContact = yContacts.get(userId);
 
   return (
     <ScrollScreenContainer>
       <ListHeader>Info</ListHeader>
       <ListWrapper>
         <ListItemInfo label="Name">
-          {yContact.get("name") || "Name missing (something went wrong)"}
+          {yContact?.get("name") || "Name missing (something went wrong)"}
         </ListItemInfo>
         <ListItemInfo label="User ID" topDivider>
-          {id || "ID missing (something went wrong)"}
+          {userId || "ID missing (something went wrong)"}
         </ListItemInfo>
         <ListItemInfo label="User Signing Key (public)" topDivider>
-          {yContact.get("userSigningKey") ||
+          {yContact?.get("userSigningKey") ||
             "Key missing (something went wrong)"}
         </ListItemInfo>
       </ListWrapper>

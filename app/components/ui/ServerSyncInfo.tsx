@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
     padding: sizes.medium * 0.8,
   },
   hintWrapper: {
-    marginBottom: 10,
     borderColor: colors.divider,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderTopWidth: StyleSheet.hairlineWidth,
@@ -28,7 +27,6 @@ const styles = StyleSheet.create({
     padding: sizes.medium * 0.8,
   },
   warningHintWrapper: {
-    marginBottom: 10,
     borderColor: colors.divider,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderTopWidth: StyleSheet.hairlineWidth,

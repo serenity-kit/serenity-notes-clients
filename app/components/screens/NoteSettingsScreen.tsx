@@ -14,10 +14,9 @@ import removeCollaboratorFromRepository from "../../utils/server/removeCollabora
 import { Alert } from "react-native";
 import * as repositoryStore from "../../utils/repositoryStore";
 import Text from "../ui/Text";
-import { RepositoryUpdate } from "../../types";
+import { RepositoryUpdate, RepositoryCollaborator } from "../../types";
 import usePrivateInfo from "../../hooks/usePrivateInfo";
 import useVerifiedDevicesForRepository from "../../hooks/useVerifiedDevicesForRepository";
-import { useSyncInfo } from "../../context/SyncInfoContext";
 import ServerSyncInfo from "../ui/ServerSyncInfo";
 import useHasActiveLicense from "../../hooks/useHasActiveLicense";
 import ListWrapper from "../ui/ListWrapper";
@@ -26,6 +25,10 @@ import OutlineButton from "../ui/OutlineButton";
 import colors from "../../styles/colors";
 import UploadArrow from "../ui/UploadArrow";
 import DownloadArrow from "../ui/DownloadArrow";
+
+type RepositoryCollaboratorWithMostRecentUpdate = RepositoryCollaborator & {
+  mostRecentUpdate?: RepositoryUpdate;
+};
 
 export default function NoteSettingsScreen({ navigation, route }) {
   const repositoryResult = useRepository(route.params.id);
@@ -53,8 +56,6 @@ export default function NoteSettingsScreen({ navigation, route }) {
     repositoryResult.type !== "repository" ||
     deviceResult.type !== "device" ||
     privateInfoResult.type !== "privateInfo" ||
-    // TODO add error when fetching verified devices fails
-    verifiedDevicesForRepositoryResult.type !== "result" ||
     hasActiveLicenseResult.type === "loading"
   )
     return <ScrollScreenContainer />;
@@ -85,25 +86,21 @@ export default function NoteSettingsScreen({ navigation, route }) {
     if (
       repositoryResult.type !== "repository" ||
       !repositoryResult.repository.collaborators ||
-      verifiedDevicesForRepositoryResult.type !== "result" ||
       userResult.type !== "user"
     )
       return [];
 
     return updates.filter((update) => {
-      // TODO should this rather use the devices list from the privateStore?!? then the hook could be removed
-      return verifiedDevicesForRepositoryResult.devices.some(
-        (device) =>
-          update.authorDeviceKey === device.idKey &&
-          device.userId === userResult.user.id
+      return Array.from(yLinkedDevices.values()).some(
+        (device: any) => update.authorDeviceKey === device.get("idKey")
       );
     });
   }
 
   const myUpdates = findMyUpdate();
 
-  const collaboratorsWithMostRecentUpdate = repositoryResult.repository
-    .collaborators
+  const collaboratorsWithMostRecentUpdate: RepositoryCollaboratorWithMostRecentUpdate[] = repositoryResult
+    .repository.collaborators
     ? repositoryResult.repository.collaborators
         .filter(
           // filter out myself
@@ -111,6 +108,9 @@ export default function NoteSettingsScreen({ navigation, route }) {
             userResult.type === "user" && userResult.user.id !== collaborator.id
         )
         .map((collaborator) => {
+          if (verifiedDevicesForRepositoryResult.type !== "result") {
+            return collaborator;
+          }
           const collaboratorUpdates = updates.filter((update) => {
             return verifiedDevicesForRepositoryResult.devices.some(
               (device) =>
@@ -205,13 +205,15 @@ export default function NoteSettingsScreen({ navigation, route }) {
                             ? colors.error
                             : colors.textBrightest,
                       }}
-                    >{`${
-                      update.type === "success"
-                        ? "Last update at"
-                        : "Failed to decrypt last update at"
-                    } ${date.toLocaleTimeString(
-                      "en-US"
-                    )}, ${date.toDateString()}`}</ListItem.Subtitle>
+                    >
+                      {`${
+                        update.type === "success"
+                          ? "Last update at"
+                          : "Failed to decrypt last update at"
+                      } ${date.toLocaleTimeString(
+                        "en-US"
+                      )}, ${date.toDateString()}`}
+                    </ListItem.Subtitle>
                   </ListItem.Content>
                 </ListItem>
               </React.Fragment>
@@ -268,13 +270,18 @@ export default function NoteSettingsScreen({ navigation, route }) {
                             ? colors.error
                             : colors.textBrightest,
                       }}
-                    >{`${
-                      collaborator.mostRecentUpdate
-                        ? collaborator.mostRecentUpdate.type === "success"
-                          ? "Last update at"
-                          : "Failed to decrypt last update at"
-                        : "Yet no update received"
-                    } ${formattedCreatedAt}`}</ListItem.Subtitle>
+                    >
+                      {/* TODO instead of using verifiedDevicesForRepositoryResult switch to verifying the device signatures based on the yContacts */}
+                      {verifiedDevicesForRepositoryResult.type !== "result"
+                        ? ""
+                        : `${
+                            collaborator.mostRecentUpdate
+                              ? collaborator.mostRecentUpdate.type === "success"
+                                ? "Last update at"
+                                : "Failed to decrypt last update at"
+                              : "Yet no update received"
+                          } ${formattedCreatedAt}`}
+                    </ListItem.Subtitle>
                   </ListItem.Content>
                   <ListItem.Chevron color={colors.primary} />
                 </ListItem>

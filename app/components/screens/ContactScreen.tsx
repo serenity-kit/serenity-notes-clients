@@ -38,7 +38,7 @@ export default function ContactScreen({ navigation, route }) {
     if (contactsAndContactInvitations.type !== "result") {
       Alert.alert(
         "Error",
-        "Can't connect to the server. Please try again a bit later or contact hi@serenity.re."
+        "Can't connect to the server. Please try again or contact hi@serenity.re."
       );
       return;
     }
@@ -49,7 +49,7 @@ export default function ContactScreen({ navigation, route }) {
     if (!contactFromServer) {
       Alert.alert(
         "Error",
-        "There was an error trying to remove the contact. Please try again a bit later or contact hi@serenity.re."
+        "There was an error trying to remove the contact. Please try again or contact hi@serenity.re."
       );
       return;
     }

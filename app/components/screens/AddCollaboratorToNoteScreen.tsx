@@ -16,13 +16,11 @@ import devicesForContact from "../../graphql/devicesForContact";
 import addCollaboratorToRepositoriesMutation from "../../graphql/addCollaboratorToRepositoriesMutation";
 import EmptyList from "../ui/EmptyList";
 import useContactsAndContactInvitations from "../../hooks/useContactsAndContactInvitations";
-import LoadingView from "../ui/LoadingView";
 import ServerSyncInfo from "../ui/ServerSyncInfo";
 import { DeviceKeys } from "../../types";
 import { verifyDevice } from "../../utils/signing";
 import colors from "../../styles/colors";
 import OutlineButton from "../ui/OutlineButton";
-import ListWrapper from "../ui/ListWrapper";
 
 const styles = StyleSheet.create({
   container: {
@@ -144,7 +142,8 @@ export default function AddCollaboratorToNoteScreen({ route, navigation }) {
   const privateInfoResult = usePrivateInfo();
   const repositoryResult = useRepository(route.params.repositoryId);
   const client = useClient();
-  const contactsAndContactInvitationsResult = useContactsAndContactInvitations(
+  // TODO use one hook to calculate the diff contact & contactinvitation between local and server. use it here and in contacts
+  const contactsAndContactInvitations = useContactsAndContactInvitations(
     navigation
   );
 
@@ -155,7 +154,16 @@ export default function AddCollaboratorToNoteScreen({ route, navigation }) {
   )
     return <View style={styles.container}></View>;
 
-  const yContacts = privateInfoResult.privateInfo.getMap("contacts");
+  const contacts = Array.from(
+    privateInfoResult.privateInfo.getMap("contacts").entries()
+  ).map(([userId, yContact]) => {
+    return {
+      type: "contact",
+      id: userId,
+      name: yContact.get("name"),
+      userSigningKey: yContact.get("userSigningKey"),
+    };
+  });
 
   let contactsWithoutRepositoryCollaborators = [];
   const repositoryCollaboratorIds = repositoryResult.repository.collaborators
@@ -163,64 +171,59 @@ export default function AddCollaboratorToNoteScreen({ route, navigation }) {
         (collaborator) => collaborator.id
       )
     : [];
-  if (contactsAndContactInvitationsResult.type === "result") {
-    contactsWithoutRepositoryCollaborators = contactsAndContactInvitationsResult.contacts.filter(
-      (contact) => !repositoryCollaboratorIds.includes(contact.contactUserId)
-    );
-  }
+  contactsWithoutRepositoryCollaborators = contacts.filter(
+    (contact) => !repositoryCollaboratorIds.includes(contact.id)
+  );
 
   return (
     <View style={styles.container}>
       <ServerSyncInfo />
 
-      {/* style and show red error message box */}
-      {contactsAndContactInvitationsResult.type === "error" ? (
-        <ListWrapper style={{ marginTop: 10 }}>
-          <ListItem>
-            <ListItem.Content>
-              <ListItem.Title>Failed to fetch contact data</ListItem.Title>
-            </ListItem.Content>
-          </ListItem>
-        </ListWrapper>
-      ) : null}
-
-      {contactsAndContactInvitationsResult.type === "loading" ? (
-        <LoadingView />
-      ) : contactsAndContactInvitationsResult.type === "result" &&
-        contactsWithoutRepositoryCollaborators.length === 0 ? (
+      {contacts.length === 0 ? (
         <EmptyList iconName="users">
-          <Text style={{ fontSize: 18 }}>Empty in Contacts</Text>
+          <Text style={{ fontSize: 18 }}>No Contacts.</Text>
         </EmptyList>
       ) : (
         <FlatList
           data={contactsWithoutRepositoryCollaborators}
           renderItem={({ item }: { item }) => {
-            const yContact = yContacts.get(item.contactUserId);
-            const name = yContact
-              ? yContact.get("name")
-              : "Name missing (something went wrong)";
-            const userSigningKey = yContact
-              ? yContact.get("userSigningKey")
-              : null;
             return (
               <OutlineButton
                 style={{ marginTop: 5 }}
                 iconType="plus"
                 disabled={processStep === "addingCollaborator"}
                 onPress={async () => {
+                  if (contactsAndContactInvitations.type !== "result") {
+                    Alert.alert(
+                      "Error",
+                      "Can't connect to the server. Please try again or contact hi@serenity.re."
+                    );
+                    return;
+                  }
+
+                  const contactFromServer = contactsAndContactInvitations.contacts.find(
+                    (contact) => contact.contactUserId === item.id
+                  );
+                  if (!contactFromServer) {
+                    Alert.alert(
+                      "Error",
+                      "There was an error trying to add the contact. Please try again or contact hi@serenity.re."
+                    );
+                    return;
+                  }
                   setProcessStep("addingCollaborator");
                   await addCollaboratorToRepository(
                     client,
                     route.params.repositoryId,
-                    item.id,
-                    userSigningKey,
+                    contactFromServer.id,
+                    item.userSigningKey,
                     deviceResult.device,
                     navigation
                   );
                   setProcessStep("default");
                 }}
               >
-                {name}
+                {item.name}
               </OutlineButton>
             );
           }}

@@ -99,11 +99,11 @@ export default function WelcomeScreen({ navigation }) {
               style={{ textDecorationLine: "underline" }}
               onPress={() => {
                 Linking.openURL(
-                  "https://www.serenity.re/en/notes/terms-and-conditions"
+                  "https://www.serenity.re/en/notes/terms-of-service"
                 );
               }}
             >
-              Terms & Conditions
+              Terms of Service
             </ReactNativeText>{" "}
             and{" "}
             <ReactNativeText

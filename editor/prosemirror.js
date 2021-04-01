@@ -55,7 +55,9 @@ window.addEventListener("load", () => {
     //   ydoc.clientID
     // );
     if (window.ReactNativeWebView) {
-      window.ReactNativeWebView.postMessage(JSON.stringify(Array.from(update)));
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({ type: "content", data: Array.from(update) })
+      );
     }
   });
 
@@ -100,11 +102,21 @@ window.addEventListener("load", () => {
   });
 
   // @ts-ignore
-  // window.example = { ydoc, type, prosemirrorView }
   window.applyYjsUpdate = function (updateArray) {
     if (updateArray) {
       const update = new Uint8Array(updateArray);
       Y.applyUpdate(window.ydoc, update);
+    }
+  };
+
+  window.exportHtml = function () {
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({
+          type: "export-html",
+          data: document.documentElement.outerHTML,
+        })
+      );
     }
   };
 });

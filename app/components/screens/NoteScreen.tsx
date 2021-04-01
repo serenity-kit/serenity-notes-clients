@@ -235,20 +235,24 @@ export default function NoteScreen({ route, navigation }) {
           </View>
         )}
         onMessage={async (event) => {
-          // event.persist();
-          const update = new Uint8Array(JSON.parse(event.nativeEvent.data));
-          Y.applyUpdate(yDocRef.current, update);
-          const serializedYDoc = Y.encodeStateAsUpdate(yDocRef.current);
+          event.persist();
+          const update = JSON.parse(event.nativeEvent.data);
+          if (update.type === "content") {
+            Y.applyUpdate(yDocRef.current, new Uint8Array(update.data));
+            const serializedYDoc = Y.encodeStateAsUpdate(yDocRef.current);
 
-          // optimization: prevent update in case the content hasn't changed
-          if (deepEqual(serializedYDoc, contentRef.current)) return;
+            // optimization: prevent update in case the content hasn't changed
+            if (deepEqual(serializedYDoc, contentRef.current)) return;
 
-          const repo = await repositoryStore.getRepository(id);
-          await repositoryStore.setRepository({
-            ...repo,
-            content: serializedYDoc,
-            updatedAt: new Date().toISOString(),
-          });
+            const repo = await repositoryStore.getRepository(id);
+            await repositoryStore.setRepository({
+              ...repo,
+              content: serializedYDoc,
+              updatedAt: new Date().toISOString(),
+            });
+          } else if (update.type === "export-html") {
+            console.log(update.data);
+          }
         }}
         style={styles.webView}
         // Needed for .focus() to work
@@ -265,6 +269,10 @@ export default function NoteScreen({ route, navigation }) {
               window.applyYjsUpdate(${JSON.stringify(
                 Array.apply([], contentRef.current)
               )});
+              true;
+            `);
+            webViewRef.current.injectJavaScript(`
+              window.exportHtml();
               true;
             `);
             initializedRef.current = true;

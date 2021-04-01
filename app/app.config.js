@@ -13,7 +13,8 @@ export default {
       backgroundColor: "#FFF",
     },
     updates: {
-      fallbackToCacheTimeout: 0,
+      // disable over-the-air JS updates https://docs.expo.io/guides/configuring-ota-updates/#disabling-updates
+      enabled: false,
     },
     assetBundlePatterns: ["**/*"],
     ios: {

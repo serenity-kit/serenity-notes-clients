@@ -10,6 +10,7 @@ import Spacer from "../ui/Spacer";
 import Text from "../ui/Text";
 import OutlineButton from "../ui/OutlineButton";
 import colors from "../../styles/colors";
+import { privacyPolicyLink, termsOfServiceLink } from "../../utils/links";
 
 const styles = StyleSheet.create({
   container: {
@@ -98,9 +99,7 @@ export default function WelcomeScreen({ navigation }) {
             <ReactNativeText
               style={{ textDecorationLine: "underline" }}
               onPress={() => {
-                Linking.openURL(
-                  "https://www.serenity.re/en/notes/terms-of-service"
-                );
+                Linking.openURL(termsOfServiceLink);
               }}
             >
               Terms of Service
@@ -111,9 +110,7 @@ export default function WelcomeScreen({ navigation }) {
                 textDecorationLine: "underline",
               }}
               onPress={() => {
-                Linking.openURL(
-                  "https://www.serenity.re/en/notes/privacy-policy"
-                );
+                Linking.openURL(privacyPolicyLink);
               }}
             >
               Privacy Policy

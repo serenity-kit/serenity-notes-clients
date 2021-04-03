@@ -1,6 +1,6 @@
 import React from "react";
 import { ListItem, Icon } from "react-native-elements";
-import { Alert } from "react-native";
+import { Alert, Linking } from "react-native";
 import { useClient } from "urql";
 import * as Updates from "expo-updates";
 import Spacer from "../ui/Spacer";
@@ -27,6 +27,12 @@ import wipeStores from "../../utils/wipeStores";
 import cleanupRemovedDevices from "../../utils/server/cleanupRemovedDevices";
 import useMyVerifiedDevices from "../../hooks/useMyVerifiedDevices";
 import deleteUser from "../../utils/server/deleteUser";
+import {
+  privacyPolicyLink,
+  supportLink,
+  termsOfServiceLink,
+} from "../../utils/links";
+import ListItemExternalLink from "../ui/ListItemExternalLink";
 
 export default function SettingsScreen({ navigation }) {
   const [processStep, setProcessStep] = React.useState<
@@ -246,6 +252,30 @@ export default function SettingsScreen({ navigation }) {
             : "User Signing Key not initialized"}
         </ListItemInfo>
       </ListWrapper>
+
+      <Spacer />
+      <ListHeader>Serenity Notes</ListHeader>
+      <ListItemExternalLink
+        onPress={() => {
+          Linking.openURL(supportLink);
+        }}
+      >
+        Support & FAQ
+      </ListItemExternalLink>
+      <ListItemExternalLink
+        onPress={() => {
+          Linking.openURL(termsOfServiceLink);
+        }}
+      >
+        Terms of Service
+      </ListItemExternalLink>
+      <ListItemExternalLink
+        onPress={() => {
+          Linking.openURL(privacyPolicyLink);
+        }}
+      >
+        Privacy Policy
+      </ListItemExternalLink>
 
       <Spacer />
       <ListHeader>Advanced Actions</ListHeader>

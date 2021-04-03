@@ -25,7 +25,13 @@ type Props = {
 
 export default function Toolbar({ editorView }: Props) {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        margin: "0.5rem 0.2rem",
+      }}
+    >
       <div>
         <ToggleMarkButton
           editorView={editorView}

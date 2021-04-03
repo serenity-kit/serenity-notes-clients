@@ -732,7 +732,7 @@
         line-height: 1.2;
         outline: none;
         overflow-y: scroll; /* necessary for bottom bar */
-        height: calc(100vh - 53px); /* necessary for bottom bar */
+        height: 100vh; /* necessary for bottom bar */
       }
 
       .ProseMirror p {
@@ -792,10 +792,9 @@
       }
 
       #editor-toolbar {
-        min-height: 53px;
+        height: 0px;
         position: fixed;
         color: #000;
-        padding: 0.5rem 0.2rem;
         bottom: 0;
         left: 0;
         right: 0;

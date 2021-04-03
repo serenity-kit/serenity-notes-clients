@@ -60,6 +60,7 @@ window.addEventListener("load", () => {
   });
 
   const editor = document.getElementById("editor");
+  const editorToolbar = document.getElementById("editor-toolbar");
 
   const menuItems = buildMenuItems(schema);
   const prosemirrorView = new EditorView(editor, {
@@ -97,6 +98,18 @@ window.addEventListener("load", () => {
       ),
     }),
     handleClickOn,
+    handleDOMEvents: {
+      focus: (view, event) => {
+        const proseMirror = document.getElementsByClassName("ProseMirror")[0];
+        editorToolbar.style.height = "53px";
+        proseMirror.style.height = "calc(100vh - 53px)";
+      },
+      blur: (view, event) => {
+        const proseMirror = document.getElementsByClassName("ProseMirror")[0];
+        editorToolbar.style.height = "0px";
+        proseMirror.style.height = "100vh";
+      },
+    },
   });
 
   // @ts-ignore

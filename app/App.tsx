@@ -4,6 +4,7 @@ import { Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Provider } from "urql";
 import { initOlm } from "./utils/device";
+import { unlockScreenOrientation } from "./utils/screenOrientation";
 import Navigation from "./components/Navigation";
 import { initDeviceStore } from "./utils/deviceStore";
 import { SyncInfoProvider } from "./context/SyncInfoContext";
@@ -18,6 +19,7 @@ export default function App() {
       try {
         await initOlm();
         await initDeviceStore();
+        await unlockScreenOrientation();
         const existingMutations = await mutationQueueStore.getMutationQueue();
         setRestoredMutations(existingMutations);
         setInitialized(true);

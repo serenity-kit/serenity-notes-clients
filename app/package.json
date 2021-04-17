@@ -23,6 +23,7 @@
     "expo-device": "~3.2.0",
     "expo-file-system": "~11.0.2",
     "expo-random": "~11.1.2",
+    "expo-screen-orientation": "~3.1.0",
     "expo-secure-store": "~10.1.0",
     "expo-status-bar": "~1.0.4",
     "expo-updates": "~0.5.4",

@@ -42,7 +42,7 @@
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12",
     "react-native-webview": "11.2.3",
-    "urql": "^1.11.5",
+    "urql": "^2.0.2",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

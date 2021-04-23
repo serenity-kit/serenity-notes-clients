@@ -6,9 +6,9 @@ export default {
     platforms: ["ios", "android"],
     version: "1.6.3",
     orientation: "portrait",
-    icon: "./assets/icon.png",
+    icon: "./src/assets/icon.png",
     splash: {
-      image: "./assets/splash.png",
+      image: "./src/assets/splash.png",
       resizeMode: "contain",
       backgroundColor: "#FFF",
     },
@@ -26,7 +26,7 @@ export default {
       package: "re.serenity.notes",
       versionCode: 14,
       adaptiveIcon: {
-        foregroundImage: "./assets/logo_serenity_android.png",
+        foregroundImage: "./src/assets/logo_serenity_android.png",
         backgroundColor: "#FFF",
       },
       permissions: [],

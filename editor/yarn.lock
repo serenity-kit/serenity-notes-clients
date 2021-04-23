@@ -4329,10 +4329,10 @@ prosemirror-menu@^1.0.0:
     prosemirror-history "^1.0.0"
     prosemirror-state "^1.0.0"
 
-prosemirror-model@^1.0.0, prosemirror-model@^1.1.0, prosemirror-model@^1.13.3:
-  version "1.13.3"
-  resolved "https://registry.yarnpkg.com/prosemirror-model/-/prosemirror-model-1.13.3.tgz#3ccfde73b9c9e706933c72bdf7462906509ff1c9"
-  integrity sha512-wujIYYQEcxdkbKmIJiekVjqtylKxuoEcc+w2PnN7Itc58m/75J4rCUz2dibygVQJFi3gZrD2DNFLjOS6LP4w1g==
+prosemirror-model@^1.0.0, prosemirror-model@^1.1.0, prosemirror-model@^1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/prosemirror-model/-/prosemirror-model-1.14.0.tgz#44042a16942dfc5dcd79daf6ec37b0efcfef53c8"
+  integrity sha512-+9J7YE2qD2lsRgaI5aF7u6LynBoHxb/8sW1gaMKRAhK+yeQ+motBIaxb2GxRWSadDWMOq5haAImSTBo6jDkv2A==
   dependencies:
     orderedmap "^1.1.0"
 
@@ -4359,10 +4359,19 @@ prosemirror-transform@^1.0.0, prosemirror-transform@^1.1.0:
   dependencies:
     prosemirror-model "^1.0.0"
 
-prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.18.2:
+prosemirror-view@^1.0.0, prosemirror-view@^1.1.0:
   version "1.18.2"
   resolved "https://registry.yarnpkg.com/prosemirror-view/-/prosemirror-view-1.18.2.tgz#dd5d72e90266ec897464005eb6090fbc6acfeb11"
   integrity sha512-dgJiPMC7fTtndwSthuIW4P2GlSRL+7JFrVPt+tvAkZ9Kq6xWaAbyZOvGKziTJnoiXk9qAGyqELSHhiJ3t6iNfQ==
+  dependencies:
+    prosemirror-model "^1.1.0"
+    prosemirror-state "^1.0.0"
+    prosemirror-transform "^1.1.0"
+
+prosemirror-view@^1.18.3:
+  version "1.18.3"
+  resolved "https://registry.yarnpkg.com/prosemirror-view/-/prosemirror-view-1.18.3.tgz#cfc70169cb300e9503d97362463ea870efffd3ef"
+  integrity sha512-B0zlzjBI0cHadpghyvAA+JgqLGbkNU9Vxywqkfaa+AdmOZUZImBKH6ufhpK+AEZn97WWgSIkr/MT9RmGpaboAA==
   dependencies:
     prosemirror-model "^1.1.0"
     prosemirror-state "^1.0.0"
@@ -5675,10 +5684,10 @@ xtend@^4.0.0, xtend@~4.0.1:
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.2.tgz#bb72779f5fa465186b1f438f674fa347fdb5db54"
   integrity sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==
 
-y-prosemirror@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/y-prosemirror/-/y-prosemirror-1.0.7.tgz#e0d3bbbc8b88bc4942d9720fd8413da393999200"
-  integrity sha512-AnlwGoz6+o6PkrBm09kY3+dXP3Yt6QHDIMHhtn0mGeUnSQRVcI0/raQwh/kYD7z1EUPghKfDaH8DoI0duAu5sg==
+y-prosemirror@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/y-prosemirror/-/y-prosemirror-1.0.9.tgz#c0b5bf4e2c6620093ba0658c2aca52055346a683"
+  integrity sha512-OM12aPx04lwiIy1IOBidb6ONAof2KFxQE/Gww26SEsMQuA2dibrJkjaMwXwY1KnYY7yOpwbIFRdwecdNXLU9yQ==
   dependencies:
     lib0 "^0.2.34"
 
@@ -5723,9 +5732,9 @@ yargs@^13.3.2:
     y18n "^4.0.0"
     yargs-parser "^13.1.2"
 
-yjs@^13.5.3:
-  version "13.5.3"
-  resolved "https://registry.yarnpkg.com/yjs/-/yjs-13.5.3.tgz#0efc5983ec287d24f4471f8f4184f9df80780835"
-  integrity sha512-LlkmCr68LCfkmoic6rBjDaD01vbdMhy07dXYo65sQ0wOYh8eylrU1b0lTo3YT/BmcyH5Jn4KewDxyJMsDwvERw==
+yjs@^13.5.5:
+  version "13.5.5"
+  resolved "https://registry.yarnpkg.com/yjs/-/yjs-13.5.5.tgz#8a52a7354006e04a54dc62c9ffbbd7c606e20ded"
+  integrity sha512-sbE4G+bSP0jw71aJ9Hqi5UxOTy8JGkObIaCSpY6krRoNqssPCWq05rqV9PQcuMqcrHD3twzko92fVaF1S3id/Q==
   dependencies:
     lib0 "^0.2.38"

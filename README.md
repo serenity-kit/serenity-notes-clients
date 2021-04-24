@@ -19,10 +19,18 @@ yarn
 yarn dist
 cd ..
 
+# iOS/Android
 cd app
 yarn
 # replace the API_URL in package.json with https://api.serenity.re/graphql
 yarn start
+
+# macOS
+cd desktop
+cd macos
+npx pod-install
+cd ..
+npx react-native run-macos
 ```
 
 ## License

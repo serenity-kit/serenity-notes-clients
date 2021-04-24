@@ -1,0 +1,52 @@
+{
+  "name": "desktop",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.15.2",
+    "@react-navigation/bottom-tabs": "^5.11.10",
+    "@react-navigation/native": "^5.9.4",
+    "@react-navigation/stack": "^5.14.4",
+    "base-64": "^1.0.0",
+    "date-fns": "^2.21.1",
+    "expo-asset": "~8.3.1",
+    "graphql": "^15.5.0",
+    "react": "16.13.1",
+    "react-native": "0.63.4",
+    "react-native-elements": "^3.3.2",
+    "react-native-get-random-values": "^1.7.0",
+    "react-native-macos": "^0.63.0-0",
+    "react-native-macos-sensitive-info": "^6.0.0-alpha.11",
+    "react-native-paper": "^4.7.2",
+    "react-native-safe-area-context": "^3.2.0",
+    "react-native-screens": "^3.1.1",
+    "react-native-vector-icons": "^8.1.0",
+    "react-native-webview": "^11.4.0",
+    "urql": "^2.0.2",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-typescript": "^7.13.0",
+    "@babel/runtime": "^7.8.4",
+    "@typescript-eslint/eslint-plugin": "^4.13.0",
+    "@typescript-eslint/parser": "^4.13.0",
+    "babel-jest": "^25.1.0",
+    "babel-preset-expo": "^8.3.0",
+    "eslint": "^7.17.0",
+    "eslint-plugin-react": "^7.22.0",
+    "jest": "^25.1.0",
+    "metro-react-native-babel-preset": "^0.59.0",
+    "react-test-renderer": "16.13.1",
+    "typescript": "^4.2.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

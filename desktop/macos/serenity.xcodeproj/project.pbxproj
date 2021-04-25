@@ -528,8 +528,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = serenity;
+				PRODUCT_BUNDLE_IDENTIFIER = "re.serenity.notes-desktop";
+				PRODUCT_NAME = "Serenity Notes";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -550,8 +550,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = serenity;
+				PRODUCT_BUNDLE_IDENTIFIER = "re.serenity.notes-desktop";
+				PRODUCT_NAME = "Serenity Notes";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -566,14 +566,15 @@
 				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = "serenity-macos/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = serenity;
+				PRODUCT_BUNDLE_IDENTIFIER = "re.serenity.notes-desktop";
+				PRODUCT_NAME = "Serenity Notes";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -586,14 +587,15 @@
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "serenity-macos/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = serenity;
+				PRODUCT_BUNDLE_IDENTIFIER = "re.serenity.notes-desktop";
+				PRODUCT_NAME = "Serenity Notes";
 				SDKROOT = macosx;
 			};
 			name = Release;

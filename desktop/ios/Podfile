@@ -3,12 +3,12 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'desktop' do
+target 'Serenity' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  target 'desktopTests' do
+  target 'SerenityTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -23,10 +23,10 @@ target 'desktop' do
   end
 end
 
-target 'desktop-tvOS' do
-  # Pods for desktop-tvOS
+target 'Serenity-tvOS' do
+  # Pods for Serenity-tvOS
 
-  target 'desktop-tvOSTests' do
+  target 'Serenity-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

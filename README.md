@@ -35,6 +35,15 @@ cd ..
 npx react-native run-macos
 ```
 
+## macOS Release
+
+Change build configuration to release https://reactnative.dev/docs/publishing-to-app-store#2-configure-release-scheme
+
+```sh
+cd desktop
+npx react-native run-macos --configuration Release
+```
+
 ## License
 
 Copyright 2021 Nikolaus Graf

@@ -1,5 +1,5 @@
 import { User } from "../types";
-import * as SecureStore from "expo-secure-store";
+import SecureStore from "../utils/secureStore";
 
 type UserSubscriptionCallback = (user?: User) => void;
 

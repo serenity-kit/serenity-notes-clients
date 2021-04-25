@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, View, FlatList, Text, Alert } from "react-native";
 import { ListItem } from "react-native-elements";
 import { v4 as uuidv4 } from "uuid";
-import * as Random from "expo-random";
 import formatDistanceToNow from "../../utils/formatDistanceToNow";
 import { Y } from "../../vendor/index.js";
 import * as repositoryStore from "../../utils/repositoryStore";
@@ -20,9 +19,6 @@ import OutlineButton from "../ui/OutlineButton";
 import ListItemDivider from "../ui/ListItemDivider";
 import DownloadArrow from "../ui/DownloadArrow";
 import UploadArrow from "../ui/UploadArrow";
-
-const getuuid = async () =>
-  uuidv4({ random: await Random.getRandomBytesAsync(16) });
 
 const styles = StyleSheet.create({
   container: {
@@ -104,7 +100,7 @@ export default function Notes({ navigation }) {
             return;
           }
 
-          const id = await getuuid();
+          const id = await uuidv4();
           const doc = new Y.Doc();
           const serializedYDoc = Y.encodeStateAsUpdate(doc);
 

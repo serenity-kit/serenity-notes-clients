@@ -20,7 +20,7 @@ import {
   generateSigningPublicKey,
   signDevice,
 } from "../../utils/signing";
-import getDeviceName from "../../utils/getDeviceName";
+import getDeviceName from "../../utils/getDeviceName/getDeviceName";
 import createUserMutation from "../../graphql/createUserMutation";
 import useDevice from "../../hooks/useDevice";
 import useUser from "../../hooks/useUser";

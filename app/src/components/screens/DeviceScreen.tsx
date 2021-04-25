@@ -1,8 +1,6 @@
 import React from "react";
 import { useClient } from "urql";
-import { ListItem, Icon } from "react-native-elements";
 import { Alert } from "react-native";
-import * as Updates from "expo-updates";
 import Spacer from "../ui/Spacer";
 import Text from "../ui/Text";
 import ListHeader from "../ui/ListHeader";
@@ -18,6 +16,7 @@ import { getIdentityKeys } from "../../utils/device";
 import wipeStores from "../../utils/wipeStores";
 import ListWrapper from "../ui/ListWrapper";
 import OutlineButton from "../ui/OutlineButton";
+import { reloadApp } from "../../utils/reloadApp";
 
 export default function DeviceScreen({ navigation, route }) {
   const { idKey } = route.params;
@@ -60,7 +59,7 @@ export default function DeviceScreen({ navigation, route }) {
       await deleteDevice(client, idKey, deviceResult.device);
       if (isCurrentDevice) {
         await wipeStores();
-        await Updates.reloadAsync();
+        await reloadApp();
       } else {
         await removeDeviceFromPrivateInfo();
         Alert.alert("Successfully deleted the device.");

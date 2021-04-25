@@ -11,6 +11,7 @@ npm i -g expo-cli
 
 cd editor
 yarn
+# builds a index.html and copies it to app and desktop assets
 yarn dist
 cd ..
 
@@ -30,6 +31,7 @@ cd desktop
 cd macos
 npx pod-install
 cd ..
+# replace the API_URL in .env.development with https://api.serenity.re/graphql
 npx react-native run-macos
 ```
 

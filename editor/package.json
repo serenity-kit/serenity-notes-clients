@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dist": "webpack --mode=production && cp dist/index.html ../app/assets/index.html",
+    "dist": "webpack --mode=production && cp dist/index.html ../app/src/assets/index.html && cp dist/index.html ../desktop/assets/index.html",
     "start": "webpack-dev-server"
   },
   "dependencies": {

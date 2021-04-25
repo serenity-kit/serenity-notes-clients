@@ -1,8 +1,8 @@
-import Constants from "expo-constants";
 import { createClient, fetchExchange } from "urql";
+import apiUrl from "./apiUrl/apiUrl";
 
 const client = createClient({
-  url: Constants.manifest.extra.apiUrl,
+  url: apiUrl,
   exchanges: [fetchExchange],
 });
 

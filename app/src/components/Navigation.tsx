@@ -3,7 +3,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, ThemeProvider } from "react-native-elements";
-import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import {
+  DefaultTheme,
+  Provider as PaperProvider,
+  configureFonts,
+} from "react-native-paper";
 import HomeScreen from "./screens/HomeScreen";
 import NoteScreen from "./screens/NoteScreen";
 import SettingsScreen from "./screens/SettingsScreen";
@@ -39,8 +43,30 @@ const theme = {
   },
 };
 
+const fontConfig = {
+  macos: {
+    regular: {
+      fontFamily: "System",
+      fontWeight: "400",
+    },
+    medium: {
+      fontFamily: "System",
+      fontWeight: "500",
+    },
+    light: {
+      fontFamily: "System",
+      fontWeight: "300",
+    },
+    thin: {
+      fontFamily: "System",
+      fontWeight: "100",
+    },
+  },
+};
+
 const nativePaperTheme = {
   ...DefaultTheme,
+  fonts: configureFonts(fontConfig),
   colors: {
     ...DefaultTheme.colors,
     primary: colors.text,

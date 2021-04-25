@@ -2,7 +2,6 @@ import React from "react";
 import { ListItem, Icon } from "react-native-elements";
 import { Alert, Linking } from "react-native";
 import { useClient } from "urql";
-import * as Updates from "expo-updates";
 import Spacer from "../ui/Spacer";
 import ListHeader from "../ui/ListHeader";
 import ListItemInfo from "../ui/ListItemInfo";
@@ -33,6 +32,7 @@ import {
   termsOfServiceLink,
 } from "../../utils/links";
 import ListItemExternalLink from "../ui/ListItemExternalLink";
+import { reloadApp } from "../../utils/reloadApp";
 
 export default function SettingsScreen({ navigation }) {
   const [processStep, setProcessStep] = React.useState<
@@ -304,7 +304,7 @@ export default function SettingsScreen({ navigation }) {
                     }
                     await deleteUser(client, deviceResult.device);
                     await wipeStores();
-                    await Updates.reloadAsync();
+                    await reloadApp();
                   } catch (err) {
                     Alert.alert(
                       "Error",
@@ -339,7 +339,7 @@ export default function SettingsScreen({ navigation }) {
                 style: "destructive",
                 onPress: async () => {
                   await wipeStores();
-                  await Updates.reloadAsync();
+                  await reloadApp();
                 },
               },
             ]

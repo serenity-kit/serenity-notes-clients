@@ -1,9 +1,8 @@
-import * as Random from "expo-random";
+import { v4 as uuidv4 } from "uuid";
 import claimOneTimeKeysMutation from "../../graphql/claimOneTimeKeysMutation";
 import { createAuthenticationToken } from "../device";
 import { verifyOneTimeKey } from "../../utils/signing";
 import { DeviceKeys } from "../../types";
-import { uInt8ArrayToBase64 } from "../base64";
 
 type OneTimeKeysWithDeviceIdKey = {
   oneTimeKey: { key: string; signature: string };
@@ -18,7 +17,7 @@ const claimOneTimeKeys = async (
   const deviceIdKeys = verifiedDevices.map(
     (targetDevice) => targetDevice.idKey
   );
-  const requestId = uInt8ArrayToBase64(await Random.getRandomBytesAsync(16));
+  const requestId = uuidv4();
   const result = await client
     .mutation(
       claimOneTimeKeysMutation,

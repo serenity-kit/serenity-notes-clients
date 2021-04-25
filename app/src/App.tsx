@@ -1,7 +1,6 @@
 import "react-native-get-random-values";
 import React from "react";
 import { Alert } from "react-native";
-import { StatusBar } from "expo-status-bar";
 import { Provider } from "urql";
 import { initOlm } from "./utils/device";
 import { unlockScreenOrientation } from "./utils/screenOrientation";
@@ -11,8 +10,13 @@ import { SyncInfoProvider } from "./context/SyncInfoContext";
 import * as mutationQueueStore from "./stores/mutationQueueStore";
 import { setRestoredMutations } from "./hooks/useSyncUtils/mutationQueue";
 import client from "./utils/urqlClient";
+import { EditorSourceContext } from "./context/EditorSourceContext";
 
-export default function App() {
+type Props = {
+  editorSource: any;
+};
+
+export default function App({ editorSource }: Props) {
   const [initialized, setInitialized] = React.useState(false);
   React.useEffect(() => {
     async function init() {
@@ -34,11 +38,12 @@ export default function App() {
   if (initialized === false) return null;
 
   return (
-    <Provider value={client}>
-      <StatusBar style="dark" />
-      <SyncInfoProvider>
-        <Navigation />
-      </SyncInfoProvider>
-    </Provider>
+    <EditorSourceContext.Provider value={editorSource}>
+      <Provider value={client}>
+        <SyncInfoProvider>
+          <Navigation />
+        </SyncInfoProvider>
+      </Provider>
+    </EditorSourceContext.Provider>
   );
 }

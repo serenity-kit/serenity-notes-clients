@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
-import { Asset } from "expo-asset";
 import { View, StyleSheet, Platform } from "react-native";
 import { IconButton } from "react-native-paper";
-import * as FileSystem from "expo-file-system";
 import { WebView } from "react-native-webview";
 import deepEqual from "fast-deep-equal/es6";
 import { Y } from "../../vendor/index.js";
@@ -18,17 +16,8 @@ import ServerSyncInfo from "../ui/ServerSyncInfo";
 import { Repository } from "../../types";
 import colors from "../../styles/colors";
 import * as mutationQueue from "../../hooks/useSyncUtils/mutationQueue";
-
-let source =
-  Platform.OS === "ios" ? require("../../assets/index.html") : { html: null };
-
-async function loadHtmlFileForAndroid() {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const indexHtml = Asset.fromModule(require("../../assets/index.html"));
-  await indexHtml.downloadAsync();
-  const html = await FileSystem.readAsStringAsync(indexHtml.localUri);
-  source = { html };
-}
+import { loadEditorSourceForAndroid } from "../../utils/editorSource/editorSource";
+import { useEditorSource } from "../../context/EditorSourceContext";
 
 const styles = StyleSheet.create({
   container: {
@@ -144,11 +133,12 @@ export default function NoteScreen({ route, navigation }) {
   const [, updateState] = React.useState();
   const [isDeleted, setIsDeleted] = React.useState(false);
   const forceUpdate = useCallback(() => updateState({}), []);
+  let editorSource = useEditorSource();
 
   useEffect(() => {
     const initDoc = async (id) => {
-      if (Platform.OS !== "ios") {
-        await loadHtmlFileForAndroid();
+      if (Platform.OS === "android") {
+        editorSource = await loadEditorSourceForAndroid();
       }
       const newYDoc = new Y.Doc();
       yDocRef.current = newYDoc;
@@ -222,7 +212,7 @@ export default function NoteScreen({ route, navigation }) {
       <WebView
         ref={webViewRef}
         originWhitelist={["*"]}
-        source={source}
+        source={editorSource}
         startInLoadingState={true}
         // can be activated once there is `Done` button
         // hideKeyboardAccessoryView={true}

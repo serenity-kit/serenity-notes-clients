@@ -9,7 +9,6 @@ import { createAuthenticationToken } from "../utils/device";
 import { updateYDocWithContentEntries } from "../utils/updateYDocWithContentEntries";
 import { Y } from "../vendor/index.js";
 import * as repositoryStore from "../utils/repositoryStore";
-import * as Random from "expo-random";
 import { v4 as uuidv4 } from "uuid";
 import * as mutationQueue from "./useSyncUtils/mutationQueue";
 import useMyVerifiedDevices from "../hooks/useMyVerifiedDevices";
@@ -29,9 +28,6 @@ type RepositoryResultFromServer = {
 };
 
 let syncInProgress = false;
-
-const getuuid = async (): Promise<string> =>
-  uuidv4({ random: await Random.getRandomBytesAsync(16) });
 
 const fetchRepositories = async (
   client: any,
@@ -115,7 +111,7 @@ const fetchRepositories = async (
               });
             } else {
               // new repository coming from the server
-              const id = await getuuid();
+              const id = await uuidv4();
               const { updates, updatedAt } = await updateYDocWithContentEntries(
                 yDoc,
                 repo.content,

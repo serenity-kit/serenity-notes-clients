@@ -27,7 +27,7 @@ import ScrollScreenContainer from "../ui/ScrollScreenContainer";
 import fetchAddDeviceVerification from "../../utils/server/fetchAddDeviceVerification";
 import useMyVerifiedDevices from "../../hooks/useMyVerifiedDevices";
 import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
-import getDeviceName from "../../utils/getDeviceName";
+import getDeviceName from "../../utils/getDeviceName/getDeviceName";
 import { Y } from "../../vendor/index.js";
 import * as deviceLinkingIdentification from "../../utils/deviceLinkingIdentification";
 

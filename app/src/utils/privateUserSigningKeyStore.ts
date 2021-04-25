@@ -1,4 +1,4 @@
-import * as SecureStore from "expo-secure-store";
+import SecureStore from "../utils/secureStore";
 
 type PrivateUserSigningKeySubscriptionCallback = (
   privateUserSigningKey?: string

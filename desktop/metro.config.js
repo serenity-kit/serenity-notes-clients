@@ -13,7 +13,6 @@ module.exports = {
     //     inlineRequires: false,
     //   },
     // }),
-    assetPlugins: ["expo-asset/tools/hashAssetFiles"],
   },
   resolver: {
     extraNodeModules: new Proxy(extraNodeModules, {

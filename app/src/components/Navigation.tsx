@@ -32,6 +32,7 @@ import useUser from "../hooks/useUser";
 import fetchAllLicenseTokens from "../utils/server/fetchAllLicenseTokens";
 import { useClient } from "urql";
 import colors from "../styles/colors";
+import GoodbyeScreen from "./screens/GoodbyeScreen";
 
 const RootStack = createStackNavigator();
 const Stack = createStackNavigator();
@@ -269,6 +270,11 @@ export default function Navigation() {
               <RootStack.Screen
                 name="Onboarding"
                 component={OnboardingScreen}
+                options={{ headerShown: false }}
+              />
+              <RootStack.Screen
+                name="Goodbye"
+                component={GoodbyeScreen}
                 options={{ headerShown: false }}
               />
               <RootStack.Screen

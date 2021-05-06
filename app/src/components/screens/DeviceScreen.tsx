@@ -16,7 +16,6 @@ import { getIdentityKeys } from "../../utils/device";
 import wipeStores from "../../utils/wipeStores";
 import ListWrapper from "../ui/ListWrapper";
 import OutlineButton from "../ui/OutlineButton";
-import { reloadApp } from "../../utils/reloadApp";
 
 export default function DeviceScreen({ navigation, route }) {
   const { idKey } = route.params;
@@ -59,7 +58,7 @@ export default function DeviceScreen({ navigation, route }) {
       await deleteDevice(client, idKey, deviceResult.device);
       if (isCurrentDevice) {
         await wipeStores();
-        await reloadApp();
+        navigation.navigate("Goodbye");
       } else {
         await removeDeviceFromPrivateInfo();
         Alert.alert("Successfully deleted the device.");

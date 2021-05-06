@@ -32,7 +32,6 @@ import {
   termsOfServiceLink,
 } from "../../utils/links";
 import ListItemExternalLink from "../ui/ListItemExternalLink";
-import { reloadApp } from "../../utils/reloadApp";
 
 export default function SettingsScreen({ navigation }) {
   const [processStep, setProcessStep] = React.useState<
@@ -304,7 +303,7 @@ export default function SettingsScreen({ navigation }) {
                     }
                     await deleteUser(client, deviceResult.device);
                     await wipeStores();
-                    await reloadApp();
+                    navigation.navigate("Goodbye");
                   } catch (err) {
                     Alert.alert(
                       "Error",
@@ -339,7 +338,7 @@ export default function SettingsScreen({ navigation }) {
                 style: "destructive",
                 onPress: async () => {
                   await wipeStores();
-                  await reloadApp();
+                  navigation.navigate("Goodbye");
                 },
               },
             ]

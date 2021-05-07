@@ -2,6 +2,8 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+
 import { Icon, ThemeProvider } from "react-native-elements";
 import {
   DefaultTheme,
@@ -33,10 +35,13 @@ import fetchAllLicenseTokens from "../utils/server/fetchAllLicenseTokens";
 import { useClient } from "urql";
 import colors from "../styles/colors";
 import GoodbyeScreen from "./screens/GoodbyeScreen";
+import { sizes } from "../styles/fonts";
+import { Platform } from "react-native";
 
 const RootStack = createStackNavigator();
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 const theme = {
   colors: {
@@ -83,6 +88,7 @@ const headerOptions = {
   headerStyle: {
     backgroundColor: colors.background,
     shadowColor: "transparent",
+    borderBottomWidth: 0,
     elevation: 0,
   },
 };
@@ -194,7 +200,7 @@ function MainApp() {
         },
       }}
     >
-      <Stack.Screen
+      <Tab.Screen
         name="Notes"
         component={Notes}
         options={{
@@ -204,7 +210,7 @@ function MainApp() {
           ),
         }}
       />
-      <Stack.Screen
+      <Tab.Screen
         name="Contacts"
         component={Contacts}
         options={{
@@ -214,7 +220,7 @@ function MainApp() {
           ),
         }}
       />
-      <Stack.Screen
+      <Tab.Screen
         name="Settings"
         component={Settings}
         options={{
@@ -225,6 +231,78 @@ function MainApp() {
         }}
       />
     </Tab.Navigator>
+  );
+}
+
+function MainAppMacos() {
+  return (
+    <Drawer.Navigator
+      drawerType="permanent"
+      drawerStyle={{
+        backgroundColor: colors.backgroundDesktopSidebar,
+        width: 200,
+      }}
+      drawerContentOptions={{
+        inactiveTintColor: colors.text,
+        activeTintColor: colors.primary,
+        activeBackgroundColor: colors.backgroundDesktopSidebar,
+        labelStyle: {
+          fontSize: sizes.medium,
+          marginTop: 3,
+          marginBottom: 5,
+          marginLeft: -10,
+        },
+      }}
+    >
+      <Drawer.Screen
+        name="Notes"
+        component={Notes}
+        options={{
+          drawerLabel: "Notes",
+          drawerIcon: ({ color, size }) => (
+            <Icon
+              name="edit"
+              type="feather"
+              color={color}
+              size={size}
+              style={{ marginLeft: 10, marginTop: 3, marginBottom: 5 }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Contacts"
+        component={Contacts}
+        options={{
+          drawerLabel: "Contacts",
+          drawerIcon: ({ color, size }) => (
+            <Icon
+              name="users"
+              type="feather"
+              color={color}
+              size={size}
+              style={{ marginLeft: 10, marginTop: 3, marginBottom: 5 }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          drawerLabel: "Settings",
+          drawerIcon: ({ color, size }) => (
+            <Icon
+              name="settings"
+              type="feather"
+              color={color}
+              size={size}
+              style={{ marginLeft: 10, marginTop: 3, marginBottom: 5 }}
+            />
+          ),
+        }}
+      />
+    </Drawer.Navigator>
   );
 }
 
@@ -284,7 +362,7 @@ export default function Navigation() {
               />
               <RootStack.Screen
                 name="MainApp"
-                component={MainApp}
+                component={Platform.OS === "macos" ? MainAppMacos : MainApp}
                 options={{ headerShown: false }}
               />
             </RootStack.Navigator>

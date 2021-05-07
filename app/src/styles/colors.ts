@@ -1,6 +1,7 @@
 export default {
   white: "#fff",
   background: "#f8f8f8",
+  backgroundDesktopSidebar: "#f1eeee",
   divider: "#e4e5ed",
   text: "#1F1F1F",
   textBright: "#4F5057",

@@ -21,7 +21,7 @@
     "react-native-dotenv": "^2.5.5",
     "react-native-elements": "^3.3.2",
     "react-native-get-random-values": "^1.7.0",
-    "react-native-macos": "^0.63.0-0",
+    "react-native-macos": "^0.63.28",
     "react-native-macos-sensitive-info": "^6.0.0-alpha.11",
     "react-native-paper": "^4.7.2",
     "react-native-safe-area-context": "^3.2.0",

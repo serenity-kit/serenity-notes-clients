@@ -145,7 +145,7 @@ export default function OnboardingScreen({ navigation }) {
           {/* avoid the text to jump left then right due the icon loading, by applying a fixed with */}
           <View style={{ width: 24 }}>
             {processState === "default" ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator color={colors.background} />
             ) : null}
             {processState === "createDeviceAndKeys" ? (
               <ActivityIndicator />
@@ -165,7 +165,7 @@ export default function OnboardingScreen({ navigation }) {
         <View style={styles.entry}>
           {processState === "default" ||
           processState === "createDeviceAndKeys" ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color={colors.background} />
           ) : null}
           {processState === "createUser" ? <ActivityIndicator /> : null}
           {processState === "ready" ? (

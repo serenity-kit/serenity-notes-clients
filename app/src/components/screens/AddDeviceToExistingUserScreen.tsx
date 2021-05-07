@@ -1,5 +1,5 @@
 import React from "react";
-import { Share, Alert, View } from "react-native";
+import { Alert, View } from "react-native";
 import { Divider } from "react-native-paper";
 import { useClient, useMutation } from "urql";
 import * as deviceStore from "../../utils/deviceStore";
@@ -30,6 +30,7 @@ import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
 import getDeviceName from "../../utils/getDeviceName/getDeviceName";
 import { Y } from "../../vendor/index.js";
 import * as deviceLinkingIdentification from "../../utils/deviceLinkingIdentification";
+import share from "../../utils/share/share";
 
 const generateVerficationMessage = async (
   device: Olm.Account,
@@ -120,9 +121,7 @@ export default function AddDeviceToExistingUserScreen({ navigation }) {
         iconType="share"
         disabled={processStep === "verifying"}
         onPress={async () => {
-          await Share.share({
-            message,
-          });
+          await share(message);
         }}
       >
         Share Device Identification

@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Share, View } from "react-native";
+import { Alert, View } from "react-native";
 import { Divider } from "react-native-paper";
 import { useClient } from "urql";
 import useDevice from "../../hooks/useDevice";
@@ -20,6 +20,7 @@ import ListItemLink from "../ui/ListItemLink";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
 import * as contactInvitationIdentification from "../../utils/contactInvitationIdentification";
 import ListWrapper from "../ui/ListWrapper";
+import share from "../../utils/share/share";
 
 export default function CreateContactInvitation({ navigation }) {
   const [processStep, setProcessStep] = React.useState<
@@ -143,9 +144,7 @@ export default function CreateContactInvitation({ navigation }) {
         align="center"
         iconType="share"
         onPress={async () => {
-          await Share.share({
-            message: invitationCode,
-          });
+          await share(invitationCode);
           setProcessStep("invitationCodeCopied");
         }}
         disabled={processStep !== "invitationCreated"}

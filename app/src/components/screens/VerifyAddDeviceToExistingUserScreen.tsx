@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Share, View } from "react-native";
+import { Alert, View } from "react-native";
 import { Divider } from "react-native-paper";
 import { useMutation, useClient } from "urql";
 import useDevice from "../../hooks/useDevice";
@@ -22,6 +22,7 @@ import * as privateInfoStore from "../../utils/privateInfoStore";
 import useMyVerifiedDevices from "../../hooks/useMyVerifiedDevices";
 import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
 import * as deviceLinkingIdentification from "../../utils/deviceLinkingIdentification";
+import share from "../../utils/share/share";
 
 export default function AddDeviceScreen({ navigation }) {
   const [processStep, setProcessStep] = React.useState<
@@ -230,9 +231,7 @@ export default function AddDeviceScreen({ navigation }) {
         align="center"
         iconType="share"
         onPress={async () => {
-          await Share.share({
-            message: `${serverSecret}${verificationCode2}`,
-          });
+          await share(`${serverSecret}${verificationCode2}`);
         }}
         disabled={processStep !== "copyVerificationCode"}
       >

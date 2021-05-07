@@ -1,7 +1,6 @@
 import React from "react";
 import { useMutation, useClient } from "urql";
 import { StyleSheet, View, Alert } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
 import * as privateUserSigningKeyStore from "../../utils/privateUserSigningKeyStore";
 import * as deviceStore from "../../utils/deviceStore";
 import * as userStore from "../../utils/userStore";
@@ -22,13 +21,11 @@ import {
 } from "../../utils/signing";
 import getDeviceName from "../../utils/getDeviceName/getDeviceName";
 import createUserMutation from "../../graphql/createUserMutation";
-import useDevice from "../../hooks/useDevice";
-import useUser from "../../hooks/useUser";
-import usePrivateUserSigningKey from "../../hooks/usePrivateUserSigningKey";
 import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
 import { Y } from "../../vendor/index.js";
 import { Icon } from "react-native-elements";
 import colors from "../../styles/colors";
+import ActivityIndicator from "../ui/ActivityIndicator";
 
 const styles = StyleSheet.create({
   container: {
@@ -148,10 +145,10 @@ export default function OnboardingScreen({ navigation }) {
           {/* avoid the text to jump left then right due the icon loading, by applying a fixed with */}
           <View style={{ width: 24 }}>
             {processState === "default" ? (
-              <ActivityIndicator size="small" color="#fff" />
+              <ActivityIndicator color="#fff" />
             ) : null}
             {processState === "createDeviceAndKeys" ? (
-              <ActivityIndicator size="small" />
+              <ActivityIndicator />
             ) : null}
             {processState === "createUser" || processState === "ready" ? (
               <Icon
@@ -168,11 +165,9 @@ export default function OnboardingScreen({ navigation }) {
         <View style={styles.entry}>
           {processState === "default" ||
           processState === "createDeviceAndKeys" ? (
-            <ActivityIndicator size="small" color="#fff" />
+            <ActivityIndicator color="#fff" />
           ) : null}
-          {processState === "createUser" ? (
-            <ActivityIndicator size="small" />
-          ) : null}
+          {processState === "createUser" ? <ActivityIndicator /> : null}
           {processState === "ready" ? (
             <Icon name="check-circle" type="feather" color={"#000"} size={24} />
           ) : null}

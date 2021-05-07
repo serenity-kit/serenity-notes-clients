@@ -25,7 +25,7 @@ const LoadingView = (props: Props) => {
   return (
     <View style={[styles.loadingView, props.style]}>
       {showLoadingIndicator ? (
-        <ActivityIndicator color={colors.textBrightest} size="small" />
+        <ActivityIndicator color={colors.textBrightest} />
       ) : null}
     </View>
   );

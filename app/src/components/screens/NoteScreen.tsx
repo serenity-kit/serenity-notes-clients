@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
 import { View, StyleSheet, Platform } from "react-native";
-import { IconButton } from "react-native-paper";
+import { IconButton, TouchableRipple } from "react-native-paper";
 import { WebView } from "react-native-webview";
 import deepEqual from "fast-deep-equal/es6";
 import { Y } from "../../vendor/index.js";
@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    padding: 6, // same as react-native-paper's IconButton
   },
 });
 
@@ -76,29 +75,57 @@ const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
   }
   return (
     <View style={styles.headerRight}>
-      <View style={styles.syncInfo}>
-        <UploadArrow
-          animationActive={
-            uploadSyncState.state === "in-progress" ||
-            uploadSyncState.state === "retry-in-progress"
-          }
-          color={
-            uploadSyncState.state === "unknown"
-              ? "#aaa"
-              : uploadSyncState.state === "retry-in-progress"
-              ? colors.error
-              : colors.success
-          }
-        />
-        <DownloadArrow
-          // TODO show when a update decryption is in progress
-          animationActive={false}
-          color={failedDownload ? colors.error : colors.success}
-          style={{
-            marginLeft: 2,
-          }}
-        />
-      </View>
+      <TouchableRipple
+        borderless
+        centered
+        onPress={() => {
+          navigation.navigate("NoteSettings", {
+            id: repository.id,
+          });
+        }}
+        rippleColor={"rgba(68, 85, 207, 0.32)"}
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
+          margin: 6,
+          marginRight: 0,
+          width: 36,
+          height: 36,
+          borderRadius: 36 / 2,
+        }}
+        accessibilityRole="button"
+        hitSlop={
+          TouchableRipple.supported
+            ? { top: 10, left: 10, bottom: 10, right: 10 }
+            : { top: 6, left: 6, bottom: 6, right: 6 }
+        }
+      >
+        <View style={styles.syncInfo}>
+          <UploadArrow
+            animationActive={
+              uploadSyncState.state === "in-progress" ||
+              uploadSyncState.state === "retry-in-progress"
+            }
+            color={
+              uploadSyncState.state === "unknown"
+                ? "#aaa"
+                : uploadSyncState.state === "retry-in-progress"
+                ? colors.error
+                : colors.success
+            }
+          />
+          <DownloadArrow
+            // TODO show when a update decryption is in progress
+            animationActive={false}
+            color={failedDownload ? colors.error : colors.success}
+            style={{
+              marginLeft: 2,
+            }}
+          />
+        </View>
+      </TouchableRipple>
+
       <IconButton
         icon="account-multiple"
         color={colors.primary}

@@ -46,7 +46,7 @@ cd desktop
 yarn build-macos
 ```
 
-Locate the .app file in `~/Library/Developer/Xcode/DerivedData/<serenity>/Build/Products/Release` and package it as dmg.
+Locate the .app file in `~/Library/Developer/Xcode/DerivedData/<serenity>/Build/Products/Release` and package it as dmg: `yarn create-dmg Serenity\ Notes.app`
 
 ## License
 

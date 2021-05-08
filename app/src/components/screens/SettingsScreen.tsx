@@ -32,6 +32,8 @@ import {
   termsOfServiceLink,
 } from "../../utils/links";
 import ListItemExternalLink from "../ui/ListItemExternalLink";
+import apiUrl from "../../utils/apiUrl/apiUrl";
+import appVersion from "../../utils/appVersion/appVersion";
 
 export default function SettingsScreen({ navigation }) {
   const [processStep, setProcessStep] = React.useState<
@@ -236,7 +238,7 @@ export default function SettingsScreen({ navigation }) {
 
       <Spacer />
 
-      <ListHeader>Info</ListHeader>
+      <ListHeader>User Info</ListHeader>
       <ListWrapper>
         <ListItemInfo label="User ID">
           {userResult.type === "user"
@@ -275,6 +277,14 @@ export default function SettingsScreen({ navigation }) {
       >
         Privacy Policy
       </ListItemExternalLink>
+
+      <ListHeader>Debug Info</ListHeader>
+      <ListWrapper>
+        <ListItemInfo label="App Version">{appVersion}</ListItemInfo>
+        <ListItemInfo topDivider label="API Url">
+          {apiUrl}
+        </ListItemInfo>
+      </ListWrapper>
 
       <Spacer />
       <ListHeader>Advanced Actions</ListHeader>

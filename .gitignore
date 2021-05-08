@@ -3,4 +3,4 @@ dist
 .DS_Store
 
 # prosemirror output
-app/assets/index.html
+app/src/assets/index.html

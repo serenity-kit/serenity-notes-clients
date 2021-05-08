@@ -37,12 +37,16 @@ npx react-native run-macos
 
 ## macOS Release
 
+Bump version in app.json & in Xcode in Target `serenity-macOS`.
+
 Change build configuration to release https://reactnative.dev/docs/publishing-to-app-store#2-configure-release-scheme
 
 ```sh
 cd desktop
-npx react-native run-macos --configuration Release
+yarn build-macos
 ```
+
+Locate the .app file in `~/Library/Developer/Xcode/DerivedData/<serenity>/Build/Products/Release` and package it as dmg.
 
 ## License
 

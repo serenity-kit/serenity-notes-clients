@@ -1,10 +1,9 @@
 {
   "name": "desktop",
-  "version": "0.0.1",
   "private": true,
   "scripts": {
-    "ios": "react-native run-ios",
-    "start": "react-native start",
+    "dev-macos": "react-native run-macos",
+    "build-macos": "react-native run-macos --configuration Release",
     "test": "jest",
     "lint": "eslint ."
   },

@@ -4,3 +4,4 @@ dist
 
 # prosemirror output
 app/src/assets/index.html
+desktop/assets/index.html

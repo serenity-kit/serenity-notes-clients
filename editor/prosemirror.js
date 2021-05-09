@@ -59,6 +59,7 @@ window.addEventListener("load", () => {
     }
   });
 
+  let visualViewportListener = null;
   const editor = document.getElementById("editor");
   const editorToolbar = document.getElementById("editor-toolbar");
 
@@ -100,6 +101,21 @@ window.addEventListener("load", () => {
     handleClickOn,
     handleDOMEvents: {
       focus: (view, event) => {
+        const isVisualViewportSupported = "visualViewport" in window;
+        if (isVisualViewportSupported) {
+          // needed to make sure the selection is visible after the iOS/Android software keyboard became active
+          window.visualViewport.addEventListener(
+            "resize",
+            function scrollIntoView() {
+              view.dispatch(view.state.tr.scrollIntoView());
+            },
+            {
+              // no removeEventListener needed, see https://developers.google.com/web/updates/2016/10/addeventlistener-once
+              once: true,
+            }
+          );
+        }
+
         const proseMirror = document.getElementsByClassName("ProseMirror")[0];
         editorToolbar.style.height = "53px";
         proseMirror.style.height = "calc(100vh - 53px)";

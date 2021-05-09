@@ -10,7 +10,7 @@ npm-debug.*
 web-build/
 web-report/
 
-vendor
+src/vendor
 
 # macOS
 .DS_Store

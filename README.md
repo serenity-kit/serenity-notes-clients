@@ -1,4 +1,4 @@
-# Serenity Notes iOS/Android
+# Serenity Notes iOS/Android/macOS
 
 End-to-end encrypted collaborative notes app
 

@@ -244,7 +244,7 @@ export default function NoteScreen({ route, navigation }) {
         // can be activated once there is `Done` button
         // hideKeyboardAccessoryView={true}
         // to avoid weird scrolling behaviour when the keyboard becomes active
-        scrollEnabled={false}
+        scrollEnabled={Platform.OS === "macos" ? true : false}
         renderLoading={() => (
           <View style={styles.container}>
             <Spacer />

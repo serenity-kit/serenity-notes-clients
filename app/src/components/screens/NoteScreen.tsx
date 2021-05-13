@@ -151,6 +151,8 @@ const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
   );
 };
 
+let androidEditorSource = { html: null };
+
 export default function NoteScreen({ route, navigation }) {
   const { id, isNew } = route.params;
   const yDocRef = useRef(null);
@@ -160,12 +162,12 @@ export default function NoteScreen({ route, navigation }) {
   const [, updateState] = React.useState();
   const [isDeleted, setIsDeleted] = React.useState(false);
   const forceUpdate = useCallback(() => updateState({}), []);
-  let editorSource = useEditorSource();
+  const editorSource = useEditorSource();
 
   useEffect(() => {
     const initDoc = async (id) => {
       if (Platform.OS === "android") {
-        editorSource = await loadEditorSourceForAndroid();
+        androidEditorSource = await loadEditorSourceForAndroid();
       }
       const newYDoc = new Y.Doc();
       yDocRef.current = newYDoc;
@@ -239,7 +241,7 @@ export default function NoteScreen({ route, navigation }) {
       <WebView
         ref={webViewRef}
         originWhitelist={["*"]}
-        source={editorSource}
+        source={Platform.OS === "android" ? androidEditorSource : editorSource}
         startInLoadingState={true}
         // can be activated once there is `Done` button
         // hideKeyboardAccessoryView={true}

@@ -1,6 +1,5 @@
 import React from "react";
 import { useClient } from "urql";
-import { ListItem, Icon } from "react-native-elements";
 import { Alert } from "react-native";
 import ListHeader from "../ui/ListHeader";
 import ListItemInfo from "../ui/ListItemInfo";

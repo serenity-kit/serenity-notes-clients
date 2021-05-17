@@ -82,7 +82,7 @@ export default function DeviceScreen({ navigation, route }) {
     return (
       <ScrollScreenContainer horizontalPadding>
         <Spacer />
-        <Text>This note just has been deleted.</Text>
+        <Text>This device has been deleted.</Text>
       </ScrollScreenContainer>
     );
 

@@ -4,6 +4,8 @@ End-to-end encrypted collaborative notes app
 
 [https://www.serenity.re/en/notes](https://www.serenity.re/en/notes)
 
+Security & technical are documented at [https://www.serenity.re/en/notes/technical-documentation](https://www.serenity.re/en/notes/technical-documentation).
+
 ## Setup & Development
 
 ```sh

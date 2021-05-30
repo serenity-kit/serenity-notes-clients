@@ -31,6 +31,9 @@ function toggleChecklistItemAction(state, pos, checklistItemNode) {
   });
 }
 
+const isVisualViewportSupported = "visualViewport" in window;
+let scrollIntoView;
+
 window.addEventListener("load", () => {
   const ydoc = new Y.Doc();
   window.ydoc = ydoc;
@@ -102,16 +105,13 @@ window.addEventListener("load", () => {
         return false;
       },
       focus: (view) => {
-        const isVisualViewportSupported = "visualViewport" in window;
         if (isVisualViewportSupported) {
+          scrollIntoView = () => {
+            view.dispatch(view.state.tr.scrollIntoView());
+          };
           // needed to make sure the selection is visible after the
           // iOS/Android software keyboard became active
-          window.visualViewport.addEventListener(
-            "resize",
-            function scrollIntoView() {
-              view.dispatch(view.state.tr.scrollIntoView());
-            }
-          );
+          window.visualViewport.addEventListener("resize", scrollIntoView);
         }
 
         const proseMirror = document.getElementsByClassName("ProseMirror")[0];
@@ -119,6 +119,10 @@ window.addEventListener("load", () => {
         proseMirror.style.height = "calc(100vh - 53px)";
       },
       blur: () => {
+        if (isVisualViewportSupported) {
+          window.visualViewport.removeEventListener("resize", scrollIntoView);
+        }
+
         const proseMirror = document.getElementsByClassName("ProseMirror")[0];
         editorToolbar.style.height = "0px";
         proseMirror.style.height = "100vh";

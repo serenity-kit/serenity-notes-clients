@@ -8,10 +8,8 @@ import {
 import { EditorState, Plugin } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { schema } from "./schema";
-import { Schema } from "prosemirror-model";
 import { exampleSetup, buildMenuItems } from "prosemirror-example-setup";
 import { keymap } from "prosemirror-keymap";
-import Toolbar from "./components/Toolbar";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import {
   splitListItem,
@@ -33,16 +31,6 @@ function toggleChecklistItemAction(state, pos, checklistItemNode) {
   });
 }
 
-function handleClickOn(editorView, pos, node, nodePos, event) {
-  if (event.target.classList.contains("on-click-check")) {
-    event.preventDefault();
-    editorView.dispatch(
-      toggleChecklistItemAction(editorView.state, nodePos, node)
-    );
-    return true;
-  }
-}
-
 window.addEventListener("load", () => {
   const ydoc = new Y.Doc();
   window.ydoc = ydoc;
@@ -59,7 +47,6 @@ window.addEventListener("load", () => {
     }
   });
 
-  let visualViewportListener = null;
   const editor = document.getElementById("editor");
   const editorToolbar = document.getElementById("editor-toolbar");
 
@@ -98,20 +85,31 @@ window.addEventListener("load", () => {
         })
       ),
     }),
-    handleClickOn,
     handleDOMEvents: {
-      focus: (view, event) => {
+      // handling checklist touch with onmousedown to make sure
+      // preventDefault can prevent the focus event to happen
+      mousedown: (editorView, event) => {
+        if (event.target.classList.contains("on-click-check")) {
+          event.preventDefault();
+
+          const pos = editorView.posAtDOM(event.target);
+          const node = editorView.state.doc.resolve(pos).parent;
+          editorView.dispatch(
+            toggleChecklistItemAction(editorView.state, pos - 1, node)
+          );
+          return true;
+        }
+        return false;
+      },
+      focus: (view) => {
         const isVisualViewportSupported = "visualViewport" in window;
         if (isVisualViewportSupported) {
-          // needed to make sure the selection is visible after the iOS/Android software keyboard became active
+          // needed to make sure the selection is visible after the
+          // iOS/Android software keyboard became active
           window.visualViewport.addEventListener(
             "resize",
             function scrollIntoView() {
               view.dispatch(view.state.tr.scrollIntoView());
-            },
-            {
-              // no removeEventListener needed, see https://developers.google.com/web/updates/2016/10/addeventlistener-once
-              once: true,
             }
           );
         }
@@ -120,7 +118,7 @@ window.addEventListener("load", () => {
         editorToolbar.style.height = "53px";
         proseMirror.style.height = "calc(100vh - 53px)";
       },
-      blur: (view, event) => {
+      blur: () => {
         const proseMirror = document.getElementsByClassName("ProseMirror")[0];
         editorToolbar.style.height = "0px";
         proseMirror.style.height = "100vh";

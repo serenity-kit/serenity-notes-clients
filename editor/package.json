@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dist": "webpack --mode=production && cp dist/index.html ../app/src/assets/index.html && cp dist/index.html ../desktop/assets/index.html",
-    "start": "webpack-dev-server"
+    "dev": "webpack-dev-server"
   },
   "dependencies": {
     "prosemirror-commands": "^1.1.7",

@@ -273,6 +273,8 @@ export default function NoteScreen({ route, navigation }) {
         // Needed for .focus() to work
         keyboardDisplayRequiresUserAction={false}
         onLoad={() => {
+          // debug for the editor
+          // console.log(JSON.stringify(Array.apply([], contentRef.current)));
           if (isNew) {
             webViewRef.current.injectJavaScript(`
               document.querySelector(".ProseMirror").focus();

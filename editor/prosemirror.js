@@ -108,6 +108,12 @@ window.addEventListener("load", () => {
         if (isVisualViewportSupported) {
           scrollIntoView = () => {
             view.dispatch(view.state.tr.scrollIntoView());
+            // on iOS and possibly Android as well sometimes scrollIntoView
+            // doesn't work always directly, but it works every time with a
+            // delay
+            setTimeout(() => {
+              view.dispatch(view.state.tr.scrollIntoView());
+            }, 100);
           };
           // needed to make sure the selection is visible after the
           // iOS/Android software keyboard became active

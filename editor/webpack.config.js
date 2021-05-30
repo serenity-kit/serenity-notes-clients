@@ -18,6 +18,7 @@ module.exports = {
     contentBase: path.join(__dirname),
     compress: true,
     publicPath: "/",
+    disableHostCheck: true,
   },
   resolve: {
     extensions: [".js", ".jsx", ".json", ".ts", ".tsx"],

@@ -32,7 +32,6 @@ import {
   termsOfServiceLink,
 } from "../../utils/links";
 import ListItemExternalLink from "../ui/ListItemExternalLink";
-import apiUrl from "../../utils/apiUrl/apiUrl";
 import appVersion from "../../utils/appVersion/appVersion";
 
 export default function SettingsScreen({ navigation }) {
@@ -279,11 +278,17 @@ export default function SettingsScreen({ navigation }) {
       </ListItemExternalLink>
 
       <ListHeader>Debug Info</ListHeader>
+
       <ListWrapper>
         <ListItemInfo label="App Version">{appVersion}</ListItemInfo>
-        <ListItemInfo topDivider label="API Url">
-          {apiUrl}
-        </ListItemInfo>
+        <ListItemLink
+          topDivider
+          onPress={() => {
+            navigation.navigate("DebugScreen");
+          }}
+        >
+          Debug Info
+        </ListItemLink>
       </ListWrapper>
 
       <Spacer />

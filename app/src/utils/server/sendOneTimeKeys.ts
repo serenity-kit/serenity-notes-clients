@@ -1,5 +1,6 @@
 import { Alert } from "react-native";
 import sendOneTimeKeysMutation from "../../graphql/sendOneTimeKeysMutation";
+import { setDebugLog } from "../../stores/debugStore";
 import * as deviceStore from "../../utils/deviceStore";
 import {
   generateOneTimeKeysAndSaveDevice,
@@ -9,6 +10,11 @@ import {
 const sendOneTimeKeys = async (client: any, device: Olm.Account) => {
   // TODO check how many one time keys exists and do not generate new if there are plenty locally unpublished
   const oneTimeKeys = await generateOneTimeKeysAndSaveDevice(device, 5);
+  setDebugLog(
+    `sendOneTimeKeys: ${oneTimeKeys.map((oneTimeKey) => {
+      return `\n"${oneTimeKey.key}"`;
+    })}`
+  );
   const result = await client
     .mutation(
       sendOneTimeKeysMutation,

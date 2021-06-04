@@ -35,6 +35,7 @@ import fetchAllLicenseTokens from "../utils/server/fetchAllLicenseTokens";
 import { useClient } from "urql";
 import colors from "../styles/colors";
 import GoodbyeScreen from "./screens/GoodbyeScreen";
+import DebugScreen from "./screens/DebugScreen";
 import { sizes } from "../styles/fonts";
 import { Platform } from "react-native";
 
@@ -143,6 +144,11 @@ function Settings() {
         name="DeviceScreen"
         component={DeviceScreen}
         options={{ title: "Device" }}
+      />
+      <Stack.Screen
+        name="DebugScreen"
+        component={DebugScreen}
+        options={{ title: "Debug Info" }}
       />
     </Stack.Navigator>
   );

@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet, View, FlatList, Text, Alert } from "react-native";
-import { ListItem, Icon } from "react-native-elements";
+import { StyleSheet, View, FlatList, Alert } from "react-native";
 import { useClient } from "urql";
 import {
   createGroupSessionMessage,
@@ -21,6 +20,7 @@ import { DeviceKeys } from "../../types";
 import { verifyDevice } from "../../utils/signing";
 import colors from "../../styles/colors";
 import OutlineButton from "../ui/OutlineButton";
+import Text from "../ui/Text";
 
 const styles = StyleSheet.create({
   container: {
@@ -181,7 +181,7 @@ export default function AddCollaboratorToNoteScreen({ route, navigation }) {
 
       {contacts.length === 0 ? (
         <EmptyList iconName="users">
-          <Text style={{ fontSize: 18 }}>No Contacts.</Text>
+          <Text>No Contacts</Text>
         </EmptyList>
       ) : (
         <FlatList

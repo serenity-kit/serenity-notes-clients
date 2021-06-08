@@ -1,16 +1,19 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
 import { sizes } from "../../styles/fonts";
+import colors from "../../styles/colors";
 
 const styles = StyleSheet.create({
   textSmallBlack: {
     fontSize: sizes.small,
     lineHeight: sizes.small * 1.4,
+    color: colors.text,
   },
   textSmallBoldBlack: {
     fontSize: sizes.small,
     lineHeight: sizes.small * 1.4,
     fontWeight: "bold",
+    color: colors.text,
   },
   textSmallGrey: {
     fontSize: sizes.small,
@@ -26,11 +29,13 @@ const styles = StyleSheet.create({
   textMediumBlack: {
     fontSize: sizes.medium,
     lineHeight: sizes.medium * 1.4,
+    color: colors.text,
   },
   textMediumBoldBlack: {
     fontSize: sizes.medium,
     lineHeight: sizes.medium * 1.4,
     fontWeight: "bold",
+    color: colors.text,
   },
   textMediumGrey: {
     fontSize: sizes.medium,
@@ -46,11 +51,13 @@ const styles = StyleSheet.create({
   textLargeBlack: {
     fontSize: sizes.large,
     lineHeight: sizes.large * 1.4,
+    color: colors.text,
   },
   textLargeBoldBlack: {
     fontSize: sizes.large,
     lineHeight: sizes.large * 1.4,
     fontWeight: "bold",
+    color: colors.text,
   },
   textLargeGrey: {
     fontSize: sizes.large,

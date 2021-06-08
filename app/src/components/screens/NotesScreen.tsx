@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, FlatList, Text, Alert } from "react-native";
+import { StyleSheet, View, FlatList, Alert } from "react-native";
 import { ListItem } from "react-native-elements";
 import { v4 as uuidv4 } from "uuid";
 import formatDistanceToNow from "../../utils/formatDistanceToNow";
@@ -19,6 +19,7 @@ import OutlineButton from "../ui/OutlineButton";
 import ListItemDivider from "../ui/ListItemDivider";
 import DownloadArrow from "../ui/DownloadArrow";
 import UploadArrow from "../ui/UploadArrow";
+import Text from "../ui/Text";
 
 const styles = StyleSheet.create({
   container: {
@@ -120,7 +121,7 @@ export default function Notes({ navigation }) {
 
       {notesList.length === 0 ? (
         <EmptyList iconName="edit">
-          <Text style={{ fontSize: 18 }}>Empty in Notes</Text>
+          <Text>Empty in Notes</Text>
         </EmptyList>
       ) : (
         <>

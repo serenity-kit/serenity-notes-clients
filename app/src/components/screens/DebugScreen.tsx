@@ -1,12 +1,15 @@
 import React from "react";
 import { StyleSheet, View, FlatList, Text as RawText } from "react-native";
 import colors from "../../styles/colors";
-import ListItemInfo from "../ui/ListItemInfo";
 import ListWrapper from "../ui/ListWrapper";
+import ListItemToggle from "../ui/ListItemToggle";
 import Text from "../ui/Text";
-import apiUrl from "../../utils/apiUrl/apiUrl";
 import { DebugEntry } from "../../types";
-import { getDebugLog } from "../../stores/debugStore";
+import {
+  getDebugLogActive,
+  setDebugLogActive,
+  getDebugLog,
+} from "../../stores/debugStore";
 
 const styles = StyleSheet.create({
   container: {
@@ -18,6 +21,9 @@ const styles = StyleSheet.create({
 
 export default function DebugScreen() {
   const [debugLog, setDebugLog] = React.useState<DebugEntry[]>([]);
+  const [debugLogActive, setDebugLogActiveLocal] = React.useState(() =>
+    getDebugLogActive()
+  );
 
   React.useEffect(() => {
     const fetchDebugLog = async () => {
@@ -31,7 +37,17 @@ export default function DebugScreen() {
   return (
     <View style={styles.container}>
       <ListWrapper>
-        <ListItemInfo label="API Url">{apiUrl}</ListItemInfo>
+        <ListItemToggle
+          value={debugLogActive}
+          onValueChange={() => {
+            setDebugLogActiveLocal((currentLogDebug) => {
+              setDebugLogActive(!currentLogDebug);
+              return !currentLogDebug;
+            });
+          }}
+        >
+          Log Debug Info
+        </ListItemToggle>
       </ListWrapper>
       <FlatList
         style={{

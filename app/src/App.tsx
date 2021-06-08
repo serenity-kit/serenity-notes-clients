@@ -6,6 +6,7 @@ import { initOlm } from "./utils/device";
 import { unlockScreenOrientation } from "./utils/screenOrientation";
 import Navigation from "./components/Navigation";
 import { initDeviceStore } from "./utils/deviceStore";
+import { initDebugStore } from "./stores/debugStore";
 import { SyncInfoProvider } from "./context/SyncInfoContext";
 import * as mutationQueueStore from "./stores/mutationQueueStore";
 import { setRestoredMutations } from "./hooks/useSyncUtils/mutationQueue";
@@ -22,6 +23,7 @@ export default function App({ editorSource }: Props) {
     async function init() {
       try {
         await initOlm();
+        await initDebugStore();
         await initDeviceStore();
         await unlockScreenOrientation();
         const existingMutations = await mutationQueueStore.getMutationQueue();

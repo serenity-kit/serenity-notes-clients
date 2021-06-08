@@ -148,7 +148,7 @@ function Settings() {
       <Stack.Screen
         name="DebugScreen"
         component={DebugScreen}
-        options={{ title: "Debug Info" }}
+        options={{ title: "Debug Log" }}
       />
     </Stack.Navigator>
   );

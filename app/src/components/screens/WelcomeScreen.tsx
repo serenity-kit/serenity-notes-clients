@@ -97,7 +97,7 @@ export default function WelcomeScreen({ navigation }) {
           <Text size="s">
             By signing in you accept our{" "}
             <ReactNativeText
-              style={{ textDecorationLine: "underline" }}
+              style={{ textDecorationLine: "underline", color: colors.text }}
               onPress={() => {
                 Linking.openURL(termsOfServiceLink);
               }}
@@ -108,6 +108,7 @@ export default function WelcomeScreen({ navigation }) {
             <ReactNativeText
               style={{
                 textDecorationLine: "underline",
+                color: colors.text,
               }}
               onPress={() => {
                 Linking.openURL(privacyPolicyLink);

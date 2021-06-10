@@ -1,14 +1,19 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DebugEntryType, DebugEntry } from "../types";
+import { debounce } from "../utils/debounce";
 
 let debugLogActive = false;
+let debugLog: DebugEntry[] = [];
 
 export const initDebugStore = async () => {
-  const storeResult = await AsyncStorage.getItem("debugLogActive");
+  const serializedDebugLogActive = await AsyncStorage.getItem("debugLogActive");
   debugLogActive =
-    storeResult !== null && storeResult === "true"
-      ? Boolean(storeResult)
+    serializedDebugLogActive !== null && serializedDebugLogActive === "true"
+      ? Boolean(serializedDebugLogActive)
       : false;
+
+  const serializedDebugLog = await AsyncStorage.getItem("debugLog");
+  debugLog = !serializedDebugLog ? [] : JSON.parse(serializedDebugLog);
 };
 
 export const getDebugLogActive = () => {
@@ -20,18 +25,18 @@ export const setDebugLogActive = async (value: boolean) => {
   return await AsyncStorage.setItem("debugLogActive", value ? "true" : "false");
 };
 
-export const getDebugLog = async (): Promise<DebugEntry[]> => {
-  const debugInfoString = await AsyncStorage.getItem("debugLog");
-  if (!debugInfoString) return [];
-  return JSON.parse(debugInfoString);
+export const getDebugLog = () => {
+  return debugLog;
 };
 
-export const setDebugLog = async (
-  content: string,
-  type: DebugEntryType = "info"
-) => {
-  // TODO have a queue that collects writes and writes them whenever possibles
-  const debugLog = await getDebugLog();
+const debouncedPersistDebugLog = debounce(() => {
+  AsyncStorage.setItem("debugLog", JSON.stringify(debugLog));
+}, 2000);
+
+export const setDebugLog = (content: string, type: DebugEntryType = "info") => {
+  if (!debugLogActive) {
+    return;
+  }
   debugLog.push({
     content,
     createdAt: new Date().toISOString(),
@@ -40,5 +45,5 @@ export const setDebugLog = async (
   if (debugLog.length > 2500) {
     debugLog.pop();
   }
-  await AsyncStorage.setItem("debugLog", JSON.stringify(debugLog));
+  debouncedPersistDebugLog();
 };

@@ -10,6 +10,8 @@ import {
   setDebugLogActive,
   getDebugLog,
 } from "../../stores/debugStore";
+import { Clipboard, Alert } from "react-native";
+import { ListItem, Icon } from "react-native-elements";
 
 const styles = StyleSheet.create({
   container: {
@@ -49,6 +51,20 @@ export default function DebugScreen() {
           Log Debug Info
         </ListItemToggle>
       </ListWrapper>
+      <ListWrapper style={{ marginTop: 10 }}>
+        <ListItem
+          underlayColor={colors.underlay}
+          onPress={async () => {
+            await Clipboard.setString(JSON.stringify(debugLog));
+            Alert.alert("Copied to Clipboard");
+          }}
+        >
+          <Icon name="copy" type="feather" color={colors.primary} />
+          <ListItem.Content>
+            <ListItem.Title>Copy raw debug log</ListItem.Title>
+          </ListItem.Content>
+        </ListItem>
+      </ListWrapper>
       <FlatList
         style={{
           backgroundColor: colors.background,
@@ -58,12 +74,10 @@ export default function DebugScreen() {
           borderRadius: 6,
         }}
         data={debugLog}
+        keyExtractor={(item) => item.createdAt}
         renderItem={({ item }: { item: DebugEntry }) => {
           return (
-            <View
-              key={item.createdAt}
-              style={{ backgroundColor: colors.white, padding: 10 }}
-            >
+            <View style={{ backgroundColor: colors.white, padding: 10 }}>
               <Text size="s">
                 {}
                 {item.createdAt}

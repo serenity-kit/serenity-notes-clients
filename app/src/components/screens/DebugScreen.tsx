@@ -21,20 +21,26 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function DebugScreen() {
+export default function DebugScreen({ navigation }) {
   const [debugLog, setDebugLog] = React.useState<DebugEntry[]>([]);
   const [debugLogActive, setDebugLogActiveLocal] = React.useState(() =>
     getDebugLogActive()
   );
 
-  React.useEffect(() => {
-    const fetchDebugLog = async () => {
-      const log = await getDebugLog();
-      setDebugLog(log.reverse());
-    };
+  const fetchDebugLog = async () => {
+    const log = getDebugLog();
+    setDebugLog([...log.reverse()]);
+  };
 
-    fetchDebugLog();
-  }, []);
+  React.useEffect(() => {
+    const unsubscribeNavigationFocus = navigation.addListener("focus", () => {
+      fetchDebugLog();
+    });
+
+    return () => {
+      unsubscribeNavigationFocus();
+    };
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

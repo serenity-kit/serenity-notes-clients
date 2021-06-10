@@ -33,7 +33,10 @@ const debouncedPersistDebugLog = debounce(() => {
   AsyncStorage.setItem("debugLog", JSON.stringify(debugLog));
 }, 2000);
 
-export const setDebugLog = (content: string, type: DebugEntryType = "info") => {
+export const addDebugLogEntry = (
+  content: string,
+  type: DebugEntryType = "info"
+) => {
   if (!debugLogActive) {
     return;
   }

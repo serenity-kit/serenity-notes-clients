@@ -80,3 +80,11 @@ export type LicenseToken = {
   isActive: boolean;
   subscriptionPlan: string;
 };
+
+export type DebugEntryType = "info" | "error";
+
+export type DebugEntry = {
+  createdAt: string;
+  content: string;
+  type: DebugEntryType;
+};

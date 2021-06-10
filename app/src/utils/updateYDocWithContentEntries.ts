@@ -10,6 +10,7 @@ import * as privateInfoStore from "./privateInfoStore";
 import * as privateUserSigningKeyStore from "./privateUserSigningKeyStore";
 import * as userStore from "./userStore";
 import removeOneTimeKey from "./device/removeOneTimeKey";
+import { addDebugLogEntry } from "../stores/debugStore";
 
 export const extractOneTimeKeyFromMessage = (message) => {
   return message.slice(4, 47);
@@ -65,6 +66,7 @@ export const updateYDocWithContentEntries = async (
   // break decrypting/affecting all others.
   for (const contentEntry of validContentEntries) {
     try {
+      addDebugLogEntry(`Note update | start: ${JSON.stringify(contentEntry)}`);
       // initial value which is used in case there is no existing inboundGroupSession
       let currentMessageIndex = -1;
       const inboundGroupSessions = await repositoryInboundGroupSessionsStore.getRepositoryInboundGroupSesssions(
@@ -80,6 +82,7 @@ export const updateYDocWithContentEntries = async (
         throw new Error("The device idKey or signingKey don't match");
       }
 
+      addDebugLogEntry("Note update | verify package");
       const olmUtility = new Olm.Utility();
       // throws an error if the verification fails
       olmUtility.ed25519_verify(
@@ -98,6 +101,7 @@ export const updateYDocWithContentEntries = async (
         inboundGroupSessions[receivedPacket.senderIdKey].sessionId ===
           receivedPacket.sessionId
       ) {
+        addDebugLogEntry("Note update | restore existing inboundGroupSessions");
         inboundSession.unpickle(
           deviceStore.pickleKey,
           inboundGroupSessions[receivedPacket.senderIdKey].pickledSession
@@ -105,6 +109,7 @@ export const updateYDocWithContentEntries = async (
         currentMessageIndex =
           inboundGroupSessions[receivedPacket.senderIdKey].messageIndex;
       } else {
+        addDebugLogEntry("Note update | create new inboundGroupSessions");
         const device = await deviceStore.getDevice();
         const session = new Olm.Session();
         session.create_inbound(device, contentEntry.groupSessionMessage.body);
@@ -136,6 +141,7 @@ export const updateYDocWithContentEntries = async (
         );
       }
 
+      addDebugLogEntry("Note update | decrypt");
       const decryptedResult = inboundSession.decrypt(receivedPacket.body);
       if (decryptedResult.message_index <= currentMessageIndex) {
         throw new Error("Possible replay attack due incorrect message index.");
@@ -192,6 +198,7 @@ export const updateYDocWithContentEntries = async (
         }
       }
 
+      addDebugLogEntry("Note update | success");
       updates.push({
         type: "success",
         contentId: contentEntry.id,
@@ -200,6 +207,7 @@ export const updateYDocWithContentEntries = async (
       });
     } catch (err) {
       console.error("Failed to decrypt a repository update:", err);
+      addDebugLogEntry(`Note update failed: ${err}`, "error");
       const receivedPacket = JSON.parse(contentEntry.encryptedContent);
       updates.push({
         type: "failed",

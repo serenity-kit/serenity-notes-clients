@@ -32,8 +32,8 @@ import {
   termsOfServiceLink,
 } from "../../utils/links";
 import ListItemExternalLink from "../ui/ListItemExternalLink";
-import apiUrl from "../../utils/apiUrl/apiUrl";
 import appVersion from "../../utils/appVersion/appVersion";
+import apiUrl from "../../utils/apiUrl/apiUrl";
 
 export default function SettingsScreen({ navigation }) {
   const [processStep, setProcessStep] = React.useState<
@@ -279,11 +279,20 @@ export default function SettingsScreen({ navigation }) {
       </ListItemExternalLink>
 
       <ListHeader>Debug Info</ListHeader>
+
       <ListWrapper>
         <ListItemInfo label="App Version">{appVersion}</ListItemInfo>
         <ListItemInfo topDivider label="API Url">
           {apiUrl}
         </ListItemInfo>
+        <ListItemLink
+          topDivider
+          onPress={() => {
+            navigation.navigate("DebugScreen");
+          }}
+        >
+          Debug Log
+        </ListItemLink>
       </ListWrapper>
 
       <Spacer />

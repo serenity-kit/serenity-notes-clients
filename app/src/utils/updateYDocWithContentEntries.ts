@@ -11,6 +11,8 @@ import * as privateUserSigningKeyStore from "./privateUserSigningKeyStore";
 import * as userStore from "./userStore";
 import removeOneTimeKey from "./device/removeOneTimeKey";
 import { addDebugLogEntry } from "../stores/debugStore";
+import { verifySchemaVersion } from "../utils/signing";
+import schemaVersion from "../utils/schemaVersion/schemaVersion";
 
 export const extractOneTimeKeyFromMessage = (message) => {
   return message.slice(4, 47);
@@ -36,11 +38,31 @@ export const updateYDocWithContentEntries = async (
   // and verify that they are euqal. In case not add issues to updates.push
   const validContentEntries: any[] = await Promise.all(
     contentEntries.filter(async (contentEntry) => {
+      let validSchemaVersion = true;
+      // TODO eventually should become mandatory
+      if (contentEntry.schemaVersion && contentEntry.schemaVersionSignature) {
+        validSchemaVersion = verifySchemaVersion(
+          contentEntry.authorDevice.signingKey,
+          contentEntry.schemaVersion,
+          contentEntry.schemaVersionSignature
+        );
+      }
+
+      if (!validSchemaVersion) {
+        addDebugLogEntry(
+          `Note update | schemaVersionSignature invalid`,
+          "error"
+        );
+      }
+
       if (contentEntry.authorUserId === userId) {
-        // NOTE Possibly a cross-check with privateInfo's devices entry could be
-        // done, but to avoid issues with an outdated local version we rely
-        // on signing instead.
-        return verifyDevice(contentEntry.authorDevice, publicUserSigningKey);
+        // NOTE For verifyDevice possibly a cross-check with privateInfo's devices
+        // entry could be done, but to avoid issues with an outdated local version
+        // we rely on signing instead.
+        return (
+          validSchemaVersion &&
+          verifyDevice(contentEntry.authorDevice, publicUserSigningKey)
+        );
       } else {
         // First try to see if the contact already exists in the private info
         // and use it to verify the device.
@@ -49,17 +71,43 @@ export const updateYDocWithContentEntries = async (
         const yContact = yContacts.get(contentEntry.authorUserId);
         const contactSigningKey = yContact.get("userSigningKey");
         if (contactSigningKey) {
-          return verifyDevice(contentEntry.authorDevice, contactSigningKey);
+          return (
+            validSchemaVersion &&
+            verifyDevice(contentEntry.authorDevice, contactSigningKey)
+          );
         } else {
           const device = await deviceStore.getDevice();
           await fetchPrivateInfo(client, device);
           const contactSigningKey = yContact.get("userSigningKey");
           if (!contactSigningKey) return false;
-          return verifyDevice(contentEntry.authorDevice, contactSigningKey);
+          return (
+            validSchemaVersion &&
+            verifyDevice(contentEntry.authorDevice, contactSigningKey)
+          );
         }
       }
     })
   );
+
+  const contentEntryWithNewerSchemaVersion = validContentEntries.find(
+    (contentEntry) => {
+      // TODO eventually should become mandatory
+      if (contentEntry.schemaVersion && contentEntry.schemaVersionSignature) {
+        if (contentEntry.schemaVersion > schemaVersion) {
+          addDebugLogEntry("Note update | update has newer schemaVersion");
+          return true;
+        }
+        return false;
+      }
+      return false;
+    }
+  );
+
+  if (contentEntryWithNewerSchemaVersion) {
+    return {
+      notAppliedUpdatesIncludeNewerSchemaVersion: true,
+    };
+  }
 
   // Using a for loop to avoid persistDevice running in parallel and overwritting
   // each other. We run persistDevice rather early to avoid one broken message to

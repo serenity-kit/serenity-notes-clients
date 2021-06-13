@@ -54,6 +54,7 @@ type RepositoryInput = {
   id: string;
   content: Uint8Array;
   format: "yjs-13-base64";
+  notAppliedUpdatesIncludeNewerSchemaVersion?: boolean;
   serverId?: string;
   groupSession?: PickledGroupSession;
   groupSessionCreatedAt?: string;

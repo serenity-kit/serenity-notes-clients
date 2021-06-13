@@ -15,6 +15,7 @@ import verifiedDevicesForRepository from "./verifiedDevicesForRepository";
 import updateRepositoryContentMutation from "../../graphql/updateRepositoryContentMutation";
 import updateRepositoryContentAndGroupSessionMutation from "../../graphql/updateRepositoryContentAndGroupSessionMutation";
 import client from "../../utils/urqlClient";
+import schemaVersion from "../../utils/schemaVersion/schemaVersion";
 
 const updateRepository = async (
   repositoryId: string,
@@ -82,6 +83,10 @@ const updateRepository = async (
             repositoryId: repo.serverId,
             encryptedContent: encryptedContent,
             groupSessionMessageIds: repo.groupSessionMessageIds,
+            schemaVersion,
+            schemaVersionSignature: currentDevice.sign(
+              schemaVersion.toString()
+            ),
           },
         },
         {
@@ -141,6 +146,10 @@ const updateRepository = async (
             repositoryId: repo.serverId,
             encryptedContent: encryptedContent,
             groupSessionMessages,
+            schemaVersion,
+            schemaVersionSignature: currentDevice.sign(
+              schemaVersion.toString()
+            ),
           },
         },
         {

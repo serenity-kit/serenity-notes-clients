@@ -93,43 +93,76 @@ const fetchRepositories = async (
               });
               Y.applyUpdate(yDoc, localRepo.content);
 
-              const { updates, updatedAt } = await updateYDocWithContentEntries(
+              const {
+                updates,
+                updatedAt,
+                notAppliedUpdatesIncludeNewerSchemaVersion,
+              } = await updateYDocWithContentEntries(
                 yDoc,
                 contentEntries,
                 localRepo.id,
                 localRepo.updatedAt,
                 client
               );
-              await repositoryStore.setRepository({
-                ...localRepo,
-                lastContentUpdateIntegrityId: repo.lastContentUpdateIntegrityId,
-                content: Y.encodeStateAsUpdate(yDoc),
-                collaborators: repo.collaborators,
-                isCreator: repo.isCreator,
-                updates,
-                updatedAt,
-              });
+              if (notAppliedUpdatesIncludeNewerSchemaVersion) {
+                await repositoryStore.setRepository({
+                  ...localRepo,
+                  notAppliedUpdatesIncludeNewerSchemaVersion: true,
+                  collaborators: repo.collaborators,
+                  isCreator: repo.isCreator,
+                });
+              } else {
+                await repositoryStore.setRepository({
+                  ...localRepo,
+                  lastContentUpdateIntegrityId:
+                    repo.lastContentUpdateIntegrityId,
+                  content: Y.encodeStateAsUpdate(yDoc),
+                  collaborators: repo.collaborators,
+                  isCreator: repo.isCreator,
+                  updates,
+                  updatedAt,
+                  notAppliedUpdatesIncludeNewerSchemaVersion: false,
+                });
+              }
             } else {
               // new repository coming from the server
               const id = await uuidv4();
-              const { updates, updatedAt } = await updateYDocWithContentEntries(
+              const {
+                updates,
+                updatedAt,
+                notAppliedUpdatesIncludeNewerSchemaVersion,
+              } = await updateYDocWithContentEntries(
                 yDoc,
                 repo.content,
                 id,
                 undefined,
                 client
               );
-              await repositoryStore.setRepository({
-                id,
-                serverId: repo.id,
-                lastContentUpdateIntegrityId: repo.lastContentUpdateIntegrityId,
-                content: Y.encodeStateAsUpdate(yDoc),
-                format: "yjs-13-base64",
-                collaborators: repo.collaborators,
-                isCreator: repo.isCreator,
-                updates,
-                updatedAt,
-              });
+              if (notAppliedUpdatesIncludeNewerSchemaVersion) {
+                await repositoryStore.setRepository({
+                  id,
+                  serverId: repo.id,
+                  content: Y.encodeStateAsUpdate(yDoc),
+                  format: "yjs-13-base64",
+                  collaborators: repo.collaborators,
+                  isCreator: repo.isCreator,
+                  notAppliedUpdatesIncludeNewerSchemaVersion: true,
+                });
+              } else {
+                await repositoryStore.setRepository({
+                  id,
+                  serverId: repo.id,
+                  lastContentUpdateIntegrityId:
+                    repo.lastContentUpdateIntegrityId,
+                  content: Y.encodeStateAsUpdate(yDoc),
+                  format: "yjs-13-base64",
+                  collaborators: repo.collaborators,
+                  isCreator: repo.isCreator,
+                  updates,
+                  updatedAt,
+                  notAppliedUpdatesIncludeNewerSchemaVersion: false,
+                });
+              }
             }
           } catch (err) {
             console.warn("Failed to decrypt:", repo.id);

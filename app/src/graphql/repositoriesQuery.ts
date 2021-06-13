@@ -20,6 +20,8 @@ query repositoriesQuery($lastContentUpdateIntegrityIdsByRepository: [LastContent
           signingKey
           signatures
         }
+        schemaVersion
+        schemaVersionSignature
       }
       collaborators {
         id

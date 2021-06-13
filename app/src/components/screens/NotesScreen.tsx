@@ -20,6 +20,8 @@ import ListItemDivider from "../ui/ListItemDivider";
 import DownloadArrow from "../ui/DownloadArrow";
 import UploadArrow from "../ui/UploadArrow";
 import Text from "../ui/Text";
+import SchemaVerionUpdateHint from "../ui/SchemaVersionUpdateHint";
+import { Icon } from "react-native-elements";
 
 const styles = StyleSheet.create({
   container: {
@@ -77,9 +79,14 @@ export default function Notes({ navigation }) {
           })
       : [];
 
+  const outdatedSchema = notesList.some(
+    (note) => note.notAppliedUpdatesIncludeNewerSchemaVersion
+  );
+
   return (
     <View style={styles.container}>
       <ServerSyncInfo />
+      {outdatedSchema ? <SchemaVerionUpdateHint /> : null}
 
       <OutlineButton
         align="center"
@@ -263,6 +270,14 @@ export default function Notes({ navigation }) {
                         style={{
                           transform: [{ scale: 0.8 }],
                         }}
+                      />
+                    ) : null}
+                    {item.notAppliedUpdatesIncludeNewerSchemaVersion ? (
+                      <Icon
+                        name="alert-triangle"
+                        type="feather"
+                        color={colors.warning}
+                        size={16}
                       />
                     ) : null}
                     <ListItem.Subtitle

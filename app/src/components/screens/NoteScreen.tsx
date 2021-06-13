@@ -18,6 +18,7 @@ import colors from "../../styles/colors";
 import * as mutationQueue from "../../hooks/useSyncUtils/mutationQueue";
 import { loadEditorSourceForAndroid } from "../../utils/editorSource/editorSource";
 import { useEditorSource } from "../../context/EditorSourceContext";
+import SchemaVerionUpdateHint from "../ui/SchemaVersionUpdateHint";
 
 const styles = StyleSheet.create({
   container: {
@@ -161,6 +162,10 @@ export default function NoteScreen({ route, navigation }) {
   const webViewRef = useRef(null);
   const [, updateState] = React.useState();
   const [isDeleted, setIsDeleted] = React.useState(false);
+  const [
+    notAppliedUpdatesIncludeNewerSchemaVersion,
+    setNotAppliedUpdatesIncludeNewerSchemaVersion,
+  ] = React.useState(false);
   const forceUpdate = useCallback(() => updateState({}), []);
   const editorSource = useEditorSource();
 
@@ -173,6 +178,12 @@ export default function NoteScreen({ route, navigation }) {
       yDocRef.current = newYDoc;
       const repo = await repositoryStore.getRepository(id);
       if (repo) {
+        if (repo.notAppliedUpdatesIncludeNewerSchemaVersion) {
+          setNotAppliedUpdatesIncludeNewerSchemaVersion(true);
+        } else {
+          setNotAppliedUpdatesIncludeNewerSchemaVersion(false);
+        }
+
         Y.applyUpdate(yDocRef.current, repo.content);
         contentRef.current = repo.content;
         forceUpdate();
@@ -238,6 +249,9 @@ export default function NoteScreen({ route, navigation }) {
   return (
     <KeyboardAvoidContainer>
       <ServerSyncInfo />
+      {notAppliedUpdatesIncludeNewerSchemaVersion ? (
+        <SchemaVerionUpdateHint />
+      ) : null}
       <WebView
         ref={webViewRef}
         originWhitelist={["*"]}

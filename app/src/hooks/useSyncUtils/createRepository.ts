@@ -13,6 +13,7 @@ import { uInt8ArrayToBase64 } from "../../utils/base64";
 import createRepositoryMutation from "../../graphql/createRepositoryMutation";
 import fetchMyVerifiedDevices from "../../utils/server/fetchMyVerifiedDevices";
 import client from "../../utils/urqlClient";
+import schemaVersion from "../../utils/schemaVersion/schemaVersion";
 
 const createRepository = async (repositoryId: string) => {
   const currentDevice = deviceStore.getDevice();
@@ -55,6 +56,10 @@ const createRepository = async (repositoryId: string) => {
           content: {
             encryptedContent,
             groupSessionMessages,
+            schemaVersion,
+            schemaVersionSignature: currentDevice.sign(
+              schemaVersion.toString()
+            ),
           },
         },
       },

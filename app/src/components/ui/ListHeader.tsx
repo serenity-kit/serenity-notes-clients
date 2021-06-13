@@ -1,21 +1,23 @@
 import React from "react";
 import { ListItem } from "react-native-elements";
-import colors from "../../styles/colors";
+import useCurrentTheme from "../../hooks/useCurrentTheme";
 
 type Props = {
   children: React.ReactNode;
 };
 
 export default function ListHeader(props: Props) {
+  const theme = useCurrentTheme();
+
   return (
     <ListItem
       containerStyle={{
-        backgroundColor: colors.background,
+        backgroundColor: theme.colors.backdrop,
         paddingTop: 20,
       }}
     >
       <ListItem.Content>
-        <ListItem.Title style={{ fontWeight: "500" }}>
+        <ListItem.Title style={{ color: theme.colors.text, fontWeight: "500" }}>
           {props.children}
         </ListItem.Title>
       </ListItem.Content>

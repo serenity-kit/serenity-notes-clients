@@ -1,6 +1,7 @@
 import React from "react";
 import { Platform } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import { AppearanceProvider, useColorScheme } from "react-native-appearance";
+import { StatusBar, StatusBarStyle } from "expo-status-bar";
 import App from "./src/App";
 
 const editorSource =
@@ -9,10 +10,14 @@ const editorSource =
     : { html: null };
 
 export default function Root() {
+  const isDark = useColorScheme() === "dark";
+  const style: StatusBarStyle = isDark ? "light" : "dark";
   return (
-    <>
-      <StatusBar style="dark" />
-      <App editorSource={editorSource} />
-    </>
+    <AppearanceProvider>
+      <>
+        <StatusBar style={style} />
+        <App editorSource={editorSource} />
+      </>
+    </AppearanceProvider>
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { ListItem, Icon } from "react-native-elements";
+import useCurrentTheme from "../../hooks/useCurrentTheme";
 import colors from "../../styles/colors";
 
 type Props = {
@@ -10,10 +11,11 @@ type Props = {
 };
 
 export default function ListItemExternalLink(props: Props) {
+  const theme = useCurrentTheme();
   const style = props.style || {};
   return (
     <ListItem
-      underlayColor={colors.underlay}
+      underlayColor={theme.colors.onSurface}
       {...props}
       style={{
         marginLeft: 10,
@@ -23,21 +25,22 @@ export default function ListItemExternalLink(props: Props) {
       }}
       containerStyle={{
         borderRadius: 6,
-        borderColor: colors.divider,
+        borderColor: theme.colors.accent,
         borderWidth: StyleSheet.hairlineWidth,
+        backgroundColor: theme.colors.backdrop,
       }}
     >
-      <Icon name="external-link" type="feather" color={colors.primary} />
+      <Icon name="external-link" type="feather" color={theme.colors.primary} />
       <ListItem.Content>
         <ListItem.Title
           style={{
-            color: colors.primary,
+            color: theme.colors.primary,
           }}
         >
           {props.children}
         </ListItem.Title>
       </ListItem.Content>
-      <ListItem.Chevron color={colors.primary} />
+      <ListItem.Chevron color={theme.colors.primary} />
     </ListItem>
   );
 }

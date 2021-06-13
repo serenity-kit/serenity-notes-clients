@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
-import colors from "../../styles/colors";
+import useCurrentTheme from "../../hooks/useCurrentTheme";
 
 type ButtonProps = {
   iconType?: "plus" | "minus" | "share" | "verify";
@@ -17,8 +17,9 @@ type ButtonProps = {
 
 export default function MyButton(props: ButtonProps) {
   const style = props.style ? props.style : {};
+  const theme = useCurrentTheme();
   let icon = undefined;
-  let labelColor = props.secondary ? colors.textBright : colors.primary;
+  let labelColor = props.secondary ? theme.colors.accent : theme.colors.primary;
   if (props.iconType === "plus") {
     icon = ({ color }: { color: string; size: any }) => {
       return (
@@ -46,7 +47,7 @@ export default function MyButton(props: ButtonProps) {
         />
       );
     };
-    labelColor = colors.error;
+    labelColor = theme.colors.error;
   }
   if (props.iconType === "share") {
     icon = ({ color }: { color: string; size: any }) => {
@@ -82,7 +83,7 @@ export default function MyButton(props: ButtonProps) {
     <Button
       {...props}
       uppercase={false}
-      mode="outline"
+      mode="outlined"
       icon={icon}
       labelStyle={{
         fontSize: 16,
@@ -91,15 +92,15 @@ export default function MyButton(props: ButtonProps) {
       }}
       contentStyle={{
         height: 50,
-        backgroundColor: colors.white,
+        backgroundColor: theme.colors.backdrop,
         justifyContent: props.align === "center" ? "center" : "flex-start",
       }}
       style={{
-        backgroundColor: colors.white,
+        backgroundColor: theme.colors.backdrop,
         marginLeft: 10,
         marginRight: 10,
         borderRadius: 6,
-        borderColor: colors.divider,
+        borderColor: theme.colors.accent,
         borderWidth: StyleSheet.hairlineWidth,
         ...style,
       }}

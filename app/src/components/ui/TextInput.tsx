@@ -4,7 +4,7 @@ import {
   TextInputProps,
   StyleSheet,
 } from "react-native";
-import colors from "../../styles/colors";
+import useCurrentTheme from "../../hooks/useCurrentTheme";
 
 const styles = StyleSheet.create({
   textInput: {
@@ -12,11 +12,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 14,
     paddingBottom: 14,
-    backgroundColor: colors.white,
     lineHeight: 22,
     borderRadius: 6,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.divider,
   },
 });
 
@@ -26,15 +24,18 @@ type Props = TextInputProps & {
 };
 
 const TextInput = (props: Props) => {
+  const theme = useCurrentTheme();
   const style = {
     minHeight: props.minHeight ? props.minHeight : 0,
-    color: props.disabled ? colors.textBrightest : colors.text,
+    color: props.disabled ? theme.colors.accent : theme.colors.text,
+    backgroundColor: theme.colors.background,
+    borderColor: theme.colors.accent,
   };
   return (
     <NativeTextInput
-      selectionColor={colors.primary}
+      selectionColor={theme.colors.primary}
       placeholderTextColor={
-        props.disabled ? colors.divider : colors.textBrightest
+        props.disabled ? theme.colors.accent : theme.colors.placeholder
       }
       style={[styles.textInput, style]}
       multiline

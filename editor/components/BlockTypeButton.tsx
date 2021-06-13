@@ -4,6 +4,7 @@ import { EditorState } from "prosemirror-state";
 import { IconType } from "react-icons/lib";
 import { NodeType } from "prosemirror-model";
 import { setBlockType } from "prosemirror-commands";
+import { classNames } from "./classnames";
 
 type Attrs = {
   level?: 2;
@@ -48,7 +49,7 @@ export default function BlockTypeButton({
   const canDoCommand =
     !isActive({ state: editorView.state, nodeType, attrs }) &&
     command(editorView.state);
-
+  const cx = classNames("ToolbarIcon", canDoCommand && "enabled");
   return (
     <button
       title={title}
@@ -60,11 +61,10 @@ export default function BlockTypeButton({
         border: "0 solid transparent",
         fontSize: 24,
         borderRadius: 4,
-        background: "white",
-        color: canDoCommand ? "black" : "#ccc",
         padding: "0rem 0.3rem 0.2rem",
         marginRight: "0.1rem",
       }}
+      className={cx}
     >
       <Icon
         style={{

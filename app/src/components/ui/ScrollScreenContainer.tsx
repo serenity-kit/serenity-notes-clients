@@ -1,7 +1,7 @@
 import React from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import KeyboardAvoidContainer from "./KeyboardAvoidContainer";
-import colors from "../../styles/colors";
+import useCurrentTheme from "../../hooks/useCurrentTheme";
 
 type Props = {
   horizontalPadding?: boolean;
@@ -9,7 +9,6 @@ type Props = {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
     height: "100%",
   },
   scrollView: {
@@ -25,9 +24,12 @@ const ScrollScreenContainer: React.FC<Props> = ({
   horizontalPadding = false,
   children,
 }) => {
+  const theme = useCurrentTheme();
   return (
     <KeyboardAvoidContainer>
-      <View style={styles.container}>
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.backdrop }]}
+      >
         <ScrollView
           style={
             horizontalPadding ? styles.scrollView : styles.scrollViewNoPadding

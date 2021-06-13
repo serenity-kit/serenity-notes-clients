@@ -4,7 +4,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { sizes } from "../../styles/fonts";
 import { useSyncInfo } from "../../context/SyncInfoContext";
 import LoadingEllipsis from "./LoadingEllipsis";
-import colors from "../../styles/colors";
+import useCurrentTheme from "../../hooks/useCurrentTheme";
 
 const styles = StyleSheet.create({
   hint: {
@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
     padding: sizes.medium * 0.8,
   },
   hintWrapper: {
-    borderColor: colors.divider,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
@@ -27,7 +26,6 @@ const styles = StyleSheet.create({
     padding: sizes.medium * 0.8,
   },
   warningHintWrapper: {
-    borderColor: colors.divider,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
@@ -36,6 +34,8 @@ const styles = StyleSheet.create({
 const ServerSyncInfo: React.FC = () => {
   const { loadRepositoriesSyncState } = useSyncInfo();
   const [time, setTime] = React.useState(Date.now());
+
+  const theme = useCurrentTheme();
 
   React.useEffect(() => {
     const interval = setInterval(() => setTime(Date.now()), 1000);
@@ -59,7 +59,9 @@ const ServerSyncInfo: React.FC = () => {
               includeSeconds: true,
             });
       return (
-        <View style={styles.hintWrapper}>
+        <View
+          style={[styles.hintWrapper, { borderColor: theme.colors.accent }]}
+        >
           <Text style={styles.hint}>
             Last server sync was {timeDiff}. Syncing now <LoadingEllipsis />
           </Text>
@@ -71,7 +73,12 @@ const ServerSyncInfo: React.FC = () => {
   }
   if (!loadRepositoriesSyncState.lastSuccessDatetime) {
     return (
-      <View style={styles.warningHintWrapper}>
+      <View
+        style={[
+          styles.warningHintWrapper,
+          { borderColor: theme.colors.accent },
+        ]}
+      >
         <Text style={styles.warningHint}>
           Failed to sync with the server. Trying again <LoadingEllipsis />
         </Text>
@@ -91,7 +98,12 @@ const ServerSyncInfo: React.FC = () => {
             includeSeconds: true,
           });
     return (
-      <View style={styles.warningHintWrapper}>
+      <View
+        style={[
+          styles.warningHintWrapper,
+          { borderColor: theme.colors.accent },
+        ]}
+      >
         <Text style={styles.warningHint}>
           Failed to sync with the server since {timeDiff}. Trying again{" "}
           <LoadingEllipsis />

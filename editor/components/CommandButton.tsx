@@ -1,6 +1,7 @@
 import React from "react";
 import { EditorView } from "prosemirror-view";
 import { IconType } from "react-icons/lib";
+import { classNames } from "./classnames";
 
 type Props = {
   editorView: EditorView;
@@ -18,6 +19,8 @@ export default function CommandButton({
   const Icon = icon;
   const canDoCommand = command(editorView.state);
 
+  const cx = classNames("ToolbarIcon", canDoCommand && "enabled");
+
   return (
     <button
       title={title}
@@ -29,11 +32,10 @@ export default function CommandButton({
         border: "0 solid transparent",
         fontSize: 24,
         borderRadius: 4,
-        background: "white",
-        color: canDoCommand ? "black" : "#ccc",
         padding: "0rem 0.3rem 0.2rem",
         marginRight: "0.1rem",
       }}
+      className={cx}
     >
       <Icon
         style={{

@@ -1,15 +1,11 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, Theme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import { Icon, ThemeProvider } from "react-native-elements";
-import {
-  DefaultTheme,
-  Provider as PaperProvider,
-  configureFonts,
-} from "react-native-paper";
+import { Provider as PaperProvider } from "react-native-paper";
 import HomeScreen from "./screens/HomeScreen";
 import NoteScreen from "./screens/NoteScreen";
 import SettingsScreen from "./screens/SettingsScreen";
@@ -33,22 +29,30 @@ import useDevice from "../hooks/useDevice";
 import useUser from "../hooks/useUser";
 import fetchAllLicenseTokens from "../utils/server/fetchAllLicenseTokens";
 import { useClient } from "urql";
-import colors from "../styles/colors";
+import { legacyColors } from "../styles/legacyColors";
 import GoodbyeScreen from "./screens/GoodbyeScreen";
 import DebugScreen from "./screens/DebugScreen";
 import { sizes } from "../styles/fonts";
 import { Platform } from "react-native";
+import useCurrentTheme, { DerivedTheme } from "../hooks/useCurrentTheme";
+import { NoteStackParamsList } from "./NavigationTypes";
 
 const RootStack = createStackNavigator();
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<NoteStackParamsList>();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
-const theme = {
-  colors: {
-    primary: colors.text,
+const getHeaderOptions = (theme: DerivedTheme) => ({
+  headerTintColor: theme.colors.primary,
+  headerTitleStyle: {
+    color: theme.colors.text,
   },
-};
+  headerStyle: {
+    backgroundColor: theme.colors.background,
+    shadowColor: "transparent",
+    elevation: 0,
+  },
+});
 
 const fontConfig = {
   macos: {
@@ -71,30 +75,9 @@ const fontConfig = {
   },
 };
 
-const nativePaperTheme = {
-  ...DefaultTheme,
-  fonts: configureFonts(fontConfig),
-  colors: {
-    ...DefaultTheme.colors,
-    primary: colors.text,
-    accent: colors.textBrightest,
-  },
-};
-
-const headerOptions = {
-  headerTintColor: colors.primary,
-  headerTitleStyle: {
-    color: colors.text,
-  },
-  headerStyle: {
-    backgroundColor: colors.background,
-    shadowColor: "transparent",
-    borderBottomWidth: 0,
-    elevation: 0,
-  },
-};
-
 function Notes() {
+  const theme = useCurrentTheme();
+  const headerOptions = getHeaderOptions(theme);
   return (
     <Stack.Navigator screenOptions={headerOptions}>
       <Stack.Screen
@@ -123,6 +106,8 @@ function Notes() {
 }
 
 function Settings() {
+  const theme = useCurrentTheme();
+  const headerOptions = getHeaderOptions(theme);
   return (
     <Stack.Navigator screenOptions={headerOptions}>
       <Stack.Screen
@@ -155,6 +140,8 @@ function Settings() {
 }
 
 function Contacts() {
+  const theme = useCurrentTheme();
+  const headerOptions = getHeaderOptions(theme);
   return (
     <Stack.Navigator screenOptions={headerOptions}>
       <Stack.Screen
@@ -187,11 +174,13 @@ function Contacts() {
 }
 
 function MainApp() {
+  const theme = useCurrentTheme();
+
   return (
     <Tab.Navigator
       tabBarOptions={{
-        inactiveTintColor: colors.text,
-        activeTintColor: colors.primary,
+        inactiveTintColor: theme.colors.text,
+        activeTintColor: theme.colors.primary,
         style: {
           // // https://ethercreative.github.io/react-native-shadow-generator/
           shadowColor: "#000",
@@ -241,17 +230,18 @@ function MainApp() {
 }
 
 function MainAppMacos() {
+  const theme = useCurrentTheme();
   return (
     <Drawer.Navigator
       drawerType="permanent"
       drawerStyle={{
-        backgroundColor: colors.backgroundDesktopSidebar,
+        backgroundColor: legacyColors.backgroundDesktopSidebar,
         width: 200,
       }}
       drawerContentOptions={{
-        inactiveTintColor: colors.text,
-        activeTintColor: colors.primary,
-        activeBackgroundColor: colors.backgroundDesktopSidebar,
+        inactiveTintColor: theme.colors.text,
+        activeTintColor: theme.colors.primary,
+        activeBackgroundColor: legacyColors.backgroundDesktopSidebar,
         labelStyle: {
           fontSize: sizes.medium,
           marginTop: 3,
@@ -313,6 +303,7 @@ function MainAppMacos() {
 }
 
 export default function Navigation() {
+  const theme = useCurrentTheme();
   const deviceResult = useDevice();
   const userResult = useUser();
   const { encryptAndUploadAllRepositories } = useSync();
@@ -333,11 +324,13 @@ export default function Navigation() {
   if (deviceResult.type === "loading" || userResult.type === "loading")
     return null;
 
+  const headerOptions = getHeaderOptions(theme);
+
   return (
     <UtilsProvider value={{ encryptAndUploadAllRepositories }}>
-      <PaperProvider theme={nativePaperTheme}>
+      <PaperProvider theme={theme}>
         <ThemeProvider theme={theme}>
-          <NavigationContainer>
+          <NavigationContainer theme={(theme as any) as Theme}>
             <RootStack.Navigator
               screenOptions={headerOptions}
               initialRouteName={

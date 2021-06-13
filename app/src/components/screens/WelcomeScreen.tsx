@@ -11,11 +11,12 @@ import Text from "../ui/Text";
 import OutlineButton from "../ui/OutlineButton";
 import colors from "../../styles/colors";
 import { privacyPolicyLink, termsOfServiceLink } from "../../utils/links";
+import useCurrentTheme from "../../hooks/useCurrentTheme";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
     justifyContent: "flex-end",
     paddingHorizontal: 10,
     paddingVertical: 60,
@@ -36,9 +37,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function WelcomeScreen({ navigation }) {
+interface WelcomeScreenProps {
+  navigation: StackNavigationProp<undefined>;
+}
+
+export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
+  const theme = useCurrentTheme();
+  console.log(theme);
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.backdrop }]}
+    >
       <View style={styles.content}>
         <Image
           style={styles.logo}

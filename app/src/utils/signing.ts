@@ -94,3 +94,21 @@ export const signContactUserKey = (
     signature,
   });
 };
+
+export const verifySchemaVersion = (
+  deviceSigningKey: string,
+  schemaVersion: number,
+  signature: string
+) => {
+  const olmUtil = new Olm.Utility();
+  try {
+    olmUtil.ed25519_verify(
+      deviceSigningKey,
+      schemaVersion.toString(),
+      signature
+    );
+    return true;
+  } catch (err) {
+    return false;
+  }
+};

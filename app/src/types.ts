@@ -48,6 +48,7 @@ export type Repository = {
   updates?: RepositoryUpdate[];
   updatedAt?: string;
   lastContentUpdateIntegrityId?: string;
+  notAppliedUpdatesIncludeNewerSchemaVersion?: boolean;
 };
 
 export type RepositoryStoreEntry = {
@@ -63,6 +64,7 @@ export type RepositoryStoreEntry = {
   updates?: RepositoryUpdate[];
   lastContentUpdateIntegrityId?: string;
   updatedAt?: string;
+  notAppliedUpdatesIncludeNewerSchemaVersion?: boolean;
 };
 
 export type DeviceKeys = {

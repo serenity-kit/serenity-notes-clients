@@ -25,6 +25,7 @@ import OutlineButton from "../ui/OutlineButton";
 import colors from "../../styles/colors";
 import UploadArrow from "../ui/UploadArrow";
 import DownloadArrow from "../ui/DownloadArrow";
+import SchemaVerionUpdateHint from "../ui/SchemaVersionUpdateHint";
 
 type RepositoryCollaboratorWithMostRecentUpdate = RepositoryCollaborator & {
   mostRecentUpdate?: RepositoryUpdate;
@@ -134,6 +135,10 @@ export default function NoteSettingsScreen({ navigation, route }) {
   return (
     <ScrollScreenContainer>
       <ServerSyncInfo />
+      {repositoryResult.repository
+        .notAppliedUpdatesIncludeNewerSchemaVersion ? (
+        <SchemaVerionUpdateHint />
+      ) : null}
       <ListHeader>
         <UploadArrow
           animationActive={false}

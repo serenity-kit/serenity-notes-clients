@@ -26,11 +26,11 @@ import { Y } from "../../vendor/index.js";
 import { Icon } from "react-native-elements";
 import colors from "../../styles/colors";
 import ActivityIndicator from "../ui/ActivityIndicator";
+import useCurrentTheme from "../../hooks/useCurrentTheme";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
     justifyContent: "center",
     paddingHorizontal: 20,
     paddingVertical: 60,
@@ -57,6 +57,7 @@ export default function OnboardingScreen({ navigation }) {
   const [processState, setProcessState] = React.useState<
     "default" | "createDeviceAndKeys" | "createUser" | "ready" | "failed"
   >("default");
+  const theme = useCurrentTheme();
   const [, createUser] = useMutation(createUserMutation);
   const client = useClient();
 
@@ -116,7 +117,9 @@ export default function OnboardingScreen({ navigation }) {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.backdrop }]}
+    >
       <Spacer />
       <Spacer />
       <Spacer />
@@ -145,7 +148,7 @@ export default function OnboardingScreen({ navigation }) {
           {/* avoid the text to jump left then right due the icon loading, by applying a fixed with */}
           <View style={{ width: 24 }}>
             {processState === "default" ? (
-              <ActivityIndicator color={colors.background} />
+              <ActivityIndicator color={theme.colors.background} />
             ) : null}
             {processState === "createDeviceAndKeys" ? (
               <ActivityIndicator />
@@ -154,7 +157,7 @@ export default function OnboardingScreen({ navigation }) {
               <Icon
                 name="check-circle"
                 type="feather"
-                color={"#000"}
+                color={colors.success}
                 size={24}
               />
             ) : null}
@@ -169,7 +172,12 @@ export default function OnboardingScreen({ navigation }) {
           ) : null}
           {processState === "createUser" ? <ActivityIndicator /> : null}
           {processState === "ready" ? (
-            <Icon name="check-circle" type="feather" color={"#000"} size={24} />
+            <Icon
+              name="check-circle"
+              type="feather"
+              color={colors.success}
+              size={24}
+            />
           ) : null}
           <Text size="l">{"\xa0\xa0"} Setting up User Account</Text>
         </View>

@@ -891,6 +891,60 @@
         left: 4px;
         top: 12px;
       }
+
+      .ToolbarIcon {
+        background-color: white;
+        color: #ccc;
+      }
+
+      .ToolbarIcon.enabled {
+        color: black;
+      }
+
+      .ToolbarMark {
+        background-color: white;
+        color: black;
+      }
+
+      .ToolbarMark.enabled {
+        background-color: black;
+        color: white;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        #editor,
+        .editor {
+          background: black;
+          color: white;
+        }
+        #editor-toolbar {
+          background: #121212;
+          border-top: 1px solid #090909;
+        }
+
+        .ToolbarIcon {
+          background-color: transparent;
+          color: rgb(160, 160, 160);
+        }
+
+        .ToolbarIcon.enabled {
+          color: white;
+        }
+
+        .ToolbarMark {
+          background-color: transparent;
+          color: white !important;
+        }
+
+        .ToolbarMark svg {
+          fill: currentColor;
+        }
+
+        .ToolbarMark.enabled {
+          background-color: #4454cf;
+          color: white;
+        }
+      } 
     </style>
   </head>
   <body>

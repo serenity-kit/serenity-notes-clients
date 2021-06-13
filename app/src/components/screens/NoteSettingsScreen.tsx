@@ -1,36 +1,40 @@
 import React from "react";
+import { Alert } from "react-native";
 import { ListItem } from "react-native-elements";
 import { useClient } from "urql";
+import { NoteStackProps } from "../NavigationTypes";
+import useRepository from "../../hooks/useRepository";
+import useUser from "../../hooks/useUser";
+import useDevice from "../../hooks/useDevice";
+import usePrivateInfo from "../../hooks/usePrivateInfo";
+import useVerifiedDevicesForRepository from "../../hooks/useVerifiedDevicesForRepository";
+import useHasActiveLicense from "../../hooks/useHasActiveLicense";
+import { RepositoryUpdate, RepositoryCollaborator } from "../../types";
+import Text from "../ui/Text";
 import Spacer from "../ui/Spacer";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
 import ListHeader from "../ui/ListHeader";
 import ListItemInfo from "../ui/ListItemInfo";
-import useRepository from "../../hooks/useRepository";
-import useUser from "../../hooks/useUser";
-import useDevice from "../../hooks/useDevice";
-import { getIdentityKeys } from "../../utils/device";
-import deleteRepository from "../../utils/server/deleteRepository";
-import removeCollaboratorFromRepository from "../../utils/server/removeCollaboratorFromRepository";
-import { Alert } from "react-native";
-import * as repositoryStore from "../../utils/repositoryStore";
-import Text from "../ui/Text";
-import { RepositoryUpdate, RepositoryCollaborator } from "../../types";
-import usePrivateInfo from "../../hooks/usePrivateInfo";
-import useVerifiedDevicesForRepository from "../../hooks/useVerifiedDevicesForRepository";
 import ServerSyncInfo from "../ui/ServerSyncInfo";
-import useHasActiveLicense from "../../hooks/useHasActiveLicense";
 import ListWrapper from "../ui/ListWrapper";
 import ListItemDivider from "../ui/ListItemDivider";
 import OutlineButton from "../ui/OutlineButton";
-import colors from "../../styles/colors";
 import UploadArrow from "../ui/UploadArrow";
 import DownloadArrow from "../ui/DownloadArrow";
+import removeCollaboratorFromRepository from "../../utils/server/removeCollaboratorFromRepository";
+import * as repositoryStore from "../../utils/repositoryStore";
+import { getIdentityKeys } from "../../utils/device";
+import deleteRepository from "../../utils/server/deleteRepository";
+import colors from "../../styles/colors";
 
 type RepositoryCollaboratorWithMostRecentUpdate = RepositoryCollaborator & {
   mostRecentUpdate?: RepositoryUpdate;
 };
 
-export default function NoteSettingsScreen({ navigation, route }) {
+export default function NoteSettingsScreen({
+  navigation,
+  route,
+}: NoteStackProps<"NoteSettings">) {
   const repositoryResult = useRepository(route.params.id);
   const userResult = useUser();
   const deviceResult = useDevice();

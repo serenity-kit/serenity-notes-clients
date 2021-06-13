@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { ListItem, Icon } from "react-native-elements";
-import colors from "../../styles/colors";
+import useCurrentTheme from "../../hooks/useCurrentTheme";
 
 type Props = {
   children: string;
@@ -10,10 +10,11 @@ type Props = {
 };
 
 export default function ListItemButton(props: Props) {
+  const theme = useCurrentTheme();
   const style = props.style || {};
   return (
     <ListItem
-      underlayColor={colors.underlay}
+      underlayColor={theme.colors.onSurface}
       {...props}
       style={{
         marginLeft: 10,
@@ -23,26 +24,27 @@ export default function ListItemButton(props: Props) {
       }}
       containerStyle={{
         borderRadius: 6,
-        borderColor: colors.divider,
+        borderColor: theme.colors.accent,
         borderWidth: StyleSheet.hairlineWidth,
+        backgroundColor: theme.colors.background,
       }}
     >
       <Icon
         name="plus-circle"
         type="feather"
-        color={colors.primary}
+        color={theme.colors.primary}
         //   color={userResult.type === "user" ? "#000" : "#aaa"}
       />
       <ListItem.Content>
         <ListItem.Title
           style={{
-            color: colors.primary,
+            color: theme.colors.primary,
           }}
         >
           {props.children}
         </ListItem.Title>
       </ListItem.Content>
-      <ListItem.Chevron color={colors.primary} />
+      <ListItem.Chevron color={theme.colors.primary} />
     </ListItem>
   );
 }

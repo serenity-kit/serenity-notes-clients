@@ -14,8 +14,12 @@ import usePrivateInfo from "../../hooks/usePrivateInfo";
 import ServerSyncInfo from "../ui/ServerSyncInfo";
 import ListWrapper from "../ui/ListWrapper";
 import OutlineButton from "../ui/OutlineButton";
+import { NoteStackProps } from "../NavigationTypes";
 
-export default function NoteSettingsScreen({ navigation, route }) {
+export default function NoteCollaboratorScreen({
+  navigation,
+  route,
+}: NoteStackProps<"NoteCollaborator">) {
   const repositoryResult = useRepository(route.params.repositoryId);
   const userResult = useUser();
   const deviceResult = useDevice();

@@ -13,30 +13,33 @@ import EmptyList from "../ui/EmptyList";
 import ServerSyncInfo from "../ui/ServerSyncInfo";
 import useHasActiveLicense from "../../hooks/useHasActiveLicense";
 import useRepositoriesWithMutationRetries from "../../hooks/useRepositoriesWithMutationRetries";
-import colors from "../../styles/colors";
 import Spacer from "../ui/Spacer";
 import OutlineButton from "../ui/OutlineButton";
 import ListItemDivider from "../ui/ListItemDivider";
 import DownloadArrow from "../ui/DownloadArrow";
 import UploadArrow from "../ui/UploadArrow";
 import Text from "../ui/Text";
+import { NoteStackProps } from "../NavigationTypes";
+import useCurrentTheme from "../../hooks/useCurrentTheme";
+import { legacyColors } from "../../styles/legacyColors";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    backgroundColor: colors.background,
+    paddingTop: 16,
   },
   note: {
     padding: 10,
     fontSize: 16,
     height: 44,
-    borderBottomColor: colors.divider,
+    borderBottomColor: legacyColors.divider,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });
 
-export default function Notes({ navigation }) {
+export default function Notes({ navigation }: NoteStackProps<"Notes">) {
+  const theme = useCurrentTheme();
   const repositoriesState = useRepositories(navigation);
   const privateInfoResult = usePrivateInfo();
   const hasActiveLicenseResult = useHasActiveLicense();
@@ -78,7 +81,9 @@ export default function Notes({ navigation }) {
       : [];
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.backdrop }]}
+    >
       <ServerSyncInfo />
 
       <OutlineButton
@@ -127,22 +132,26 @@ export default function Notes({ navigation }) {
         <>
           <ListItem
             containerStyle={{
-              backgroundColor: colors.background,
+              backgroundColor: theme.colors.backdrop,
               paddingTop: 20,
             }}
           >
             <ListItem.Content>
-              <ListItem.Title style={{ fontWeight: "500" }}>
+              <ListItem.Title
+                style={{ fontWeight: "500", color: theme.colors.text }}
+              >
                 Notes
               </ListItem.Title>
             </ListItem.Content>
-            <ListItem.Subtitle style={{ fontSize: 12 }}>
+            <ListItem.Subtitle
+              style={{ color: theme.colors.text, opacity: 0.5, fontSize: 12 }}
+            >
               Sorted by last update
             </ListItem.Subtitle>
           </ListItem>
           <FlatList
             style={{
-              backgroundColor: colors.background,
+              backgroundColor: theme.colors.backdrop,
               marginLeft: 10,
               marginRight: 10,
             }}
@@ -181,7 +190,7 @@ export default function Notes({ navigation }) {
                 <React.Fragment key={item.id}>
                   {index === 0 ? null : <ListItemDivider />}
                   <ListItem
-                    underlayColor={colors.underlay}
+                    underlayColor={theme.colors.onSurface}
                     onPress={() => {
                       navigation.navigate("Note", {
                         id: item.id,
@@ -197,7 +206,7 @@ export default function Notes({ navigation }) {
                         index === notesList.length - 1 ? 6 : 0,
                     }}
                     containerStyle={{
-                      borderColor: colors.divider,
+                      backgroundColor: theme.colors.surface,
                       borderLeftWidth: StyleSheet.hairlineWidth,
                       borderRightWidth: StyleSheet.hairlineWidth,
                       borderTopLeftRadius: index === 0 ? 6 : 0,
@@ -215,13 +224,16 @@ export default function Notes({ navigation }) {
                     }}
                   >
                     <ListItem.Content>
-                      <ListItem.Title numberOfLines={1}>
+                      <ListItem.Title
+                        style={{ color: theme.colors.text }}
+                        numberOfLines={1}
+                      >
                         {item.name}
                       </ListItem.Title>
 
                       <ListItem.Subtitle
                         numberOfLines={1}
-                        style={{ fontSize: 12, color: "#8A8B96" }}
+                        style={{ fontSize: 12, color: theme.colors.accent }}
                       >
                         {names.length > 0
                           ? `Shared with ${names.join(", ")}`
@@ -233,14 +245,14 @@ export default function Notes({ navigation }) {
                       <>
                         <UploadArrow
                           animationActive={false}
-                          color={colors.error}
+                          color={theme.colors.error}
                           style={{
                             transform: [{ scale: 0.8 }],
                           }}
                         />
                         <DownloadArrow
                           animationActive={false}
-                          color={colors.error}
+                          color={theme.colors.error}
                           style={{
                             transform: [{ scale: 0.8 }],
                           }}
@@ -250,7 +262,7 @@ export default function Notes({ navigation }) {
                     {failedUpload && !failedToDecryptContent ? (
                       <UploadArrow
                         animationActive={false}
-                        color={colors.error}
+                        color={theme.colors.error}
                         style={{
                           transform: [{ scale: 0.8 }],
                         }}
@@ -259,21 +271,21 @@ export default function Notes({ navigation }) {
                     {!failedUpload && failedToDecryptContent ? (
                       <DownloadArrow
                         animationActive={false}
-                        color={colors.error}
+                        color={theme.colors.error}
                         style={{
                           transform: [{ scale: 0.8 }],
                         }}
                       />
                     ) : null}
                     <ListItem.Subtitle
-                      style={{ fontSize: 12, color: "#8A8B96" }}
+                      style={{ fontSize: 12, color: theme.colors.accent }}
                     >
                       {item.updatedAt
                         ? formatDistanceToNow(new Date(item.updatedAt))
                         : "-"}
                     </ListItem.Subtitle>
 
-                    <ListItem.Chevron color={colors.primary} />
+                    <ListItem.Chevron color={theme.colors.primary} />
                   </ListItem>
                 </React.Fragment>
               );

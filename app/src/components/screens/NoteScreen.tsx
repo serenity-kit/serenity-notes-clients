@@ -14,14 +14,17 @@ import UploadArrow from "../ui/UploadArrow";
 import DownloadArrow from "../ui/DownloadArrow";
 import ServerSyncInfo from "../ui/ServerSyncInfo";
 import { Repository } from "../../types";
-import colors from "../../styles/colors";
+import useCurrentTheme from "../../hooks/useCurrentTheme";
+
+import * as Colors from "../../styles/colors";
+
 import * as mutationQueue from "../../hooks/useSyncUtils/mutationQueue";
 import { loadEditorSourceForAndroid } from "../../utils/editorSource/editorSource";
 import { useEditorSource } from "../../context/EditorSourceContext";
+import { NoteStackProps } from "../NavigationTypes";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
     // changing it to flex: 1 leads to weird behaviour e.g. notes don't render at the top and it somehow flickers
     height: "100%",
   },
@@ -47,6 +50,8 @@ type HeaderRightProps = {
 };
 
 const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
+  const theme = useCurrentTheme();
+
   const [
     uploadSyncState,
     setUploadSyncState,
@@ -111,14 +116,14 @@ const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
               uploadSyncState.state === "unknown"
                 ? "#aaa"
                 : uploadSyncState.state === "retry-in-progress"
-                ? colors.error
-                : colors.success
+                ? theme.colors.error
+                : Colors.SUCCESS
             }
           />
           <DownloadArrow
             // TODO show when a update decryption is in progress
             animationActive={false}
-            color={failedDownload ? colors.error : colors.success}
+            color={failedDownload ? theme.colors.error : Colors.SUCCESS}
             style={{
               marginLeft: 2,
             }}
@@ -128,7 +133,7 @@ const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
 
       <IconButton
         icon="account-multiple"
-        color={colors.primary}
+        color={theme.colors.primary}
         onPress={() => {
           navigation.navigate("NoteSettings", {
             id: repository.id,
@@ -140,7 +145,7 @@ const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
       />
       <IconButton
         icon="dots-horizontal-circle-outline"
-        color={colors.primary}
+        color={theme.colors.primary}
         onPress={() => {
           navigation.navigate("NoteSettings", {
             id: repository.id,
@@ -153,13 +158,17 @@ const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
 
 let androidEditorSource = { html: null };
 
-export default function NoteScreen({ route, navigation }) {
+export default function NoteScreen({
+  route,
+  navigation,
+}: NoteStackProps<"Note">) {
   const { id, isNew } = route.params;
+  const theme = useCurrentTheme();
   const yDocRef = useRef(null);
   const contentRef = useRef(null);
   const initializedRef = useRef(false);
   const webViewRef = useRef(null);
-  const [, updateState] = React.useState();
+  const [, updateState] = React.useState<unknown>();
   const [isDeleted, setIsDeleted] = React.useState(false);
   const forceUpdate = useCallback(() => updateState({}), []);
   const editorSource = useEditorSource();
@@ -230,7 +239,7 @@ export default function NoteScreen({ route, navigation }) {
     return (
       <View style={styles.container}>
         <Spacer />
-        <LoadingView style={{ backgroundColor: colors.white }} />
+        <LoadingView style={{ backgroundColor: theme.colors.backdrop }} />
       </View>
     );
   }
@@ -250,7 +259,7 @@ export default function NoteScreen({ route, navigation }) {
         renderLoading={() => (
           <View style={styles.container}>
             <Spacer />
-            <LoadingView style={{ backgroundColor: colors.white }} />
+            <LoadingView style={{ backgroundColor: theme.colors.backdrop }} />
           </View>
         )}
         onMessage={async (event) => {

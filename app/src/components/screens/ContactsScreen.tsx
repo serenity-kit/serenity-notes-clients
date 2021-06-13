@@ -6,14 +6,14 @@ import usePrivateInfo from "../../hooks/usePrivateInfo";
 import useContactsAndContactInvitations from "../../hooks/useContactsAndContactInvitations";
 import ListItemButton from "../ui/ListItemButton";
 import ListItemLink from "../ui/ListItemLink";
-import colors from "../../styles/colors";
 import ListItemDivider from "../ui/ListItemDivider";
+import useCurrentTheme from "../../hooks/useCurrentTheme";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    backgroundColor: colors.background,
+    paddingTop: 16,
   },
   sectionTitle: {
     fontSize: 14,
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 });
 
 export default function ContactsScreen({ navigation }) {
+  const theme = useCurrentTheme();
   const deviceResult = useDevice();
   const privateInfoResult = usePrivateInfo();
   // also converts accepted contactInvitations to contacts
@@ -69,7 +70,9 @@ export default function ContactsScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.backdrop }]}
+    >
       <ListItemButton
         onPress={async () => {
           navigation.navigate("AcceptContactInvitationScreen");
@@ -113,14 +116,20 @@ export default function ContactsScreen({ navigation }) {
         renderSectionHeader={({ section: { title } }) => (
           <ListItem
             containerStyle={{
-              backgroundColor: colors.background,
+              backgroundColor: theme.colors.backdrop,
               paddingTop: 20,
               marginLeft: -10,
               marginRight: -10,
             }}
           >
             <ListItem.Content>
-              <ListItem.Title style={{ fontWeight: "500", paddingTop: 18 }}>
+              <ListItem.Title
+                style={{
+                  fontWeight: "500",
+                  paddingTop: 18,
+                  color: theme.colors.text,
+                }}
+              >
                 {title}
               </ListItem.Title>
             </ListItem.Content>
@@ -135,13 +144,14 @@ export default function ContactsScreen({ navigation }) {
                   borderRadius: 6,
                 }}
                 containerStyle={{
-                  borderColor: colors.divider,
+                  borderColor: theme.colors.accent,
                   borderWidth: StyleSheet.hairlineWidth,
                   borderRadius: 6,
+                  backgroundColor: theme.colors.background,
                 }}
               >
                 <ListItem.Content>
-                  <ListItem.Title style={{ color: colors.textBrightest }}>
+                  <ListItem.Title style={{ color: theme.colors.accent }}>
                     No confirmed contacts
                   </ListItem.Title>
                 </ListItem.Content>
@@ -155,13 +165,14 @@ export default function ContactsScreen({ navigation }) {
                   borderRadius: 6,
                 }}
                 containerStyle={{
-                  borderColor: colors.divider,
+                  backgroundColor: theme.colors.background,
+                  borderColor: theme.colors.accent,
                   borderWidth: StyleSheet.hairlineWidth,
                   borderRadius: 6,
                 }}
               >
                 <ListItem.Content>
-                  <ListItem.Title style={{ color: colors.textBrightest }}>
+                  <ListItem.Title style={{ color: theme.colors.accent }}>
                     No open invitations
                   </ListItem.Title>
                 </ListItem.Content>
@@ -182,7 +193,7 @@ export default function ContactsScreen({ navigation }) {
                       index === contactInvitations.length - 1 ? 6 : 0,
                   }}
                   containerStyle={{
-                    borderColor: colors.divider,
+                    borderColor: theme.colors.accent,
                     borderLeftWidth: StyleSheet.hairlineWidth,
                     borderRightWidth: StyleSheet.hairlineWidth,
                     borderTopLeftRadius: index === 0 ? 6 : 0,
@@ -209,7 +220,7 @@ export default function ContactsScreen({ navigation }) {
                     <Icon
                       name="alert-triangle"
                       type="feather"
-                      color={colors.error}
+                      color={theme.colors.error}
                       size={16}
                       style={{
                         display: "flex",
@@ -233,7 +244,7 @@ export default function ContactsScreen({ navigation }) {
                 borderBottomRightRadius: index === contacts.length - 1 ? 6 : 0,
               }}
               containerStyle={{
-                borderColor: colors.divider,
+                borderColor: theme.colors.accent,
                 borderLeftWidth: StyleSheet.hairlineWidth,
                 borderRightWidth: StyleSheet.hairlineWidth,
                 borderTopLeftRadius: index === 0 ? 6 : 0,
@@ -255,7 +266,7 @@ export default function ContactsScreen({ navigation }) {
                 <Icon
                   name="alert-triangle"
                   type="feather"
-                  color={colors.error}
+                  color={theme.colors.error}
                   size={16}
                   style={{
                     display: "flex",

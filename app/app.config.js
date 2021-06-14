@@ -24,7 +24,7 @@ export default {
     },
     android: {
       package: "re.serenity.notes",
-      versionCode: 18,
+      versionCode: 20,
       adaptiveIcon: {
         foregroundImage: "./src/assets/logo_serenity_android.png",
         backgroundColor: "#FFF",

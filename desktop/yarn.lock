@@ -3098,10 +3098,10 @@ domexception@^1.0.1:
   dependencies:
     webidl-conversions "^4.0.2"
 
-dotenv@^8.0.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
-  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
+dotenv@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
+  integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
 ecc-jsbn@~0.1.1:
   version "0.1.2"
@@ -6408,12 +6408,12 @@ react-is@^16.12.0, react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1, react-
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-native-dotenv@^2.5.5:
-  version "2.5.5"
-  resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-2.5.5.tgz#5450fe79859f8553e893129d9fccc855cd38ecd9"
-  integrity sha512-ODaFNUX52ZYfBLJ8WSEm87nv+HrwxeEoZchuwsPyEWwsC4ARRhklfsKTf1dg09UpPS31zx5IUV431fLvcepCsA==
+react-native-dotenv@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-3.0.0.tgz#9df00e5cf43746b8e3917961db8ace6c3cbe266d"
+  integrity sha512-qVw1Vjmg5HMHf8FK+9ta5NdQKcBi1PBnaqumBSYK+8TTbXtxhr8TEod2hLvEVCh4g8V5prjsk4yP4M3cy7Q1Rg==
   dependencies:
-    dotenv "^8.0.0"
+    dotenv "^10.0.0"
 
 react-native-elements@^3.4.2:
   version "3.4.2"
@@ -6446,10 +6446,10 @@ react-native-macos-sensitive-info@^6.0.0-alpha.11:
   resolved "https://registry.yarnpkg.com/react-native-macos-sensitive-info/-/react-native-macos-sensitive-info-6.0.0-alpha.11.tgz#d83989f42535e05ffa62d8477945f54a60d449be"
   integrity sha512-9c+5+KeTqYbGIcm0L5ozgW9x7ejqgkWmLSfDl7svvF2do11r9xKiuIuFzM5V4ciz34utnMOb4wckZXWZqdaxeQ==
 
-react-native-macos@^0.63.28:
-  version "0.63.28"
-  resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.63.28.tgz#008940dc2190df85027911c4a3daf4f03f63368f"
-  integrity sha512-WGvQrWsEDkjTY3AgUjT2IL5J2Z+kDtQZP5VZX+cEUvnKqWmRTLy3f5ggmFeRtfYqUAlectxrjLVL5tEXRZFabA==
+react-native-macos@^0.63.37:
+  version "0.63.37"
+  resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.63.37.tgz#d16cb4cf5cf31570f5e7d94a6652e879d8a6ba32"
+  integrity sha512-TQuKiuQqPAhDm5GVKTbkir/lo1leQjdkc9RDzwnydbvxNiMBcon7ohLDtTQqftmwCfI4S809q+bu19vehAKwKw==
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@react-native-community/cli" "^4.10.0"

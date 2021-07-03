@@ -244,7 +244,7 @@ PODS:
     - React-Core
   - react-native-safe-area-context (3.2.0):
     - React-Core
-  - react-native-webview (11.4.0):
+  - react-native-webview (11.6.2):
     - React-Core
   - React-RCTActionSheet (0.63.28):
     - React-Core/RCTActionSheetHeaders (= 0.63.28)
@@ -308,7 +308,7 @@ PODS:
     - React-jsi (= 0.63.28)
   - RNCAsyncStorage (1.15.2):
     - React-Core
-  - RNReanimated (2.1.0):
+  - RNReanimated (2.2.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -337,8 +337,9 @@ PODS:
     - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.1.1):
+  - RNScreens (3.4.0):
     - React-Core
+    - React-RCTImage
   - RNVectorIcons (8.1.0):
     - React-Core
   - Yoga (1.14.0)
@@ -521,7 +522,7 @@ SPEC CHECKSUMS:
   react-native-get-random-values: 237bffb1c7e05fb142092681531810a29ba53015
   react-native-macos-sensitive-info: 5d3e0bb47b1bb94e39548a706dfa86309874d1d7
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
-  react-native-webview: 4dfb534e9600b87fe667c5ca4fe09149383218b9
+  react-native-webview: 193d233c29eacce1f42ca2637dab7ba79c25a6de
   React-RCTActionSheet: d1a5cc1dce8abe671f5f6ded26f9c39f58f5bf37
   React-RCTAnimation: 1a784948208c3d1642c33c8fb74570fb48c6dd6c
   React-RCTBlob: c4c43d3d2694c789423beb39af1639702e3e9664
@@ -533,8 +534,8 @@ SPEC CHECKSUMS:
   React-RCTVibration: 119f409796d8ab2d2c7d6f520472130c622f3881
   ReactCommon: 0e74b45ef21331cab930210abb6e10cfa5f4a2f5
   RNCAsyncStorage: 9b7605e899f9acb2fba33e87952c529731265453
-  RNReanimated: 70f662b5232dd5d19ccff581e919a54ea73df51c
-  RNScreens: bd1523c3bde7069b8e958e5a16e1fc7722ad0bdd
+  RNReanimated: d9da990fc90123f4ffbfdda93d00fc15174863a8
+  RNScreens: 21b73c94c9117e1110a79ee0ee80c93ccefed8ce
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   Yoga: af1ae012da46ba9ea4673c90199470e6df2282a3
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a

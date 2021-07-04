@@ -11,6 +11,7 @@
     <meta charset="utf-8" />
     <title><%= htmlWebpackPlugin.options.title || 'Webpack App'%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>window.isDesktop = <%= htmlWebpackPlugin.options.isDesktop %>;</script>
 
     <% if (htmlWebpackPlugin.files.favicon) { %>
     <link rel="shortcut icon" href="<%= htmlWebpackPlugin.files.favicon%>" />

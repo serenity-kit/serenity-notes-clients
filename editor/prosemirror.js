@@ -53,6 +53,26 @@ window.addEventListener("load", () => {
   const editor = document.getElementById("editor");
   const editorToolbar = document.getElementById("editor-toolbar");
 
+  if (window.isDesktop) {
+    const css = `
+    #editor-toolbar {
+      height: 53px;
+      top: 0;
+      border-bottom: 1px solid #ddd;
+      border-top: 0 solid #ddd;
+    }
+
+    .ProseMirror {
+      margin-top: 53px;
+      height: calc(100vh - 53px);
+    }
+    `;
+    const styleTag = document.createElement("style");
+
+    document.head.appendChild(styleTag);
+    styleTag.appendChild(document.createTextNode(css));
+  }
+
   const menuItems = buildMenuItems(schema);
   new EditorView(editor, {
     state: EditorState.create({
@@ -120,18 +140,22 @@ window.addEventListener("load", () => {
           window.visualViewport.addEventListener("resize", scrollIntoView);
         }
 
-        const proseMirror = document.getElementsByClassName("ProseMirror")[0];
-        editorToolbar.style.height = "53px";
-        proseMirror.style.height = "calc(100vh - 53px)";
+        if (!window.isDesktop) {
+          const proseMirror = document.getElementsByClassName("ProseMirror")[0];
+          editorToolbar.style.height = "53px";
+          proseMirror.style.height = "calc(100vh - 53px)";
+        }
       },
       blur: () => {
         if (isVisualViewportSupported) {
           window.visualViewport.removeEventListener("resize", scrollIntoView);
         }
 
-        const proseMirror = document.getElementsByClassName("ProseMirror")[0];
-        editorToolbar.style.height = "0px";
-        proseMirror.style.height = "100vh";
+        if (!window.isDesktop) {
+          const proseMirror = document.getElementsByClassName("ProseMirror")[0];
+          editorToolbar.style.height = "0px";
+          proseMirror.style.height = "100vh";
+        }
       },
     },
   });

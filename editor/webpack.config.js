@@ -36,9 +36,18 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "My App",
+      title: "Serenity Editor",
       template: "template.html",
+      filename: "index.html",
       inlineSource: ".(js|css)$", // embed all javascript and css inline
+      isDesktop: "false",
+    }),
+    new HtmlWebpackPlugin({
+      title: "Serenity Editor",
+      template: "template.html",
+      filename: "index-desktop.html",
+      inlineSource: ".(js|css)$", // embed all javascript and css inline
+      isDesktop: "true",
     }),
     new HtmlWebpackInlineSourcePlugin(),
   ],

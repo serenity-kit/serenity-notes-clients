@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {};
+// empty object
+type Props = Record<string, never>;
 
 const MyText: React.FC<Props> = (props) => {
   return <Text style={styles.hint} {...props} />;

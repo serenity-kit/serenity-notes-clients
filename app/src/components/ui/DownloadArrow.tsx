@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import { View, StyleSheet, Animated, StyleProp, ViewStyle } from "react-native";
-import colors from "../../styles/colors";
 
 type FadeToParams = {
   animatedValue: Animated.Value;

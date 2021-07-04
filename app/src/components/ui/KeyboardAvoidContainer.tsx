@@ -2,7 +2,8 @@ import React from "react";
 import { Platform, KeyboardAvoidingView } from "react-native";
 import { HeaderHeightContext } from "@react-navigation/stack";
 
-type Props = {};
+// expect no props
+type Props = Record<string, never>;
 
 const KeyboardAvoidContainer: React.FC<Props> = (props) => {
   return (

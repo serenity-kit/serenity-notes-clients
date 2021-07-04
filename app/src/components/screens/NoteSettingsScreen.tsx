@@ -121,7 +121,7 @@ export default function NoteSettingsScreen({ navigation, route }) {
           });
           const mostRecentUpdate = collaboratorUpdates.sort(
             (updateA, updateB) =>
-              // @ts-ignore
+              // @ts-expect-error should be fine?
               new Date(updateB.createdAt) - new Date(updateA.createdAt)
           )[0];
 

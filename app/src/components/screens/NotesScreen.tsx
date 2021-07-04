@@ -63,13 +63,13 @@ export default function Notes({ navigation }) {
           .slice()
           .sort((repositoryA, repositoryB) => {
             return (
-              // @ts-ignore
+              // @ts-expect-error should be fine?
               new Date(
                 repositoryB.updatedAt
                   ? repositoryB.updatedAt
                   : repositoryB.lastUpdatedAt
               ) -
-              // @ts-ignore
+              // @ts-expect-error should be fine?
               new Date(
                 repositoryA.updatedAt
                   ? repositoryA.updatedAt

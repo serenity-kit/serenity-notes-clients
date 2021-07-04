@@ -6,7 +6,7 @@
     "eject": "expo eject",
     "test": "jest",
     "test:watch": "jest  -o --watch",
-    "lint": "eslint \"components/**/*.+(ts|tsx|js|jsx)\" \"context/**/*.+(ts|tsx|js|jsx)\" \"hooks/**/*.+(ts|tsx|js|jsx)\" \"stores/**/*.+(ts|tsx|js|jsx)\" \"styles/**/*.+(ts|tsx|js|jsx)\" \"utils/**/*.+(ts|tsx|js|jsx)\" types.ts",
+    "lint": "eslint \"src/**/*.+(ts|tsx|js|jsx)\" \"App.tsx\"",
     "ts:check": "tsc --noEmit"
   },
   "dependencies": {

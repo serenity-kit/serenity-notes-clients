@@ -41,7 +41,7 @@ const updateRepository = async (
   let isOutdatedGroupSession = true;
   if (repo.groupSessionCreatedAt) {
     const diffTime = Math.abs(
-      // @ts-ignore
+      // @ts-expect-error should be fine?
       new Date() - new Date(repo.groupSessionCreatedAt)
     );
     const diffdays = Math.floor(diffTime / (1000 * 60 * 60 * 24));

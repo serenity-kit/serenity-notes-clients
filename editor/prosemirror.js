@@ -54,7 +54,7 @@ window.addEventListener("load", () => {
   const editorToolbar = document.getElementById("editor-toolbar");
 
   const menuItems = buildMenuItems(schema);
-  const prosemirrorView = new EditorView(editor, {
+  new EditorView(editor, {
     state: EditorState.create({
       schema: schema,
       plugins: [

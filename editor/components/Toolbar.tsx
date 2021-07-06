@@ -7,7 +7,8 @@ import ToggleMarkButton from "./ToggleMarkButton";
 import ListButton from "./ListButton";
 import ChecklistButton from "./ChecklistButton";
 import CommandButton from "./CommandButton";
-import BlockTypeButton from "./BlockTypeButton";
+import BlockTypeIconButton from "./BlockTypeIconButton";
+import BlockTypeMenu from "./BlockTypeMenu";
 import {
   MdFormatBold,
   MdFormatItalic,
@@ -51,19 +52,32 @@ export default function Toolbar({ editorView }: Props) {
             marginRight: "0.6rem",
           }}
         ></span>
-        <BlockTypeButton
-          nodeType={schema.nodes.paragraph}
-          editorView={editorView}
-          icon={BiParagraph}
-          title="Change to paragraph"
-        />
-        <BlockTypeButton
-          nodeType={schema.nodes.heading}
-          attrs={{ level: 2 }}
-          editorView={editorView}
-          icon={BiHeading}
-          title="Change to heading 2"
-        />
+        {window.isDesktop ? (
+          <>
+            <BlockTypeIconButton
+              nodeType={schema.nodes.paragraph}
+              editorView={editorView}
+              icon={BiParagraph}
+              title="Change to paragraph"
+            />
+            <BlockTypeIconButton
+              nodeType={schema.nodes.heading}
+              attrs={{ level: 2, ychange: null }}
+              editorView={editorView}
+              icon={BiHeading}
+              title="Change to heading 2"
+            />
+            <BlockTypeIconButton
+              nodeType={schema.nodes.heading}
+              attrs={{ level: 3, ychange: null }}
+              editorView={editorView}
+              icon={BiHeading}
+              title="Change to heading 3"
+            />
+          </>
+        ) : (
+          <BlockTypeMenu editorView={editorView} />
+        )}
         <ListButton
           editorView={editorView}
           nodeType={schema.nodes.bullet_list}

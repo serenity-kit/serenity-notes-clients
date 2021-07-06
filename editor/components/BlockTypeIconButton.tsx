@@ -12,7 +12,6 @@ type Props = {
   title: string;
   attrs?: HeadingAttrs;
   nodeType: NodeType;
-  children?: React.ReactNode;
 };
 
 export default function BlockTypeButton({
@@ -21,7 +20,6 @@ export default function BlockTypeButton({
   title,
   nodeType,
   attrs,
-  children,
 }: Props) {
   const Icon = icon;
   const command = setBlockType(nodeType, attrs);
@@ -41,14 +39,9 @@ export default function BlockTypeButton({
         borderRadius: 4,
         background: "white",
         color: canDoCommand ? "black" : "#ccc",
-        paddingRight: 0,
-        paddingLeft: 10,
-        paddingTop: 10,
-        paddingBottom: 10,
-        width: "100%",
-        textAlign: "left",
-        display: "flex",
-        alignItems: "center",
+        padding: "0rem 0.3rem 0.2rem 0.3rem",
+        marginRight: "0.1rem",
+        fontSize: 24,
       }}
     >
       <Icon
@@ -56,10 +49,8 @@ export default function BlockTypeButton({
           fontSize: 24,
           display: "inline-block",
           verticalAlign: "middle",
-          marginRight: 10,
         }}
       />
-      {children}
     </button>
   );
 }

@@ -176,15 +176,13 @@ export default function AddDeviceToExistingUserScreen({ navigation }) {
             return;
           }
 
-          const {
-            privateUserSigningKey,
-            userId,
-          } = await verifyAndExtractAddDeviceVerification(
-            verificationMessage,
-            deviceResult.device,
-            secret,
-            clientVerificationCode
-          );
+          const { privateUserSigningKey, userId } =
+            await verifyAndExtractAddDeviceVerification(
+              verificationMessage,
+              deviceResult.device,
+              secret,
+              clientVerificationCode
+            );
           await privateUserSigningKeyStore.setPrivateUserSigningKey(
             privateUserSigningKey
           );
@@ -241,7 +239,10 @@ export default function AddDeviceToExistingUserScreen({ navigation }) {
             navigation.navigate("MainApp");
           } else {
             setProcessStep("default");
-            Alert.alert("Failed to publish one-time keys.");
+            Alert.alert(
+              "Failed to add the device",
+              "One-time key publishing failed. Please try again."
+            );
           }
         }}
       >

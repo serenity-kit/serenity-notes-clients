@@ -37,7 +37,11 @@ const sendOneTimeKeys = async (client: any, device: Olm.Account) => {
     device.mark_keys_as_published();
     await deviceStore.persistDevice();
   } else {
-    Alert.alert("Failed to publish onetime keys.");
+    addDebugLogEntry(
+      `Failed to publish one-time keys: ${JSON.stringify(result)}`,
+      "error"
+    );
+    console.error("Failed to publish one-time keys:", result);
   }
 };
 

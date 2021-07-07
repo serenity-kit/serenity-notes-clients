@@ -1,6 +1,6 @@
 import "react-native-get-random-values";
 import React from "react";
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
 import { Provider } from "urql";
 import { initOlm } from "./utils/device";
 import { unlockScreenOrientation } from "./utils/screenOrientation";
@@ -12,6 +12,7 @@ import * as mutationQueueStore from "./stores/mutationQueueStore";
 import { setRestoredMutations } from "./hooks/useSyncUtils/mutationQueue";
 import client from "./utils/urqlClient";
 import { EditorSourceContext } from "./context/EditorSourceContext";
+import UpgradeHint from "./components/ui/UpgradeHint";
 
 type Props = {
   editorSource: any;
@@ -43,6 +44,7 @@ export default function App({ editorSource }: Props) {
     <EditorSourceContext.Provider value={editorSource}>
       <Provider value={client}>
         <SyncInfoProvider>
+          {Platform.OS === "macos" ? <UpgradeHint /> : null}
           <Navigation />
         </SyncInfoProvider>
       </Provider>

@@ -5,3 +5,5 @@ export const privacyPolicyLink =
   "https://www.serenity.re/en/notes/privacy-policy";
 
 export const supportLink = "https://www.serenity.re/en/notes/support";
+
+export const homeLink = "https://www.serenity.re/en/notes";

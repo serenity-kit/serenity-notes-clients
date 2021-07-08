@@ -87,11 +87,23 @@ export default function AddDeviceToExistingUserScreen({ navigation }) {
 
   if (
     deviceResult.type === "loading" ||
-    deviceResult.type === "notFound" ||
     userResult.type === "loading" ||
     privateUserSigningKeyResult.type === "loading"
   )
     return null;
+
+  if (deviceResult.type === "notFound") {
+    return (
+      <ScrollScreenContainer>
+        <View style={{ marginHorizontal: 10 }}>
+          <Spacer />
+          <Text>
+            Failed to load the device. Please contact support at hi@serenity.re
+          </Text>
+        </View>
+      </ScrollScreenContainer>
+    );
+  }
 
   return (
     <ScrollScreenContainer>

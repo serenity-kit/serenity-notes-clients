@@ -38,6 +38,7 @@ import GoodbyeScreen from "./screens/GoodbyeScreen";
 import DebugScreen from "./screens/DebugScreen";
 import { sizes } from "../styles/fonts";
 import { Platform } from "react-native";
+import UpgradeHint from "./ui/UpgradeHint";
 
 const RootStack = createStackNavigator();
 const Stack = createStackNavigator();

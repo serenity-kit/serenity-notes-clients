@@ -6,9 +6,10 @@ import colors from "../../styles/colors";
 import { homeLink } from "../../utils/links";
 import latestMacClientVersionQuery from "../../graphql/latestMacClientVersion";
 import { Platform } from "react-native";
-import semver from "semver";
 import appVersion from "../../utils/appVersion/appVersion";
+import isGreaterAppVersion from "../../utils/isGreaterAppVersion/isGreaterAppVersion";
 import useInterval from "../../hooks/useInterval";
+import { addDebugLogEntry } from "../../stores/debugStore";
 
 const styles = StyleSheet.create({
   hint: {
@@ -26,7 +27,9 @@ const styles = StyleSheet.create({
 });
 
 const UpgradeHint: React.FC = () => {
-  const [latestMacClientVersion, setLatestMacClientVersion] = React.useState();
+  const [latestMacClientVersion, setLatestMacClientVersion] = React.useState<
+    string | undefined
+  >();
   const client = useClient();
   useInterval(async () => {
     try {
@@ -37,7 +40,8 @@ const UpgradeHint: React.FC = () => {
         setLatestMacClientVersion(result?.data?.latestMacClientVersion);
       }
     } catch (err) {
-      // do nothing
+      // silently fail
+      addDebugLogEntry(`macOS update check failed: ${err}`, "error");
     }
   }, 600000); // check every 10 min
 
@@ -46,7 +50,7 @@ const UpgradeHint: React.FC = () => {
   if (
     appVersion &&
     latestMacClientVersion &&
-    semver.gt(latestMacClientVersion, appVersion)
+    isGreaterAppVersion(latestMacClientVersion, appVersion)
   ) {
     return (
       <View style={styles.hintWrapper}>

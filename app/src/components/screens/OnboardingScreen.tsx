@@ -178,29 +178,41 @@ export default function OnboardingScreen({ navigation }) {
       <Spacer />
       <Spacer />
       <Spacer />
-      {processState === "failed" ? (
-        <>
-          <OutlineButton
-            align="center"
-            disabled={processState !== "failed"}
-            onPress={() => {
-              initDeviceAndCreateUser();
-            }}
-          >
-            Try again
-          </OutlineButton>
-          <Spacer />
-        </>
-      ) : null}
-      <OutlineButton
-        align="center"
-        disabled={processState !== "ready"}
-        onPress={() => {
-          navigation.navigate("MainApp", { screen: "Notes" });
-        }}
-      >
-        Get started
-      </OutlineButton>
+      <View style={styles.content}>
+        {processState === "failed" ? (
+          <>
+            <OutlineButton
+              align="center"
+              disabled={processState !== "failed"}
+              onPress={() => {
+                initDeviceAndCreateUser();
+              }}
+              style={{
+                // in order to have a better tablet & desktop experience
+                maxWidth: 500,
+                width: "100%",
+              }}
+            >
+              Try again
+            </OutlineButton>
+            <Spacer />
+          </>
+        ) : null}
+        <OutlineButton
+          align="center"
+          disabled={processState !== "ready"}
+          onPress={() => {
+            navigation.navigate("MainApp", { screen: "Notes" });
+          }}
+          style={{
+            // in order to have a better tablet & desktop experience
+            maxWidth: 500,
+            width: "100%",
+          }}
+        >
+          Get started
+        </OutlineButton>
+      </View>
       <Spacer />
       <View style={styles.content}>
         {processState === "ready" ? (

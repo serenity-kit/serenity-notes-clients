@@ -4,7 +4,7 @@ export default {
     slug: "serenity-notes",
     privacy: "unlisted",
     platforms: ["ios", "android"],
-    version: "1.7.0",
+    version: "1.8.0",
     orientation: "portrait",
     icon: "./src/assets/icon.png",
     splash: {
@@ -24,7 +24,7 @@ export default {
     },
     android: {
       package: "re.serenity.notes",
-      versionCode: 20,
+      versionCode: 21,
       adaptiveIcon: {
         foregroundImage: "./src/assets/logo_serenity_android.png",
         backgroundColor: "#FFF",

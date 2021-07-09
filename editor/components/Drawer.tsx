@@ -1,12 +1,13 @@
 // inspired by https://codesandbox.io/s/zuwji?file=/src/index.js
 
-import React, { useRef } from "react";
+import React, { useRef, useCallback } from "react";
 import { useSpring, animated, config } from "@react-spring/web";
 import { useDrag } from "react-use-gesture";
 import Portal from "@reach/portal";
 import useOnClickOutside from "use-onclickoutside";
 import { EditorView } from "prosemirror-view";
 import * as theme from "../theme";
+import { useEffect } from "react";
 
 type ButtonProps = {
   onPointerDown: React.PointerEventHandler<HTMLButtonElement>;
@@ -76,6 +77,23 @@ export default function Drawer({
   useOnClickOutside(drawerRef, () => {
     close();
   });
+
+  const closeOnEditorBlur = useCallback(() => {
+    close();
+  }, []);
+
+  useEffect(() => {
+    if (!proseMirror) {
+      proseMirror = document.getElementsByClassName("ProseMirror")[0];
+    }
+    proseMirror.addEventListener("blur", closeOnEditorBlur);
+
+    return () => {
+      if (proseMirror) {
+        proseMirror.removeEventListener("blur", closeOnEditorBlur);
+      }
+    };
+  }, [closeOnEditorBlur]);
 
   const bind = useDrag(
     ({ last, vxvy: [, vy], movement: [, my], cancel, canceled }) => {

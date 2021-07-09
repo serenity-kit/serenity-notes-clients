@@ -3,6 +3,7 @@ import { EditorView } from "prosemirror-view";
 import { IconType } from "react-icons/lib";
 import { NodeType } from "prosemirror-model";
 import { setBlockType } from "prosemirror-commands";
+import CSS from "csstype";
 import isActiveNode from "../utils/isActiveNode";
 import { HeadingAttrs } from "../types";
 
@@ -13,6 +14,7 @@ type Props = {
   attrs?: HeadingAttrs;
   nodeType: NodeType;
   children?: React.ReactNode;
+  style?: CSS.Properties;
 };
 
 export default function BlockTypeButton({
@@ -22,6 +24,7 @@ export default function BlockTypeButton({
   nodeType,
   attrs,
   children,
+  style,
 }: Props) {
   const Icon = icon;
   const command = setBlockType(nodeType, attrs);
@@ -38,7 +41,6 @@ export default function BlockTypeButton({
       }}
       style={{
         border: "0 solid transparent",
-        borderRadius: 4,
         background: "white",
         color: canDoCommand ? "black" : "#ccc",
         paddingRight: 0,
@@ -49,6 +51,7 @@ export default function BlockTypeButton({
         textAlign: "left",
         display: "flex",
         alignItems: "center",
+        ...style,
       }}
     >
       <Icon

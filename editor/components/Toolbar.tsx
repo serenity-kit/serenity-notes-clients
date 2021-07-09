@@ -19,6 +19,7 @@ import {
   MdRedo,
 } from "react-icons/md";
 import { BiParagraph, BiHeading } from "react-icons/bi";
+import * as theme from "../theme";
 
 type Props = {
   editorView: EditorView;
@@ -48,7 +49,7 @@ export default function Toolbar({ editorView }: Props) {
         />
         <span
           style={{
-            borderRight: "1px solid #ddd",
+            borderRight: `1px solid ${theme.colors.divider}`,
             marginRight: "0.6rem",
           }}
         ></span>
@@ -73,6 +74,8 @@ export default function Toolbar({ editorView }: Props) {
               editorView={editorView}
               icon={BiHeading}
               title="Change to heading 3"
+              headingLevelTwo
+              style={{ marginRight: "10px" }}
             />
           </>
         ) : (

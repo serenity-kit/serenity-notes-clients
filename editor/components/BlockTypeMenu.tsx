@@ -5,14 +5,8 @@ import { setBlockType } from "prosemirror-commands";
 import { schema } from "../schema";
 import BlockTypeButton from "./BlockTypeButton";
 import HorizontalRule from "./HorizontalRule";
-import * as theme from "../theme";
 import CloseButton from "./CloseButton";
 import Drawer from "./Drawer";
-import isActiveNode from "../utils/isActiveNode";
-
-type OnChangeEvent = {
-  isOpen: boolean;
-};
 
 type Props = {
   editorView: EditorView;
@@ -38,7 +32,7 @@ export default function BlockTypeMenu({ editorView }: Props) {
   return (
     <>
       <Drawer
-        height={280}
+        height={260}
         onOpen={() => {
           setIsOpen(true);
         }}
@@ -51,7 +45,7 @@ export default function BlockTypeMenu({ editorView }: Props) {
             style={{
               border: "0 solid transparent",
               fontSize: 22,
-              borderRadius: 4,
+              borderRadius: 8,
               padding: "5px 0.3rem 0.2rem 0.3rem",
               marginRight: "0.1rem",
               verticalAlign: "bottom",
@@ -64,7 +58,7 @@ export default function BlockTypeMenu({ editorView }: Props) {
         )}
       >
         {({ onPointerDownClose }) => (
-          <div style={{ padding: "20px 20px 0 20px" }}>
+          <div style={{ padding: "10px 20px 0 20px" }}>
             <div
               style={{
                 display: "flex",
@@ -72,12 +66,21 @@ export default function BlockTypeMenu({ editorView }: Props) {
                 width: "100%",
               }}
             >
-              <h2 style={{ margin: 0 }}>Format</h2>
+              <h2
+                style={{
+                  margin: 0,
+                  fontWeight: 400,
+                  fontSize: "20px",
+                  alignSelf: "flex-end",
+                }}
+              >
+                Format
+              </h2>
               <CloseButton onPointerDown={onPointerDownClose} />
             </div>
             <div
               style={{
-                borderRadius: 4,
+                borderRadius: 8,
                 border: "0.5px solid #ddd",
                 width: "100%",
                 marginTop: 15,
@@ -89,6 +92,10 @@ export default function BlockTypeMenu({ editorView }: Props) {
                 editorView={editorView}
                 icon={BiHeading}
                 title="Change to heading 2"
+                style={{
+                  borderTopLeftRadius: "8px",
+                  borderTopRightRadius: "8px",
+                }}
               >
                 Heading
               </BlockTypeButton>
@@ -108,6 +115,10 @@ export default function BlockTypeMenu({ editorView }: Props) {
                 editorView={editorView}
                 icon={BiParagraph}
                 title="Change to paragraph"
+                style={{
+                  borderBottomLeftRadius: "8px",
+                  borderBottomRightRadius: "8px",
+                }}
               >
                 Body
               </BlockTypeButton>

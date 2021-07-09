@@ -31,7 +31,7 @@ export default function Toolbar({ editorView, icon, mark, title }: Props) {
       style={{
         border: "0 solid transparent",
         fontSize: 26,
-        borderRadius: 4,
+        borderRadius: 8,
         background: isBold ? "black" : "white",
         color: isBold ? "white" : "black",
         padding: "0rem 0.3rem 0.2rem",

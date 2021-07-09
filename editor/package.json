@@ -8,6 +8,8 @@
     "dev": "webpack-dev-server"
   },
   "dependencies": {
+    "@reach/portal": "^0.15.2",
+    "@react-spring/web": "^9.2.3",
     "prosemirror-commands": "^1.1.9",
     "prosemirror-example-setup": "^1.1.2",
     "prosemirror-model": "^1.14.2",
@@ -17,6 +19,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
+    "react-use-gesture": "^9.1.3",
+    "use-onclickoutside": "^0.4.0",
     "y-prosemirror": "^1.0.9",
     "y-protocols": "^1.0.5",
     "yjs": "^13.5.11"

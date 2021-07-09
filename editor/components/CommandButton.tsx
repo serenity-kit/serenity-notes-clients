@@ -28,7 +28,7 @@ export default function CommandButton({
       style={{
         border: "0 solid transparent",
         fontSize: 24,
-        borderRadius: 4,
+        borderRadius: 8,
         background: "white",
         color: canDoCommand ? "black" : "#ccc",
         padding: "0rem 0.3rem 0.2rem",

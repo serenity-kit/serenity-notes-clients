@@ -16,6 +16,7 @@ import {
   liftListItem,
   sinkListItem,
 } from "prosemirror-schema-list";
+import * as theme from "./theme";
 
 function toolbarPlugin() {
   return new Plugin({
@@ -58,8 +59,8 @@ window.addEventListener("load", () => {
     #editor-toolbar {
       height: 53px;
       top: 0;
-      border-bottom: 1px solid #ddd;
-      border-top: 0 solid #ddd;
+      border-bottom: 0.5px solid ${theme.colors.divider};
+      border-top: 0 solid ${theme.colors.divider};
     }
 
     .ProseMirror {

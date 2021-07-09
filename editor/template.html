@@ -12,6 +12,7 @@
     <title><%= htmlWebpackPlugin.options.title || 'Webpack App'%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script>window.isDesktop = <%= htmlWebpackPlugin.options.isDesktop %>;</script>
+    <!-- <script>window.isDesktop = true;</script> -->
 
     <% if (htmlWebpackPlugin.files.favicon) { %>
     <link rel="shortcut icon" href="<%= htmlWebpackPlugin.files.favicon%>" />
@@ -801,9 +802,9 @@
         right: 0;
         border-top: 1px solid #ddd;
         background: white;
-        z-index: 10;
         box-sizing: border-box;
         overflow: visible;
+        z-index: 20; /* should still be in front of the drawer */
       }
     </style>
     <style>

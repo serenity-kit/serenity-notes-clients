@@ -13,7 +13,7 @@ type Props = {
   title: string;
   attrs?: HeadingAttrs;
   nodeType: NodeType;
-  children?: React.ReactNode;
+  headingLevelTwo?: boolean;
   style?: CSS.Properties;
 };
 
@@ -23,7 +23,7 @@ export default function BlockTypeButton({
   title,
   nodeType,
   attrs,
-  children,
+  headingLevelTwo,
   style,
 }: Props) {
   const Icon = icon;
@@ -41,16 +41,13 @@ export default function BlockTypeButton({
       }}
       style={{
         border: "0 solid transparent",
+        borderRadius: 8,
         background: "white",
         color: canDoCommand ? "black" : "#ccc",
-        paddingRight: 0,
-        paddingLeft: 10,
-        paddingTop: 10,
-        paddingBottom: 10,
-        width: "100%",
-        textAlign: "left",
-        display: "flex",
-        alignItems: "center",
+        padding: "0rem 0.3rem 0.2rem 0.3rem",
+        marginRight: "0.1rem",
+        fontSize: 24,
+        position: "relative",
         ...style,
       }}
     >
@@ -59,10 +56,20 @@ export default function BlockTypeButton({
           fontSize: 24,
           display: "inline-block",
           verticalAlign: "middle",
-          marginRight: 10,
         }}
       />
-      {children}
+      {headingLevelTwo ? (
+        <span
+          style={{
+            position: "absolute",
+            fontSize: "14px",
+            left: 23,
+            top: 11,
+          }}
+        >
+          2
+        </span>
+      ) : null}
     </button>
   );
 }

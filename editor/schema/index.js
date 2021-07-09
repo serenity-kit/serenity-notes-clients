@@ -47,7 +47,7 @@ export const nodes = {
   //   parseDOM: [{ tag: "blockquote" }],
   //   toDOM(node) {
   //     return ["blockquote", calcYchangeDomAttrs(node.attrs), 0];
-  //   }
+  //   },
   // },
 
   // // :: NodeSpec A horizontal rule (`<hr>`).
@@ -74,7 +74,7 @@ export const nodes = {
     parseDOM: [
       // { tag: "h1", attrs: { level: 1 } },
       { tag: "h2", attrs: { level: 2 } },
-      // { tag: "h3", attrs: { level: 3 } },
+      { tag: "h3", attrs: { level: 3 } },
       // { tag: "h4", attrs: { level: 4 } },
       // { tag: "h5", attrs: { level: 5 } },
       // { tag: "h6", attrs: { level: 6 } },

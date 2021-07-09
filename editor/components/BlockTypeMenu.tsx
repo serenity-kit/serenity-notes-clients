@@ -32,6 +32,7 @@ export default function BlockTypeMenu({ editorView }: Props) {
   return (
     <>
       <Drawer
+        editorView={editorView}
         height={260}
         onOpen={() => {
           setIsOpen(true);

@@ -5,6 +5,7 @@ import { useSpring, animated, config } from "@react-spring/web";
 import { useDrag } from "react-use-gesture";
 import Portal from "@reach/portal";
 import useOnClickOutside from "use-onclickoutside";
+import { EditorView } from "prosemirror-view";
 import * as theme from "../theme";
 
 type ButtonProps = {
@@ -21,7 +22,10 @@ type Props = {
   height: Number;
   onClose?: () => void;
   onOpen?: () => void;
+  editorView: EditorView;
 };
+
+let proseMirror: Element | undefined;
 
 export default function Drawer({
   children,
@@ -29,11 +33,24 @@ export default function Drawer({
   onClose,
   onOpen,
   button,
+  editorView,
 }: Props) {
   const Button = button;
   const isOpenRef = useRef(false);
   const drawerRef = useRef(null);
-  const [{ y }, set] = useSpring(() => ({ y: height }));
+  const [{ y }, set] = useSpring(() => ({
+    y: height,
+    onChange: (event) => {
+      if (!proseMirror) {
+        proseMirror = document.getElementsByClassName("ProseMirror")[0];
+      }
+      const offset = +height - event.value.y;
+      const finalOffset = Math.max(53, offset);
+      // @ts-expect-error style is available
+      proseMirror.style.height = `calc(100vh - ${finalOffset}px)`;
+      editorView.dispatch(editorView.state.tr.scrollIntoView());
+    },
+  }));
 
   const open = ({ canceled }: { canceled: boolean }) => {
     isOpenRef.current = true;
@@ -109,6 +126,7 @@ export default function Drawer({
             touchAction: "none",
             display,
             bottom: `calc(-100vh + ${height}px)`,
+            boxShadow: "0px 0px 8px 1px #D3D3D3",
             background: theme.colors.background,
             y,
           }}

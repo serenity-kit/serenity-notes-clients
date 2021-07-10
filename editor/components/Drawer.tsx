@@ -60,7 +60,7 @@ export default function Drawer({
     set({
       y: 0,
       immediate: false,
-      config: canceled ? config.wobbly : config.stiff,
+      config: canceled ? config.wobbly : config.default,
     });
     if (onOpen) {
       onOpen();
@@ -68,7 +68,11 @@ export default function Drawer({
   };
   const close = (velocity = 0) => {
     isOpenRef.current = false;
-    set({ y: height, immediate: false, config: { ...config.stiff, velocity } });
+    set({
+      y: height,
+      immediate: false,
+      config: { ...config.default, velocity },
+    });
     if (onClose) {
       onClose();
     }
@@ -119,6 +123,7 @@ export default function Drawer({
   );
 
   const display = y.to((py) => (py < height ? "block" : "none"));
+
   return (
     <>
       <Button
@@ -134,7 +139,6 @@ export default function Drawer({
       <Portal>
         <animated.div
           ref={drawerRef}
-          className="sheet"
           style={{
             zIndex: 10,
             position: "fixed",
@@ -149,6 +153,11 @@ export default function Drawer({
             y,
           }}
           {...bind()}
+          // prevent to trigger that the editor looses focus
+          // when dragging the drawer
+          onMouseDown={(event) => {
+            event.preventDefault();
+          }}
         >
           {children({
             onPointerDownClose: (event) => {

@@ -5,6 +5,7 @@ import { undo, redo } from "prosemirror-history";
 import { schema } from "../schema";
 import ToggleMarkButton from "./ToggleMarkButton";
 import ListButton from "./ListButton";
+import BlockquoteButton from "./BlockquoteButton";
 import ChecklistButton from "./ChecklistButton";
 import CommandButton from "./CommandButton";
 import BlockTypeIconButton from "./BlockTypeIconButton";
@@ -18,6 +19,7 @@ import {
   MdUndo,
   MdRedo,
   MdCode,
+  MdFormatQuote,
 } from "react-icons/md";
 import { BiParagraph, BiHeading } from "react-icons/bi";
 import * as theme from "../theme";
@@ -104,6 +106,12 @@ export default function Toolbar({ editorView }: Props) {
           editorView={editorView}
           nodeType={schema.nodes.checklist}
           title="Wrap in checklist"
+        />
+        <BlockquoteButton
+          editorView={editorView}
+          nodeType={schema.nodes.blockquote}
+          icon={MdFormatQuote}
+          title="Wrap in blockquote"
         />
         <CommandButton
           command={lift}

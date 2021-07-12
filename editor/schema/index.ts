@@ -38,17 +38,17 @@ export const nodes = {
     },
   },
 
-  // // :: NodeSpec A blockquote (`<blockquote>`) wrapping one or more blocks.
-  // blockquote: {
-  //   attrs: { ychange: { default: null } },
-  //   content: "block+",
-  //   group: "block",
-  //   defining: true,
-  //   parseDOM: [{ tag: "blockquote" }],
-  //   toDOM(node) {
-  //     return ["blockquote", calcYchangeDomAttrs(node.attrs), 0];
-  //   },
-  // },
+  // :: NodeSpec A blockquote (`<blockquote>`) wrapping one or more blocks.
+  blockquote: {
+    attrs: { ychange: { default: null } },
+    content: "block+",
+    group: "block",
+    defining: true,
+    parseDOM: [{ tag: "blockquote" }],
+    toDOM(node: any) {
+      return ["blockquote", calcYchangeDomAttrs(node.attrs), 0];
+    },
+  },
 
   // // :: NodeSpec A horizontal rule (`<hr>`).
   // horizontal_rule: {
@@ -84,19 +84,21 @@ export const nodes = {
     },
   },
 
-  // // :: NodeSpec A code listing. Disallows marks or non-text inline
-  // // nodes by default. Represented as a `<pre>` element with a
-  // // `<code>` element inside of it.
-  // code_block: {
-  //   attrs: { ychange: { default: null } },
-  //   content: 'text*',
-  //   marks: '',
-  //   group: 'block',
-  //   code: true,
-  //   defining: true,
-  //   parseDOM: [{ tag: 'pre', preserveWhitespace: 'full' }],
-  //   toDOM (node) { return ['pre', calcYchangeDomAttrs(node.attrs), ['code', 0]] }
-  // },
+  // :: NodeSpec A code listing. Disallows marks or non-text inline
+  // nodes by default. Represented as a `<pre>` element with a
+  // `<code>` element inside of it.
+  code_block: {
+    attrs: { ychange: { default: null } },
+    content: "text*",
+    marks: "",
+    group: "block",
+    code: true,
+    defining: true,
+    parseDOM: [{ tag: "pre", preserveWhitespace: "full" }],
+    toDOM(node: any) {
+      return ["pre", calcYchangeDomAttrs(node.attrs), ["code", 0]];
+    },
+  },
 
   // :: NodeSpec The text node.
   text: {

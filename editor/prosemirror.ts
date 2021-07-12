@@ -8,6 +8,7 @@ import {
 import { EditorState, Plugin } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { schema } from "./schema";
+// @ts-ignore
 import { exampleSetup, buildMenuItems } from "prosemirror-example-setup";
 import { keymap } from "prosemirror-keymap";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
@@ -26,20 +27,24 @@ function toolbarPlugin() {
   });
 }
 
-function toggleChecklistItemAction(state, pos, checklistItemNode) {
+function toggleChecklistItemAction(
+  state: any,
+  pos: any,
+  checklistItemNode: any
+) {
   return state.tr.setNodeMarkup(pos, null, {
     checked: !checklistItemNode.attrs.checked,
   });
 }
 
 const isVisualViewportSupported = "visualViewport" in window;
-let scrollIntoView;
+let scrollIntoView: () => void | undefined;
 
 window.addEventListener("load", () => {
   const ydoc = new Y.Doc();
   window.ydoc = ydoc;
   const type = ydoc.getXmlFragment("document");
-  ydoc.on("update", (update) => {
+  ydoc.on("update", (update: any) => {
     // console.log(
     //   "update: ",
     //   update,
@@ -75,6 +80,7 @@ window.addEventListener("load", () => {
   }
 
   const menuItems = buildMenuItems(schema);
+  // @ts-ignore
   new EditorView(editor, {
     state: EditorState.create({
       schema: schema,
@@ -113,9 +119,11 @@ window.addEventListener("load", () => {
       // handling checklist touch with onmousedown to make sure
       // preventDefault can prevent the focus event to happen
       mousedown: (editorView, event) => {
-        if (event.target.classList.contains("on-click-check")) {
+        // @ts-ignore
+        if (event.target?.classList.contains("on-click-check")) {
           event.preventDefault();
 
+          // @ts-ignore
           const pos = editorView.posAtDOM(event.target);
           const node = editorView.state.doc.resolve(pos).parent;
           editorView.dispatch(
@@ -143,7 +151,9 @@ window.addEventListener("load", () => {
 
         if (!window.isDesktop) {
           const proseMirror = document.getElementsByClassName("ProseMirror")[0];
+          // @ts-expect-error editorToolbar must always be available
           editorToolbar.style.height = "53px";
+          // @ts-expect-error proseMirror has a style
           proseMirror.style.height = "calc(100vh - 53px)";
         }
       },
@@ -154,7 +164,9 @@ window.addEventListener("load", () => {
 
         if (!window.isDesktop) {
           const proseMirror = document.getElementsByClassName("ProseMirror")[0];
+          // @ts-expect-error editorToolbar must always be available
           editorToolbar.style.height = "0px";
+          // @ts-expect-error proseMirror has a style
           proseMirror.style.height = "100vh";
         }
       },

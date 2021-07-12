@@ -35,6 +35,7 @@
     "@types/prosemirror-commands": "^1.0.4",
     "@types/prosemirror-history": "^1.0.2",
     "@types/prosemirror-inputrules": "^1.0.4",
+    "@types/prosemirror-keymap": "^1.0.4",
     "@types/prosemirror-schema-list": "^1.0.3",
     "@types/prosemirror-view": "^1.17.1",
     "@types/react": "^17.0.13",

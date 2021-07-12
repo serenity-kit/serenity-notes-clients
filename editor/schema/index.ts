@@ -9,7 +9,7 @@ import {
 
 const brDOM = ["br"];
 
-const calcYchangeDomAttrs = (attrs, domAttrs = {}) => {
+const calcYchangeDomAttrs = (attrs: any, domAttrs: any = {}) => {
   domAttrs = Object.assign({}, domAttrs);
   if (attrs.ychange !== null) {
     domAttrs.ychange_user = attrs.ychange.user;
@@ -33,7 +33,7 @@ export const nodes = {
     content: "inline*",
     group: "block",
     parseDOM: [{ tag: "p" }],
-    toDOM(node) {
+    toDOM(node: any) {
       return ["p", calcYchangeDomAttrs(node.attrs), 0];
     },
   },
@@ -79,7 +79,7 @@ export const nodes = {
       // { tag: "h5", attrs: { level: 5 } },
       // { tag: "h6", attrs: { level: 6 } },
     ],
-    toDOM(node) {
+    toDOM(node: any) {
       return ["h" + node.attrs.level, calcYchangeDomAttrs(node.attrs), 0];
     },
   },
@@ -202,11 +202,12 @@ export const marks = {
       // tags with a font-weight normal.
       {
         tag: "b",
-        getAttrs: (node) => node.style.fontWeight !== "normal" && null,
+        getAttrs: (node: any) => node.style.fontWeight !== "normal" && null,
       },
       {
         style: "font-weight",
-        getAttrs: (value) => /^(bold(er)?|[5-9]\d{2,})$/.test(value) && null,
+        getAttrs: (value: any) =>
+          /^(bold(er)?|[5-9]\d{2,})$/.test(value) && null,
       },
     ],
     toDOM() {
@@ -228,7 +229,7 @@ export const marks = {
     },
     inclusive: false,
     parseDOM: [{ tag: "ychange" }],
-    toDOM(node) {
+    toDOM(node: any) {
       return [
         "ychange",
         { ychange_user: node.attrs.user, ychange_state: node.attrs.state },
@@ -246,6 +247,7 @@ export const marks = {
 //
 // To reuse elements from this schema, extend or read from its
 // `spec.nodes` and `spec.marks` [properties](#model.Schema.spec).
+// @ts-ignore
 const schemaPlain = new Schema({ nodes, marks });
 
 export const schema = new Schema({

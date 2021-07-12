@@ -1,6 +1,12 @@
+type ReactNativeWebView = {
+  postMessage: (message: string) => void;
+};
+
 declare global {
   interface Window {
     isDesktop: boolean;
+    ReactNativeWebView: ReactNativeWebView;
+    ydoc: any;
   }
 }
 

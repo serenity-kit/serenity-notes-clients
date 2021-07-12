@@ -17,6 +17,7 @@ import {
   MdFormatIndentDecrease,
   MdUndo,
   MdRedo,
+  MdCode,
 } from "react-icons/md";
 import { BiParagraph, BiHeading } from "react-icons/bi";
 import * as theme from "../theme";
@@ -46,6 +47,12 @@ export default function Toolbar({ editorView }: Props) {
           mark={schema.marks.em}
           icon={MdFormatItalic}
           title="Toggle emphasis style"
+        />
+        <ToggleMarkButton
+          editorView={editorView}
+          mark={schema.marks.code}
+          icon={MdCode}
+          title="Toggle code style"
         />
         <span
           style={{

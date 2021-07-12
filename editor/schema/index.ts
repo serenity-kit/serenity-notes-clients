@@ -154,7 +154,7 @@ export const nodes = {
 
 const emDOM = ["em", 0];
 const strongDOM = ["strong", 0];
-// const codeDOM = ["code", 0];
+const codeDOM = ["code", 0];
 
 // :: Object [Specs](#model.MarkSpec) for the marks in the schema.
 export const marks = {
@@ -216,12 +216,12 @@ export const marks = {
   },
 
   // // :: MarkSpec Code font mark. Represented as a `<code>` element.
-  // code: {
-  //   parseDOM: [{ tag: "code" }],
-  //   toDOM() {
-  //     return codeDOM;
-  //   }
-  // },
+  code: {
+    parseDOM: [{ tag: "code" }],
+    toDOM() {
+      return codeDOM;
+    },
+  },
   ychange: {
     attrs: {
       user: { default: null },

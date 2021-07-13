@@ -4,9 +4,9 @@ import { lift } from "prosemirror-commands";
 import { undo, redo } from "prosemirror-history";
 import { schema } from "../schema";
 import ToggleMarkButton from "./ToggleMarkButton";
-import ListButton from "./ListButton";
+import ListIconButton from "./ListIconButton";
 import BlockquoteButton from "./BlockquoteButton";
-import ChecklistButton from "./ChecklistButton";
+import ChecklistIconButton from "./ChecklistIconButton";
 import CommandButton from "./CommandButton";
 import BlockTypeIconButton from "./BlockTypeIconButton";
 import BlockTypeMenu from "./BlockTypeMenu";
@@ -23,6 +23,7 @@ import {
 } from "react-icons/md";
 import { BiParagraph, BiHeading } from "react-icons/bi";
 import * as theme from "../theme";
+import ListMenu from "./ListMenu";
 
 type Props = {
   editorView: EditorView;
@@ -90,23 +91,29 @@ export default function Toolbar({ editorView }: Props) {
         ) : (
           <BlockTypeMenu editorView={editorView} />
         )}
-        <ListButton
-          editorView={editorView}
-          nodeType={schema.nodes.bullet_list}
-          icon={MdFormatListBulleted}
-          title="Wrap in bullet list"
-        />
-        <ListButton
-          editorView={editorView}
-          nodeType={schema.nodes.ordered_list}
-          icon={MdFormatListNumbered}
-          title="Wrap in ordered list"
-        />
-        <ChecklistButton
-          editorView={editorView}
-          nodeType={schema.nodes.checklist}
-          title="Wrap in checklist"
-        />
+        {window.isDesktop ? (
+          <>
+            <ListIconButton
+              editorView={editorView}
+              nodeType={schema.nodes.bullet_list}
+              icon={MdFormatListBulleted}
+              title="Wrap in bullet list"
+            />
+            <ListIconButton
+              editorView={editorView}
+              nodeType={schema.nodes.ordered_list}
+              icon={MdFormatListNumbered}
+              title="Wrap in ordered list"
+            />
+            <ChecklistIconButton
+              editorView={editorView}
+              nodeType={schema.nodes.checklist}
+              title="Wrap in checklist"
+            />
+          </>
+        ) : (
+          <ListMenu editorView={editorView} />
+        )}
         <BlockquoteButton
           editorView={editorView}
           nodeType={schema.nodes.blockquote}

@@ -6,6 +6,7 @@ import { setBlockType } from "prosemirror-commands";
 import CSS from "csstype";
 import isActiveNode from "../utils/isActiveNode";
 import { HeadingAttrs } from "../types";
+import Button from "./Button";
 
 type Props = {
   editorView: EditorView;
@@ -33,26 +34,14 @@ export default function BlockTypeButton({
     command(editorView.state);
 
   return (
-    <button
+    <Button
+      canDoCommand={canDoCommand}
       title={title}
       onMouseDown={(evt) => {
         evt.preventDefault();
         command(editorView.state, editorView.dispatch);
       }}
-      style={{
-        border: "0 solid transparent",
-        background: "white",
-        color: canDoCommand ? "black" : "#ccc",
-        paddingRight: 0,
-        paddingLeft: 10,
-        paddingTop: 10,
-        paddingBottom: 10,
-        width: "100%",
-        textAlign: "left",
-        display: "flex",
-        alignItems: "center",
-        ...style,
-      }}
+      style={style}
     >
       <Icon
         style={{
@@ -63,6 +52,6 @@ export default function BlockTypeButton({
         }}
       />
       {children}
-    </button>
+    </Button>
   );
 }

@@ -8,6 +8,7 @@ import useOnClickOutside from "use-onclickoutside";
 import { EditorView } from "prosemirror-view";
 import * as theme from "../theme";
 import { useEffect } from "react";
+import uniqueId from "../utils/uniqueId";
 
 type ButtonProps = {
   onPointerDown: React.PointerEventHandler<HTMLButtonElement>;
@@ -27,6 +28,13 @@ type Props = {
 };
 
 let proseMirror: Element | undefined;
+let allDrawerCloseFunctions: Record<string, () => void> = {};
+
+function getDrawerCloseFunctionsWithoutCurrent(id: string) {
+  return Object.keys(allDrawerCloseFunctions)
+    .filter((key) => key !== id)
+    .map((key) => allDrawerCloseFunctions[key]);
+}
 
 export default function Drawer({
   children,
@@ -39,6 +47,7 @@ export default function Drawer({
   const Button = button;
   const isOpenRef = useRef(false);
   const drawerRef = useRef(null);
+
   const [{ y }, set] = useSpring(() => ({
     y: height,
     onChange: (event) => {
@@ -99,6 +108,15 @@ export default function Drawer({
     };
   }, [closeOnEditorBlur]);
 
+  const uniqueDrawerIdRef = useRef(uniqueId());
+
+  useEffect(() => {
+    allDrawerCloseFunctions[uniqueDrawerIdRef.current] = close;
+    return () => {
+      delete allDrawerCloseFunctions[uniqueDrawerIdRef.current];
+    };
+  });
+
   const bind = useDrag(
     ({ last, vxvy: [, vy], movement: [, my], cancel, canceled }) => {
       // if the user drags up passed a threshold, then we cancel
@@ -132,6 +150,11 @@ export default function Drawer({
           if (isOpenRef.current) {
             close();
           } else {
+            getDrawerCloseFunctionsWithoutCurrent(
+              uniqueDrawerIdRef.current
+            ).forEach((otherDrawerClose) => {
+              otherDrawerClose();
+            });
             open({ canceled: false });
           }
         }}

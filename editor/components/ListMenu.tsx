@@ -50,7 +50,7 @@ export default function ListMenu({ editorView }: Props) {
               alignItems: "center",
             }}
           >
-            <MdFormatListNumbered
+            <MdFormatListBulleted
               style={{
                 display: "inline-block",
                 verticalAlign: "middle",

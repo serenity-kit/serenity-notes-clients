@@ -12,6 +12,7 @@ import { schema } from "./schema";
 import { exampleSetup, buildMenuItems } from "prosemirror-example-setup";
 import { keymap } from "prosemirror-keymap";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
+import inputRulesPlugin from "./plugins/inputRulesPlugin";
 import {
   splitListItem,
   liftListItem,
@@ -99,6 +100,7 @@ window.addEventListener("load", () => {
         //   'Mod-Shift-z': redo
         // })
         toolbarPlugin(),
+        inputRulesPlugin,
         keymap({
           Enter: splitListItem(schema.nodes.checklist_item),
           "Mod-[": liftListItem(schema.nodes.checklist_item),
@@ -165,7 +167,7 @@ window.addEventListener("load", () => {
         }
 
         if (!window.isDesktop && !getActiveDrawer()) {
-          // closeToolbar();
+          closeToolbar();
         }
       },
     },

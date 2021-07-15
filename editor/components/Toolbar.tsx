@@ -61,7 +61,9 @@ export default function Toolbar({ editorView }: Props) {
           icon={MdCode}
           title="Toggle code style"
         />
-        <LinkMenu editorView={editorView} />
+        {window.isDesktop ? (
+          <LinkMenu editorView={editorView} iconMode />
+        ) : null}
         <span
           style={{
             borderRight: `1px solid ${theme.colors.divider}`,

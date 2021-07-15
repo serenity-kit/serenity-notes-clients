@@ -1,12 +1,11 @@
 import React from "react";
-import CSS from "csstype";
 
-type Props = {
+type Props = React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+> & {
   canDoCommand: boolean;
   title?: string;
-  onMouseDown: React.MouseEventHandler<HTMLButtonElement>;
-  style?: CSS.Properties;
-  children?: React.ReactNode;
 };
 
 export default function Button({ canDoCommand, style, ...otherProps }: Props) {

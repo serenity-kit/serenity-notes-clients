@@ -829,6 +829,17 @@
       }
     </style>
     <style>
+      a, a:active {
+        color: #1F1F1F;
+        text-decoration: underline;
+      }
+
+      a:hover, a:focus {
+        outline: 0;
+        color: #718096;
+        text-decoration: underline;
+      }
+
       /* checklist style */
       ul[data-type="checklist"] {
         padding-left: 0;
@@ -914,6 +925,11 @@
         left: 4px;
         top: 12px;
       }
+
+      .serenity-text-input:active, .serenity-text-input:focus {
+        outline: 0;
+        border: 0.5px solid #8A8B96; /* text brightest */
+      }
     </style>
   </head>
   <body>
@@ -935,5 +951,6 @@
     <div id="editor">
       <div id="editor-toolbar" />
     </div>
+    <div id="link-preview" />
   </body>
 </html>

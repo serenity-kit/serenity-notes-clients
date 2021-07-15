@@ -20,7 +20,7 @@ export default function MiscellaneousMenu({ editorView }: Props) {
     <>
       <Drawer
         editorView={editorView}
-        height={305}
+        height={260}
         onOpen={() => {
           setIsOpen(true);
         }}
@@ -96,13 +96,10 @@ export default function MiscellaneousMenu({ editorView }: Props) {
                 editorView={editorView}
                 icon={MdRemove}
                 title="Insert horizontal line"
-                style={{
-                  borderBottomLeftRadius: "8px",
-                  borderBottomRightRadius: "8px",
-                }}
               >
                 Horizontal line
               </InsertButton>
+              <HorizontalRule />
               <LinkMenu editorView={editorView} />
             </div>
           </div>

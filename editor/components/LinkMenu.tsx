@@ -2,33 +2,37 @@ import React, { useRef, useState } from "react";
 import { EditorView } from "prosemirror-view";
 import { MdLink } from "react-icons/md";
 import { schema } from "../schema";
-// import setMark from "../utils/setMark";
 import { toggleMark } from "prosemirror-commands";
 import CloseButton from "./CloseButton";
 import Drawer from "./Drawer";
+import Button from "./Button";
+import TextInput from "./TextInput";
 import {
   closeToolbar,
   openToolbar,
   setActiveDrawer,
 } from "../utils/toolbarState";
+import * as theme from "../theme";
+import markActive from "../utils/markActive";
 
 type Props = {
   editorView: EditorView;
+  iconMode?: boolean;
 };
 
-export default function BlockTypeMenu({ editorView }: Props) {
+export default function BlockTypeMenu({ editorView, iconMode }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   // const [text, setText] = useState("");
   const [link, setLink] = useState("");
   const linkInputRef = useRef<HTMLInputElement>(null);
 
-  const canChangeBlockType = true;
+  const canDoCommand = !editorView.state.selection.empty;
 
   return (
     <>
       <Drawer
         editorView={editorView}
-        height={200}
+        height={235}
         onOpen={(uniqueDrawerId) => {
           setActiveDrawer(uniqueDrawerId);
           setIsOpen(true);
@@ -44,27 +48,58 @@ export default function BlockTypeMenu({ editorView }: Props) {
           openToolbar();
         }}
         button={({ onPointerDown }) => (
-          <button
-            onPointerDown={onPointerDown}
-            style={{
-              border: "0 solid transparent",
-              fontSize: 22,
-              borderRadius: 8,
-              padding: "5px 0.3rem 0.2rem 0.3rem",
-              marginRight: "0.1rem",
-              verticalAlign: "bottom",
-              background: isOpen ? "black" : "white",
-              color: isOpen ? "white" : canChangeBlockType ? "black" : "#ccc",
-            }}
-            data-serenity-ignore-drawer-dragging="true"
-          >
-            <MdLink
-              style={{
-                display: "inline-block",
-                verticalAlign: "middle",
-              }}
-            />
-          </button>
+          <>
+            {iconMode ? (
+              <button
+                disabled={canDoCommand}
+                onPointerDown={(event) => {
+                  if (!canDoCommand) return;
+                  onPointerDown(event);
+                }}
+                style={{
+                  border: "0 solid transparent",
+                  fontSize: 24,
+                  borderRadius: 8,
+                  background: isOpen ? "black" : "white",
+                  color: isOpen ? "white" : canDoCommand ? "black" : "#ccc",
+                  padding: "0rem 0.3rem 0.2rem",
+                  marginRight: "0.1rem",
+                }}
+                data-serenity-ignore-drawer-dragging="true"
+              >
+                <MdLink
+                  style={{
+                    display: "inline-block",
+                    verticalAlign: "middle",
+                  }}
+                />
+              </button>
+            ) : (
+              <Button
+                onPointerDown={(event) => {
+                  if (!canDoCommand) return;
+                  onPointerDown(event);
+                }}
+                disabled={!canDoCommand}
+                canDoCommand={canDoCommand}
+                data-serenity-ignore-drawer-dragging="true"
+                style={{
+                  borderBottomLeftRadius: "8px",
+                  borderBottomRightRadius: "8px",
+                }}
+              >
+                <MdLink
+                  style={{
+                    fontSize: 24,
+                    display: "inline-block",
+                    verticalAlign: "middle",
+                    marginRight: 10,
+                  }}
+                />
+                Link
+              </Button>
+            )}
+          </>
         )}
       >
         {({ onPointerDownClose, close }) => (
@@ -90,8 +125,6 @@ export default function BlockTypeMenu({ editorView }: Props) {
             </div>
             <div
               style={{
-                borderRadius: 8,
-                border: "0.5px solid #ddd",
                 width: "100%",
                 marginTop: 15,
               }}
@@ -101,10 +134,14 @@ export default function BlockTypeMenu({ editorView }: Props) {
                   event.preventDefault();
                   setActiveDrawer(undefined);
                   close();
-                  // TODO insert vs just apply
-                  // editorView.dispatch(
-                  //   setMark(schema.marks.link, { href: link }, editorView)
-                  // );
+
+                  // remove the active link before applying the new one
+                  if (markActive(editorView.state, schema.marks.link)) {
+                    toggleMark(schema.marks.link, {})(
+                      editorView.state,
+                      editorView.dispatch
+                    );
+                  }
                   toggleMark(schema.marks.link, { href: link })(
                     editorView.state,
                     editorView.dispatch
@@ -120,7 +157,7 @@ export default function BlockTypeMenu({ editorView }: Props) {
                   value={text}
                   onChange={(event) => setText(event.target.value)}
                 /> */}
-                <input
+                <TextInput
                   placeholder="www.example.com"
                   type="text"
                   value={link}
@@ -132,7 +169,22 @@ export default function BlockTypeMenu({ editorView }: Props) {
                     closeToolbar();
                   }}
                 />
-                <button>Submit</button>
+                <Button
+                  canDoCommand={link !== ""}
+                  disabled={link === ""}
+                  style={{
+                    fontSize: 16,
+                    backgroundColor: theme.colors.white,
+                    lineHeight: "22px",
+                    borderRadius: 6,
+                    border: `0.5px solid ${theme.colors.divider}`,
+                    width: "100%",
+                    justifyContent: "center",
+                    marginTop: 15,
+                  }}
+                >
+                  Apply Link
+                </Button>
               </form>
             </div>
           </div>

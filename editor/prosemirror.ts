@@ -57,7 +57,9 @@ window.addEventListener("load", () => {
     //   ydoc.clientID
     // );
     if (window.ReactNativeWebView) {
-      window.ReactNativeWebView.postMessage(JSON.stringify(Array.from(update)));
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({ type: "update", content: Array.from(update) })
+      );
     }
   });
 

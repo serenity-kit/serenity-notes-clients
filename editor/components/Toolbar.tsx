@@ -42,7 +42,7 @@ export default function Toolbar({ editorView }: Props) {
         margin: "0.5rem 0.2rem",
       }}
     >
-      <div>
+      <div style={{ display: "flex" }}>
         <ToggleMarkButton
           editorView={editorView}
           mark={schema.marks.strong}
@@ -154,7 +154,7 @@ export default function Toolbar({ editorView }: Props) {
           title="Lift out of enclosing block"
         />
       </div>
-      <div>
+      <div style={{ display: "flex" }}>
         <CommandButton
           command={undo}
           editorView={editorView}

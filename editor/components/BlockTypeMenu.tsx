@@ -48,11 +48,12 @@ export default function BlockTypeMenu({ editorView }: Props) {
             onPointerDown={onPointerDown}
             style={{
               border: "0 solid transparent",
-              fontSize: 22,
+              fontSize: 23 /* not 26 like the others, because it's not an icon */,
               borderRadius: 8,
-              padding: "5px 0.3rem 0.2rem 0.3rem",
-              marginRight: "0.1rem",
-              verticalAlign: "bottom",
+              padding: "5px",
+              marginRight: "2px",
+              display: "inline-flex",
+              alignItems: "center",
               background: isOpen ? "black" : "white",
               color: isOpen ? "white" : canChangeBlockType ? "black" : "#ccc",
             }}

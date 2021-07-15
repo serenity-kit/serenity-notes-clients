@@ -31,12 +31,14 @@ export default function ListButton({
       }}
       style={{
         border: "0 solid transparent",
-        fontSize: 24,
+        fontSize: 26,
         borderRadius: 8,
         background: "white",
         color: canWrap ? "black" : "#ccc",
-        padding: "0rem 0.3rem 0.2rem",
-        marginRight: "0.1rem",
+        padding: "5px",
+        marginRight: "2px",
+        display: "inline-flex",
+        alignItems: "center",
       }}
     >
       <Icon

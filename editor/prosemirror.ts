@@ -165,7 +165,7 @@ window.addEventListener("load", () => {
         }
 
         if (!window.isDesktop && !getActiveDrawer()) {
-          closeToolbar();
+          // closeToolbar();
         }
       },
     },

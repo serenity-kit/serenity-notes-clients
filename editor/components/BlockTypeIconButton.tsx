@@ -44,10 +44,12 @@ export default function BlockTypeButton({
         borderRadius: 8,
         background: "white",
         color: canDoCommand ? "black" : "#ccc",
-        padding: "0rem 0.3rem 0.2rem 0.3rem",
-        marginRight: "0.1rem",
-        fontSize: 24,
+        fontSize: 26,
         position: "relative",
+        padding: "5px",
+        marginRight: "2px",
+        display: "inline-flex",
+        alignItems: "center",
         ...style,
       }}
     >

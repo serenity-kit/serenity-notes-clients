@@ -17,7 +17,7 @@ type Props = {
 };
 
 export default function Toolbar({ editorView, icon, mark, title }: Props) {
-  const isBold = markActive(editorView.state, mark);
+  const isActive = markActive(editorView.state, mark);
   const Icon = icon;
 
   return (
@@ -32,10 +32,12 @@ export default function Toolbar({ editorView, icon, mark, title }: Props) {
         border: "0 solid transparent",
         fontSize: 26,
         borderRadius: 8,
-        background: isBold ? "black" : "white",
-        color: isBold ? "white" : "black",
-        padding: "0rem 0.3rem 0.2rem",
-        marginRight: "0.1rem",
+        background: isActive ? "black" : "white",
+        color: isActive ? "white" : "black",
+        padding: "5px",
+        marginRight: "2px",
+        display: "inline-flex",
+        alignItems: "center",
       }}
     >
       <Icon

@@ -1,6 +1,6 @@
 import React from "react";
 import { EditorView } from "prosemirror-view";
-import { MdAddCircleOutline, MdFormatQuote, MdRemove } from "react-icons/md";
+import { MdAdd, MdFormatQuote, MdRemove } from "react-icons/md";
 import { schema } from "../schema";
 import InsertButton from "./InsertButton";
 import HorizontalRule from "./HorizontalRule";
@@ -32,15 +32,17 @@ export default function MiscellaneousMenu({ editorView }: Props) {
             onPointerDown={onPointerDown}
             style={{
               border: "0 solid transparent",
-              fontSize: 24,
+              fontSize: 26,
               borderRadius: 8,
               background: isOpen ? "black" : "white",
               color: isOpen ? "white" : "black",
-              padding: "0rem 0.3rem 0.2rem",
-              marginRight: "0.1rem",
+              padding: "5px",
+              marginRight: "2px",
+              display: "inline-flex",
+              alignItems: "center",
             }}
           >
-            <MdAddCircleOutline
+            <MdAdd
               style={{
                 display: "inline-block",
                 verticalAlign: "middle",

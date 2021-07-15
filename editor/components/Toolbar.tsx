@@ -66,7 +66,7 @@ export default function Toolbar({ editorView }: Props) {
         ) : null}
         <span
           style={{
-            borderRight: `1px solid ${theme.colors.divider}`,
+            borderRight: `0.5px solid ${theme.colors.divider}`,
             marginRight: "0.6rem",
           }}
         ></span>

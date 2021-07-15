@@ -14,6 +14,9 @@ const TextInput = (props: Props, ref: any) => {
       ref={ref}
       className="serenity-text-input"
       style={{
+        // @ts-expect-error just wrong in the types
+        "-webkit-appearance": "none",
+        appearance: "none",
         fontSize: 16,
         paddingLeft: 16,
         paddingRight: 16,
@@ -25,6 +28,7 @@ const TextInput = (props: Props, ref: any) => {
         border: `0.5px solid ${theme.colors.divider}`,
         color: props.disabled ? theme.colors.textBrightest : theme.colors.text,
         width: "100%",
+        boxShadow: "none",
       }}
       {...props}
     />

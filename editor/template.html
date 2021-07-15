@@ -87,6 +87,16 @@
       pre {
         font-family: monospace, monospace; /* 1 */
         font-size: 1em; /* 2 */
+        padding: .75rem 1rem;
+        border-radius: .4rem;
+        color: #4F5057;
+        background-color: #f8f8f8;
+      }
+
+      pre > code {
+        color: inherit;
+        padding: 0;
+        background: none;
       }
 
       /* Text-level semantics
@@ -130,6 +140,13 @@
       samp {
         font-family: monospace, monospace; /* 1 */
         font-size: 1em; /* 2 */
+      }
+
+      code {
+        background-color: #f8f8f8;
+        color: #4F5057;
+        padding: .1rem .3rem;
+        border-radius: .4rem;
       }
 
       /**
@@ -611,9 +628,13 @@
         display: block;
         position: absolute;
         top: -2px;
-        width: 20px;
-        border-top: 1px solid black;
+        /* width: 20px;
+        border-top: 1px solid black; */
         animation: ProseMirror-cursor-blink 1.1s steps(2, start) infinite;
+        /* custom fix */
+        height: 20px;
+        width: 1px;
+        border-right: 1px solid black;
       }
 
       @keyframes ProseMirror-cursor-blink {
@@ -808,6 +829,17 @@
       }
     </style>
     <style>
+      a, a:active {
+        color: #1F1F1F;
+        text-decoration: underline;
+      }
+
+      a:hover, a:focus {
+        outline: 0;
+        color: #718096;
+        text-decoration: underline;
+      }
+
       /* checklist style */
       ul[data-type="checklist"] {
         padding-left: 0;
@@ -893,6 +925,11 @@
         left: 4px;
         top: 12px;
       }
+
+      .serenity-text-input:active, .serenity-text-input:focus {
+        outline: 0;
+        border: 0.5px solid #8A8B96; /* text brightest */
+      }
     </style>
   </head>
   <body>
@@ -914,5 +951,6 @@
     <div id="editor">
       <div id="editor-toolbar" />
     </div>
+    <div id="link-preview" />
   </body>
 </html>

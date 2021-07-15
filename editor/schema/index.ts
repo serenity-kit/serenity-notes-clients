@@ -38,27 +38,27 @@ export const nodes = {
     },
   },
 
-  // // :: NodeSpec A blockquote (`<blockquote>`) wrapping one or more blocks.
-  // blockquote: {
-  //   attrs: { ychange: { default: null } },
-  //   content: "block+",
-  //   group: "block",
-  //   defining: true,
-  //   parseDOM: [{ tag: "blockquote" }],
-  //   toDOM(node) {
-  //     return ["blockquote", calcYchangeDomAttrs(node.attrs), 0];
-  //   },
-  // },
+  // :: NodeSpec A blockquote (`<blockquote>`) wrapping one or more blocks.
+  blockquote: {
+    attrs: { ychange: { default: null } },
+    content: "block+",
+    group: "block",
+    defining: true,
+    parseDOM: [{ tag: "blockquote" }],
+    toDOM(node: any) {
+      return ["blockquote", calcYchangeDomAttrs(node.attrs), 0];
+    },
+  },
 
-  // // :: NodeSpec A horizontal rule (`<hr>`).
-  // horizontal_rule: {
-  //   attrs: { ychange: { default: null } },
-  //   group: "block",
-  //   parseDOM: [{ tag: "hr" }],
-  //   toDOM(node) {
-  //     return ["hr", calcYchangeDomAttrs(node.attrs)];
-  //   }
-  // },
+  // :: NodeSpec A horizontal rule (`<hr>`).
+  horizontal_rule: {
+    attrs: { ychange: { default: null } },
+    group: "block",
+    parseDOM: [{ tag: "hr" }],
+    toDOM(node: any) {
+      return ["hr", calcYchangeDomAttrs(node.attrs)];
+    },
+  },
 
   // :: NodeSpec A heading textblock, with a `level` attribute that
   // should hold the number 1 to 6. Parsed and serialized as `<h1>` to
@@ -84,19 +84,21 @@ export const nodes = {
     },
   },
 
-  // // :: NodeSpec A code listing. Disallows marks or non-text inline
-  // // nodes by default. Represented as a `<pre>` element with a
-  // // `<code>` element inside of it.
-  // code_block: {
-  //   attrs: { ychange: { default: null } },
-  //   content: 'text*',
-  //   marks: '',
-  //   group: 'block',
-  //   code: true,
-  //   defining: true,
-  //   parseDOM: [{ tag: 'pre', preserveWhitespace: 'full' }],
-  //   toDOM (node) { return ['pre', calcYchangeDomAttrs(node.attrs), ['code', 0]] }
-  // },
+  // :: NodeSpec A code listing. Disallows marks or non-text inline
+  // nodes by default. Represented as a `<pre>` element with a
+  // `<code>` element inside of it.
+  code_block: {
+    attrs: { ychange: { default: null } },
+    content: "text*",
+    marks: "",
+    group: "block",
+    code: true,
+    defining: true,
+    parseDOM: [{ tag: "pre", preserveWhitespace: "full" }],
+    toDOM(node: any) {
+      return ["pre", calcYchangeDomAttrs(node.attrs), ["code", 0]];
+    },
+  },
 
   // :: NodeSpec The text node.
   text: {
@@ -154,34 +156,34 @@ export const nodes = {
 
 const emDOM = ["em", 0];
 const strongDOM = ["strong", 0];
-// const codeDOM = ["code", 0];
+const codeDOM = ["code", 0];
 
 // :: Object [Specs](#model.MarkSpec) for the marks in the schema.
 export const marks = {
-  // // :: MarkSpec A link. Has `href` and `title` attributes. `title`
-  // // defaults to the empty string. Rendered and parsed as an `<a>`
-  // // element.
-  // link: {
-  //   attrs: {
-  //     href: {},
-  //     title: { default: null }
-  //   },
-  //   inclusive: false,
-  //   parseDOM: [
-  //     {
-  //       tag: "a[href]",
-  //       getAttrs(dom) {
-  //         return {
-  //           href: dom.getAttribute("href"),
-  //           title: dom.getAttribute("title")
-  //         };
-  //       }
-  //     }
-  //   ],
-  //   toDOM(node) {
-  //     return ["a", node.attrs, 0];
-  //   }
-  // },
+  // :: MarkSpec A link. Has `href` and `title` attributes. `title`
+  // defaults to the empty string. Rendered and parsed as an `<a>`
+  // element.
+  link: {
+    attrs: {
+      href: {},
+      title: { default: null },
+    },
+    inclusive: false,
+    parseDOM: [
+      {
+        tag: "a[href]",
+        getAttrs(dom: any) {
+          return {
+            href: dom.getAttribute("href"),
+            title: dom.getAttribute("title"),
+          };
+        },
+      },
+    ],
+    toDOM(node: any) {
+      return ["a", node.attrs, 0];
+    },
+  },
 
   // :: MarkSpec An emphasis mark. Rendered as an `<em>` element.
   // Has parse rules that also match `<i>` and `font-style: italic`.
@@ -216,12 +218,12 @@ export const marks = {
   },
 
   // // :: MarkSpec Code font mark. Represented as a `<code>` element.
-  // code: {
-  //   parseDOM: [{ tag: "code" }],
-  //   toDOM() {
-  //     return codeDOM;
-  //   }
-  // },
+  code: {
+    parseDOM: [{ tag: "code" }],
+    toDOM() {
+      return codeDOM;
+    },
+  },
   ychange: {
     attrs: {
       user: { default: null },

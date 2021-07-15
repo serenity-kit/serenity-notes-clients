@@ -8,6 +8,8 @@ import useOnClickOutside from "use-onclickoutside";
 import { EditorView } from "prosemirror-view";
 import * as theme from "../theme";
 import { useEffect } from "react";
+import uniqueId from "../utils/uniqueId";
+import { getActiveDrawer } from "../utils/toolbarState";
 
 type ButtonProps = {
   onPointerDown: React.PointerEventHandler<HTMLButtonElement>;
@@ -15,18 +17,35 @@ type ButtonProps = {
 
 type RenderProps = {
   onPointerDownClose: React.PointerEventHandler<HTMLButtonElement>;
+  close: () => void;
 };
 
 type Props = {
   children: (renderProps: RenderProps) => React.ReactNode;
   button: (props: ButtonProps) => JSX.Element;
   height: Number;
-  onClose?: () => void;
-  onOpen?: () => void;
+  onClose?: (uniqueDrawerId: string) => void;
+  onOpen?: (uniqueDrawerId: string) => void;
   editorView: EditorView;
 };
 
 let proseMirror: Element | undefined;
+let allDrawerCloseFunctions: Record<string, () => void> = {};
+
+function getDrawerCloseFunctionsWithoutCurrent(id: string) {
+  return Object.keys(allDrawerCloseFunctions)
+    .filter((key) => key !== id)
+    .map((key) => allDrawerCloseFunctions[key]);
+}
+
+function shouldIgnoreDragging(target: EventTarget) {
+  const ignoreDraggingElements = document.querySelectorAll(
+    "[data-serenity-ignore-drawer-dragging]"
+  );
+  return Array.from(ignoreDraggingElements).some((element) =>
+    element.contains(target)
+  );
+}
 
 export default function Drawer({
   children,
@@ -39,6 +58,8 @@ export default function Drawer({
   const Button = button;
   const isOpenRef = useRef(false);
   const drawerRef = useRef(null);
+  const uniqueDrawerIdRef = useRef(uniqueId());
+
   const [{ y }, set] = useSpring(() => ({
     y: height,
     onChange: (event) => {
@@ -63,10 +84,13 @@ export default function Drawer({
       config: canceled ? config.wobbly : config.default,
     });
     if (onOpen) {
-      onOpen();
+      onOpen(uniqueDrawerIdRef.current);
     }
   };
   const close = (velocity = 0) => {
+    // already closed
+    if (isOpenRef.current === false) return;
+
     isOpenRef.current = false;
     set({
       y: height,
@@ -74,7 +98,7 @@ export default function Drawer({
       config: { ...config.default, velocity },
     });
     if (onClose) {
-      onClose();
+      onClose(uniqueDrawerIdRef.current);
     }
   };
 
@@ -83,6 +107,8 @@ export default function Drawer({
   });
 
   const closeOnEditorBlur = useCallback(() => {
+    // prevent a close if the current drawer should stay open
+    if (getActiveDrawer() === uniqueDrawerIdRef.current) return;
     close();
   }, []);
 
@@ -98,6 +124,13 @@ export default function Drawer({
       }
     };
   }, [closeOnEditorBlur]);
+
+  useEffect(() => {
+    allDrawerCloseFunctions[uniqueDrawerIdRef.current] = close;
+    return () => {
+      delete allDrawerCloseFunctions[uniqueDrawerIdRef.current];
+    };
+  });
 
   const bind = useDrag(
     ({ last, vxvy: [, vy], movement: [, my], cancel, canceled }) => {
@@ -123,6 +156,7 @@ export default function Drawer({
   );
 
   const display = y.to((py) => (py < height ? "block" : "none"));
+  const animatedDivProps = bind();
 
   return (
     <>
@@ -132,6 +166,11 @@ export default function Drawer({
           if (isOpenRef.current) {
             close();
           } else {
+            getDrawerCloseFunctionsWithoutCurrent(
+              uniqueDrawerIdRef.current
+            ).forEach((otherDrawerClose) => {
+              otherDrawerClose();
+            });
             open({ canceled: false });
           }
         }}
@@ -152,17 +191,30 @@ export default function Drawer({
             background: theme.colors.background,
             y,
           }}
-          {...bind()}
+          {...animatedDivProps}
+          onPointerDown={(event) => {
+            if (
+              !shouldIgnoreDragging(event.target) &&
+              animatedDivProps.onPointerDown
+            ) {
+              animatedDivProps.onPointerDown(event);
+            }
+          }}
           // prevent to trigger that the editor looses focus
-          // when dragging the drawer
+          // when dragging the drawer except it's an input
           onMouseDown={(event) => {
-            event.preventDefault();
+            if (event.target.tagName !== "INPUT") {
+              event.preventDefault();
+            }
           }}
         >
           {children({
             onPointerDownClose: (event) => {
               event.preventDefault();
               event.stopPropagation();
+              close();
+            },
+            close: () => {
               close();
             },
           })}

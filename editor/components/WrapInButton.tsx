@@ -1,27 +1,30 @@
 import React from "react";
 import { EditorView } from "prosemirror-view";
-import { wrapInList } from "../commands/lists";
+import { wrapIn } from "prosemirror-commands";
+import { IconType } from "react-icons/lib";
 import Button from "./Button";
 import CSS from "csstype";
-import ChecklistIcon from "./ChecklistIcon";
 
 type Props = {
   editorView: EditorView;
   nodeType: any;
+  icon: IconType;
   children?: React.ReactNode;
   title: string;
   style?: CSS.Properties;
 };
 
-export default function ChecklistButton({
+export default function ListButton({
   editorView,
+  icon,
   nodeType,
   title,
   style,
   children,
 }: Props) {
-  const command = wrapInList(nodeType);
+  const command = wrapIn(nodeType);
   const canWrap = command(editorView.state);
+  const Icon = icon;
 
   return (
     <Button
@@ -33,12 +36,12 @@ export default function ChecklistButton({
       canDoCommand={canWrap}
       style={style}
     >
-      <ChecklistIcon
+      <Icon
         style={{
-          fontSize: "24px",
+          fontSize: 24,
           display: "inline-block",
           verticalAlign: "middle",
-          marginRight: "10px",
+          marginRight: 10,
         }}
       />
       {children}

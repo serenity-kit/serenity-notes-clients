@@ -1,42 +1,34 @@
 import React from "react";
 import { EditorView } from "prosemirror-view";
-import { BiParagraph, BiHeading } from "react-icons/bi";
-import { MdCode } from "react-icons/md";
-import { setBlockType } from "prosemirror-commands";
+import { wrapInList } from "../commands/lists";
 import { schema } from "../schema";
-import BlockTypeButton from "./BlockTypeButton";
 import HorizontalRule from "./HorizontalRule";
 import CloseButton from "./CloseButton";
 import Drawer from "./Drawer";
+import ListButton from "./ListButton";
+import { MdFormatListBulleted, MdFormatListNumbered } from "react-icons/md";
+import ChecklistButton from "./CheckListButton";
 
 type Props = {
   editorView: EditorView;
 };
 
-const paragraphCommand = setBlockType(schema.nodes.paragraph);
-const heading2Command = setBlockType(schema.nodes.heading, {
-  level: 2,
-  ychange: null,
-});
-const heading3Command = setBlockType(schema.nodes.heading, {
-  level: 3,
-  ychange: null,
-});
-const codeBlockCommand = setBlockType(schema.nodes.code_block);
+const bulletListCommand = wrapInList(schema.nodes.bullet_list);
+const orderedListCommand = wrapInList(schema.nodes.ordered_list);
+const checklistCommand = wrapInList(schema.nodes.checklist);
 
-export default function BlockTypeMenu({ editorView }: Props) {
+export default function ListMenu({ editorView }: Props) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const canChangeBlockType =
-    paragraphCommand(editorView.state) ||
-    heading2Command(editorView.state) ||
-    heading3Command(editorView.state) ||
-    codeBlockCommand(editorView.state);
+  const canWrapInList =
+    bulletListCommand(editorView.state) ||
+    orderedListCommand(editorView.state) ||
+    checklistCommand(editorView.state);
 
   return (
     <>
       <Drawer
         editorView={editorView}
-        height={305}
+        height={260}
         onOpen={() => {
           setIsOpen(true);
         }}
@@ -48,16 +40,20 @@ export default function BlockTypeMenu({ editorView }: Props) {
             onPointerDown={onPointerDown}
             style={{
               border: "0 solid transparent",
-              fontSize: 22,
+              fontSize: 24,
               borderRadius: 8,
-              padding: "5px 0.3rem 0.2rem 0.3rem",
-              marginRight: "0.1rem",
-              verticalAlign: "bottom",
               background: isOpen ? "black" : "white",
-              color: isOpen ? "white" : canChangeBlockType ? "black" : "#ccc",
+              color: isOpen ? "white" : canWrapInList ? "black" : "#ccc",
+              padding: "0rem 0.3rem 0.2rem",
+              marginRight: "0.1rem",
             }}
           >
-            Aa
+            <MdFormatListNumbered
+              style={{
+                display: "inline-block",
+                verticalAlign: "middle",
+              }}
+            />
           </button>
         )}
       >
@@ -78,7 +74,7 @@ export default function BlockTypeMenu({ editorView }: Props) {
                   alignSelf: "flex-end",
                 }}
               >
-                Format
+                Lists
               </h2>
               <CloseButton onPointerDown={onPointerDownClose} />
             </div>
@@ -90,51 +86,39 @@ export default function BlockTypeMenu({ editorView }: Props) {
                 marginTop: 15,
               }}
             >
-              <BlockTypeButton
-                nodeType={schema.nodes.heading}
-                attrs={{ level: 2, ychange: null }}
+              <ListButton
                 editorView={editorView}
-                icon={BiHeading}
-                title="Change to heading 2"
+                nodeType={schema.nodes.bullet_list}
+                icon={MdFormatListBulleted}
+                title="Wrap in bullet list"
                 style={{
                   borderTopLeftRadius: "8px",
                   borderTopRightRadius: "8px",
                 }}
               >
-                Heading
-              </BlockTypeButton>
+                Bullet list
+              </ListButton>
               <HorizontalRule />
-              <BlockTypeButton
-                nodeType={schema.nodes.heading}
-                attrs={{ level: 3, ychange: null }}
+              <ListButton
                 editorView={editorView}
-                icon={BiHeading}
-                title="Change to heading 3"
+                nodeType={schema.nodes.ordered_list}
+                icon={MdFormatListNumbered}
+                title="Wrap in ordered list"
               >
-                Subheading
-              </BlockTypeButton>
+                Ordered list
+              </ListButton>
               <HorizontalRule />
-              <BlockTypeButton
-                nodeType={schema.nodes.paragraph}
+              <ChecklistButton
                 editorView={editorView}
-                icon={BiParagraph}
-                title="Change to paragraph"
-              >
-                Body
-              </BlockTypeButton>
-              <HorizontalRule />
-              <BlockTypeButton
-                nodeType={schema.nodes.code_block}
-                editorView={editorView}
-                icon={MdCode}
-                title="Change to code block"
+                nodeType={schema.nodes.checklist}
+                title="Wrap in checklist"
                 style={{
                   borderBottomLeftRadius: "8px",
                   borderBottomRightRadius: "8px",
                 }}
               >
-                Code
-              </BlockTypeButton>
+                Checklist
+              </ChecklistButton>
             </div>
           </div>
         )}

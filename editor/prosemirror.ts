@@ -18,6 +18,11 @@ import {
   sinkListItem,
 } from "prosemirror-schema-list";
 import * as theme from "./theme";
+import {
+  closeToolbar,
+  getActiveDrawer,
+  openToolbar,
+} from "./utils/toolbarState";
 
 function toolbarPlugin() {
   return new Plugin({
@@ -52,12 +57,13 @@ window.addEventListener("load", () => {
     //   ydoc.clientID
     // );
     if (window.ReactNativeWebView) {
-      window.ReactNativeWebView.postMessage(JSON.stringify(Array.from(update)));
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({ type: "update", content: Array.from(update) })
+      );
     }
   });
 
   const editor = document.getElementById("editor");
-  const editorToolbar = document.getElementById("editor-toolbar");
 
   if (window.isDesktop) {
     const css = `
@@ -150,11 +156,7 @@ window.addEventListener("load", () => {
         }
 
         if (!window.isDesktop) {
-          const proseMirror = document.getElementsByClassName("ProseMirror")[0];
-          // @ts-expect-error editorToolbar must always be available
-          editorToolbar.style.height = "53px";
-          // @ts-expect-error proseMirror has a style
-          proseMirror.style.height = "calc(100vh - 53px)";
+          openToolbar();
         }
       },
       blur: () => {
@@ -162,12 +164,8 @@ window.addEventListener("load", () => {
           window.visualViewport.removeEventListener("resize", scrollIntoView);
         }
 
-        if (!window.isDesktop) {
-          const proseMirror = document.getElementsByClassName("ProseMirror")[0];
-          // @ts-expect-error editorToolbar must always be available
-          editorToolbar.style.height = "0px";
-          // @ts-expect-error proseMirror has a style
-          proseMirror.style.height = "100vh";
+        if (!window.isDesktop && !getActiveDrawer()) {
+          closeToolbar();
         }
       },
     },

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
-import { View, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet, Platform, Linking, Alert } from "react-native";
 import { IconButton, TouchableRipple } from "react-native-paper";
 import { WebView } from "react-native-webview";
 import deepEqual from "fast-deep-equal/es6";
@@ -19,6 +19,7 @@ import * as mutationQueue from "../../hooks/useSyncUtils/mutationQueue";
 import { loadEditorSourceForAndroid } from "../../utils/editorSource/editorSource";
 import { useEditorSource } from "../../context/EditorSourceContext";
 import SchemaVerionUpdateHint from "../ui/SchemaVersionUpdateHint";
+import getValidUrl from "../../utils/getValidUrl/getValidUrl";
 
 const styles = StyleSheet.create({
   container: {
@@ -48,12 +49,10 @@ type HeaderRightProps = {
 };
 
 const HeaderRight = ({ navigation, repository }: HeaderRightProps) => {
-  const [
-    uploadSyncState,
-    setUploadSyncState,
-  ] = useState<mutationQueue.RepositorySyncState>({
-    state: "unknown",
-  });
+  const [uploadSyncState, setUploadSyncState] =
+    useState<mutationQueue.RepositorySyncState>({
+      state: "unknown",
+    });
 
   useEffect(() => {
     setUploadSyncState(mutationQueue.getRepositorySyncState(repository.id));
@@ -269,19 +268,33 @@ export default function NoteScreen({ route, navigation }) {
         )}
         onMessage={async (event) => {
           // event.persist();
-          const update = new Uint8Array(JSON.parse(event.nativeEvent.data));
-          Y.applyUpdate(yDocRef.current, update);
-          const serializedYDoc = Y.encodeStateAsUpdate(yDocRef.current);
+          const message = JSON.parse(event.nativeEvent.data);
+          if (message.type === "update") {
+            const update = new Uint8Array(message.content);
+            Y.applyUpdate(yDocRef.current, update);
+            const serializedYDoc = Y.encodeStateAsUpdate(yDocRef.current);
 
-          // optimization: prevent update in case the content hasn't changed
-          if (deepEqual(serializedYDoc, contentRef.current)) return;
+            // optimization: prevent update in case the content hasn't changed
+            if (deepEqual(serializedYDoc, contentRef.current)) return;
 
-          const repo = await repositoryStore.getRepository(id);
-          await repositoryStore.setRepository({
-            ...repo,
-            content: serializedYDoc,
-            updatedAt: new Date().toISOString(),
-          });
+            const repo = await repositoryStore.getRepository(id);
+            await repositoryStore.setRepository({
+              ...repo,
+              content: serializedYDoc,
+              updatedAt: new Date().toISOString(),
+            });
+          }
+          if (message.type === "openLink") {
+            if (Linking.canOpenURL(message.link)) {
+              try {
+                await Linking.openURL(message.link);
+              } catch (err) {
+                Alert.alert("Can't open URL", message.link);
+              }
+            } else {
+              Alert.alert("Can't open URL", message.link);
+            }
+          }
         }}
         style={styles.webView}
         // Needed for .focus() to work

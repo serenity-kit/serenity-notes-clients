@@ -50,15 +50,15 @@ export const nodes = {
     },
   },
 
-  // // :: NodeSpec A horizontal rule (`<hr>`).
-  // horizontal_rule: {
-  //   attrs: { ychange: { default: null } },
-  //   group: "block",
-  //   parseDOM: [{ tag: "hr" }],
-  //   toDOM(node) {
-  //     return ["hr", calcYchangeDomAttrs(node.attrs)];
-  //   }
-  // },
+  // :: NodeSpec A horizontal rule (`<hr>`).
+  horizontal_rule: {
+    attrs: { ychange: { default: null } },
+    group: "block",
+    parseDOM: [{ tag: "hr" }],
+    toDOM(node: any) {
+      return ["hr", calcYchangeDomAttrs(node.attrs)];
+    },
+  },
 
   // :: NodeSpec A heading textblock, with a `level` attribute that
   // should hold the number 1 to 6. Parsed and serialized as `<h1>` to
@@ -160,30 +160,30 @@ const codeDOM = ["code", 0];
 
 // :: Object [Specs](#model.MarkSpec) for the marks in the schema.
 export const marks = {
-  // // :: MarkSpec A link. Has `href` and `title` attributes. `title`
-  // // defaults to the empty string. Rendered and parsed as an `<a>`
-  // // element.
-  // link: {
-  //   attrs: {
-  //     href: {},
-  //     title: { default: null }
-  //   },
-  //   inclusive: false,
-  //   parseDOM: [
-  //     {
-  //       tag: "a[href]",
-  //       getAttrs(dom) {
-  //         return {
-  //           href: dom.getAttribute("href"),
-  //           title: dom.getAttribute("title")
-  //         };
-  //       }
-  //     }
-  //   ],
-  //   toDOM(node) {
-  //     return ["a", node.attrs, 0];
-  //   }
-  // },
+  // :: MarkSpec A link. Has `href` and `title` attributes. `title`
+  // defaults to the empty string. Rendered and parsed as an `<a>`
+  // element.
+  link: {
+    attrs: {
+      href: {},
+      title: { default: null },
+    },
+    inclusive: false,
+    parseDOM: [
+      {
+        tag: "a[href]",
+        getAttrs(dom: any) {
+          return {
+            href: dom.getAttribute("href"),
+            title: dom.getAttribute("title"),
+          };
+        },
+      },
+    ],
+    toDOM(node: any) {
+      return ["a", node.attrs, 0];
+    },
+  },
 
   // :: MarkSpec An emphasis mark. Rendered as an `<em>` element.
   // Has parse rules that also match `<i>` and `font-style: italic`.

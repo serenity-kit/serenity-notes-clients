@@ -10,7 +10,7 @@ type Props = {
   title: string;
 };
 
-export default function BlockquoteButton({
+export default function WrapInIconButton({
   editorView,
   icon,
   nodeType,

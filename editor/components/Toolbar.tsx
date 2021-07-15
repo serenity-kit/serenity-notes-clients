@@ -5,7 +5,7 @@ import { undo, redo } from "prosemirror-history";
 import { schema } from "../schema";
 import ToggleMarkButton from "./ToggleMarkButton";
 import ListIconButton from "./ListIconButton";
-import BlockquoteButton from "./BlockquoteButton";
+import WrapInIconButton from "./WrapInIconButton";
 import ChecklistIconButton from "./ChecklistIconButton";
 import CommandButton from "./CommandButton";
 import BlockTypeIconButton from "./BlockTypeIconButton";
@@ -20,10 +20,14 @@ import {
   MdRedo,
   MdCode,
   MdFormatQuote,
+  MdRemove,
 } from "react-icons/md";
 import { BiParagraph, BiHeading } from "react-icons/bi";
 import * as theme from "../theme";
 import ListMenu from "./ListMenu";
+import LinkMenu from "./LinkMenu";
+import MiscellaneousMenu from "./MiscellaneousMenu";
+import InsertIconButton from "./InsertIconButton";
 
 type Props = {
   editorView: EditorView;
@@ -57,6 +61,7 @@ export default function Toolbar({ editorView }: Props) {
           icon={MdCode}
           title="Toggle code style"
         />
+        <LinkMenu editorView={editorView} />
         <span
           style={{
             borderRight: `1px solid ${theme.colors.divider}`,
@@ -87,6 +92,12 @@ export default function Toolbar({ editorView }: Props) {
               headingLevelTwo
               style={{ marginRight: "10px" }}
             />
+            <BlockTypeIconButton
+              nodeType={schema.nodes.code_block}
+              editorView={editorView}
+              icon={MdCode}
+              title="Change to code block"
+            />
           </>
         ) : (
           <BlockTypeMenu editorView={editorView} />
@@ -114,12 +125,26 @@ export default function Toolbar({ editorView }: Props) {
         ) : (
           <ListMenu editorView={editorView} />
         )}
-        <BlockquoteButton
-          editorView={editorView}
-          nodeType={schema.nodes.blockquote}
-          icon={MdFormatQuote}
-          title="Wrap in blockquote"
-        />
+        {window.isDesktop ? (
+          <>
+            <WrapInIconButton
+              editorView={editorView}
+              nodeType={schema.nodes.blockquote}
+              icon={MdFormatQuote}
+              title="Wrap in blockquote"
+            />
+            <InsertIconButton
+              editorView={editorView}
+              nodeType={schema.nodes.horizontal_rule}
+              icon={MdRemove}
+              title="Insert horizontal line"
+            />
+            {/* TODO Link button */}
+          </>
+        ) : (
+          <MiscellaneousMenu editorView={editorView} />
+        )}
+
         <CommandButton
           command={lift}
           editorView={editorView}

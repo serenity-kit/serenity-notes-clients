@@ -50,6 +50,8 @@ yarn build-macos
 
 Locate the .app file in `~/Library/Developer/Xcode/DerivedData/<serenity>/Build/Products/Release` and package it as dmg: `yarn create-dmg Serenity\ Notes.app`
 
+Update the app version on the backend.
+
 ## License
 
 Copyright 2021 Nikolaus Graf

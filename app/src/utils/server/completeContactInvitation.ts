@@ -1,7 +1,7 @@
 import { Y } from "../../vendor/index.js";
 import completeContactInvitationMutation from "../../graphql/completeContactInvitationMutation";
 import * as privateInfoStore from "../../utils/privateInfoStore";
-import * as privateUserSigningKeyStore from "../../utils/privateUserSigningKeyStore";
+import * as privateUserSigningKeyStore from "../../stores/privateUserSigningKeyStore";
 import {
   createAuthenticationToken,
   decryptContactInfoMessage,
@@ -44,7 +44,8 @@ const completeContactInvitation = async (
     throw new Error("ContactInvitation secrets don't match up.");
   }
 
-  const privateUserSigningKey = await privateUserSigningKeyStore.getPrivateUserSigningKey();
+  const privateUserSigningKey =
+    await privateUserSigningKeyStore.getPrivateUserSigningKey();
 
   const signature = signContactUserKey(
     privateUserSigningKey,

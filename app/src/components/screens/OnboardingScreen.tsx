@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation, useClient } from "urql";
 import { StyleSheet, View, Alert } from "react-native";
-import * as privateUserSigningKeyStore from "../../utils/privateUserSigningKeyStore";
+import * as privateUserSigningKeyStore from "../../stores/privateUserSigningKeyStore";
 import * as deviceStore from "../../utils/deviceStore";
 import * as userStore from "../../stores/userStore";
 import * as privateInfoStore from "../../utils/privateInfoStore";

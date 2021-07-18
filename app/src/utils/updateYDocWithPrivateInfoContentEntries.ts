@@ -4,7 +4,7 @@ import { generateSigningPublicKey, verifyDevice } from "./signing";
 import Olm from "./olm_legacy";
 import * as deviceStore from "./deviceStore";
 import * as privateInfoInboundGroupSessionIdStore from "../stores/privateInfoInboundGroupSessionIdStore";
-import * as privateUserSigningKeyStore from "./privateUserSigningKeyStore";
+import * as privateUserSigningKeyStore from "../stores/privateUserSigningKeyStore";
 import removeOneTimeKey from "./device/removeOneTimeKey";
 
 export const updateYDocWithPrivateInfoContentEntries = async (
@@ -33,9 +33,10 @@ export const updateYDocWithPrivateInfoContentEntries = async (
         throw new Error("The device idKey or signingKey don't match");
       }
 
-      const existingInboundGroupSessionId = await privateInfoInboundGroupSessionIdStore.getPrivateInfoInboundGroupSessionId(
-        receivedPacket.senderIdKey
-      );
+      const existingInboundGroupSessionId =
+        await privateInfoInboundGroupSessionIdStore.getPrivateInfoInboundGroupSessionId(
+          receivedPacket.senderIdKey
+        );
       // no need to decrypt the already decrypted content entry and since we currently
       // always expect a new groupsession message for privateInfo updates we can check
       // it based on the groupSessionMessage id

@@ -2,7 +2,7 @@ import repositoryDevices from "../../graphql/repositoryDevices";
 import { createAuthenticationToken } from "../../utils/device";
 import { generateSigningPublicKey, verifyDevice } from "../../utils/signing";
 import { DeviceKeys } from "../../types";
-import * as privateUserSigningKeyStore from "../../utils/privateUserSigningKeyStore";
+import * as privateUserSigningKeyStore from "../../stores/privateUserSigningKeyStore";
 import * as userStore from "../../stores/userStore";
 import * as privateInfoStore from "../../utils/privateInfoStore";
 import fetchPrivateInfo from "../../utils/server/fetchPrivateInfo";

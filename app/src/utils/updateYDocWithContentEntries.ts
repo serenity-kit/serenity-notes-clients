@@ -7,7 +7,7 @@ import Olm from "./olm_legacy";
 import * as deviceStore from "./deviceStore";
 import * as repositoryInboundGroupSessionsStore from "../stores/repositoryInboundGroupSessionsStore";
 import * as privateInfoStore from "./privateInfoStore";
-import * as privateUserSigningKeyStore from "./privateUserSigningKeyStore";
+import * as privateUserSigningKeyStore from "../stores/privateUserSigningKeyStore";
 import * as userStore from "../stores/userStore";
 import removeOneTimeKey from "./device/removeOneTimeKey";
 import { addDebugLogEntry } from "../stores/debugStore";

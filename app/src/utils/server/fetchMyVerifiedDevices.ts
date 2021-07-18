@@ -1,12 +1,13 @@
 import myDevices from "../../graphql/myDevices";
 import { createAuthenticationToken } from "../device";
 import * as deviceStore from "../../utils/deviceStore";
-import * as privateUserSigningKeyStore from "../../utils/privateUserSigningKeyStore";
+import * as privateUserSigningKeyStore from "../../stores/privateUserSigningKeyStore";
 import { generateSigningPublicKey, verifyDevice } from "../../utils/signing";
 
 const fetchMyVerifiedDevices = async (client: any) => {
   const device = await deviceStore.getDevice();
-  const privateUserSigningKey = await privateUserSigningKeyStore.getPrivateUserSigningKey();
+  const privateUserSigningKey =
+    await privateUserSigningKeyStore.getPrivateUserSigningKey();
 
   const result = await client
     .query(

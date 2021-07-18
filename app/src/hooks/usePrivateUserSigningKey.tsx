@@ -1,5 +1,5 @@
 import React from "react";
-import * as store from "../utils/privateUserSigningKeyStore";
+import * as store from "../stores/privateUserSigningKeyStore";
 
 type State =
   | { type: "loading" }
@@ -20,15 +20,14 @@ export default function usePrivateUserSigningKey(): State {
     };
 
     loadDevice();
-    const privateUserSigningKeySubscriptionId = store.subscribeToPrivateUserSigningKey(
-      async (privateUserSigningKey) => {
+    const privateUserSigningKeySubscriptionId =
+      store.subscribeToPrivateUserSigningKey(async (privateUserSigningKey) => {
         if (privateUserSigningKey) {
           setState({ type: "privateUserSigningKey", privateUserSigningKey });
         } else {
           setState({ type: "notFound" });
         }
-      }
-    );
+      });
     return () => {
       store.unsubscribeToPrivateUserSigningKey(
         privateUserSigningKeySubscriptionId

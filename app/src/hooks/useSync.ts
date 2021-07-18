@@ -8,7 +8,7 @@ import repositoriesQuery from "../graphql/repositoriesQuery";
 import { createAuthenticationToken } from "../utils/device";
 import { updateYDocWithContentEntries } from "../utils/updateYDocWithContentEntries";
 import { Y } from "../vendor/index.js";
-import * as repositoryStore from "../utils/repositoryStore";
+import * as repositoryStore from "../stores/repositoryStore";
 import { v4 as uuidv4 } from "uuid";
 import * as mutationQueue from "./useSyncUtils/mutationQueue";
 import useMyVerifiedDevices from "../hooks/useMyVerifiedDevices";

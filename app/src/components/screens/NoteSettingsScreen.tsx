@@ -12,7 +12,7 @@ import { getIdentityKeys } from "../../utils/device";
 import deleteRepository from "../../utils/server/deleteRepository";
 import removeCollaboratorFromRepository from "../../utils/server/removeCollaboratorFromRepository";
 import { Alert } from "react-native";
-import * as repositoryStore from "../../utils/repositoryStore";
+import * as repositoryStore from "../../stores/repositoryStore";
 import Text from "../ui/Text";
 import { RepositoryUpdate, RepositoryCollaborator } from "../../types";
 import usePrivateInfo from "../../hooks/usePrivateInfo";
@@ -100,37 +100,38 @@ export default function NoteSettingsScreen({ navigation, route }) {
 
   const myUpdates = findMyUpdate();
 
-  const collaboratorsWithMostRecentUpdate: RepositoryCollaboratorWithMostRecentUpdate[] = repositoryResult
-    .repository.collaborators
-    ? repositoryResult.repository.collaborators
-        .filter(
-          // filter out myself
-          (collaborator) =>
-            userResult.type === "user" && userResult.user.id !== collaborator.id
-        )
-        .map((collaborator) => {
-          if (verifiedDevicesForRepositoryResult.type !== "result") {
-            return collaborator;
-          }
-          const collaboratorUpdates = updates.filter((update) => {
-            return verifiedDevicesForRepositoryResult.devices.some(
-              (device) =>
-                update.authorDeviceKey === device.idKey &&
-                device.userId === collaborator.id
-            );
-          });
-          const mostRecentUpdate = collaboratorUpdates.sort(
-            (updateA, updateB) =>
-              // @ts-expect-error should be fine?
-              new Date(updateB.createdAt) - new Date(updateA.createdAt)
-          )[0];
+  const collaboratorsWithMostRecentUpdate: RepositoryCollaboratorWithMostRecentUpdate[] =
+    repositoryResult.repository.collaborators
+      ? repositoryResult.repository.collaborators
+          .filter(
+            // filter out myself
+            (collaborator) =>
+              userResult.type === "user" &&
+              userResult.user.id !== collaborator.id
+          )
+          .map((collaborator) => {
+            if (verifiedDevicesForRepositoryResult.type !== "result") {
+              return collaborator;
+            }
+            const collaboratorUpdates = updates.filter((update) => {
+              return verifiedDevicesForRepositoryResult.devices.some(
+                (device) =>
+                  update.authorDeviceKey === device.idKey &&
+                  device.userId === collaborator.id
+              );
+            });
+            const mostRecentUpdate = collaboratorUpdates.sort(
+              (updateA, updateB) =>
+                // @ts-expect-error should be fine?
+                new Date(updateB.createdAt) - new Date(updateA.createdAt)
+            )[0];
 
-          return {
-            ...collaborator,
-            mostRecentUpdate,
-          };
-        })
-    : [];
+            return {
+              ...collaborator,
+              mostRecentUpdate,
+            };
+          })
+      : [];
 
   return (
     <ScrollScreenContainer>

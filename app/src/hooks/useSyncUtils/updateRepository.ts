@@ -1,5 +1,5 @@
 import { Alert } from "react-native";
-import * as repositoryStore from "../../utils/repositoryStore";
+import * as repositoryStore from "../../stores/repositoryStore";
 import * as deviceStore from "../../utils/deviceStore";
 import {
   createGroupSession,
@@ -28,15 +28,13 @@ const updateRepository = async (
   }
 
   const repo = await repositoryStore.getRepository(repositoryId);
-  const {
-    verifiedDevices,
-    newGroupSessionNeeded,
-  } = await verifiedDevicesForRepository(
-    client,
-    repo.serverId,
-    repo.groupSessionMessageIds || [],
-    currentDevice
-  );
+  const { verifiedDevices, newGroupSessionNeeded } =
+    await verifiedDevicesForRepository(
+      client,
+      repo.serverId,
+      repo.groupSessionMessageIds || [],
+      currentDevice
+    );
 
   let isOutdatedGroupSession = true;
   if (repo.groupSessionCreatedAt) {

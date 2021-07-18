@@ -1,5 +1,5 @@
 import { Alert } from "react-native";
-import * as repositoryStore from "../../utils/repositoryStore";
+import * as repositoryStore from "../../stores/repositoryStore";
 import * as deviceStore from "../../utils/deviceStore";
 import {
   createGroupSession,

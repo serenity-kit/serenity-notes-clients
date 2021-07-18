@@ -1,5 +1,5 @@
 import React from "react";
-import * as repositoryStore from "../utils/repositoryStore";
+import * as repositoryStore from "../stores/repositoryStore";
 import { RepositoryStoreEntry } from "../types";
 
 type State =

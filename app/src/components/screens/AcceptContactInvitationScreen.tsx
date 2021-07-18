@@ -8,7 +8,7 @@ import {
   generateSigningPublicKey,
   signContactUserKey,
 } from "../../utils/signing";
-import * as privateInfoStore from "../../utils/privateInfoStore";
+import * as privateInfoStore from "../../stores/privateInfoStore";
 import { Y } from "../../vendor/index.js";
 import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
 import acceptContactInvitation from "../../utils/server/acceptContactInvitation";
@@ -43,9 +43,8 @@ export default function AcceptContactInvitationScreen({ navigation }) {
     setProcessStep("addingContact");
 
     try {
-      const invitation: contactInvitationIdentification.ContactInviation = contactInvitationIdentification.parse(
-        invitationCode
-      );
+      const invitation: contactInvitationIdentification.ContactInviation =
+        contactInvitationIdentification.parse(invitationCode);
 
       const signature = signContactUserKey(
         privateUserSigningKeyResult.privateUserSigningKey,

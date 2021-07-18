@@ -9,7 +9,7 @@ import {
 import useDevice from "../../hooks/useDevice";
 import usePrivateInfo from "../../hooks/usePrivateInfo";
 import useRepository from "../../hooks/useRepository";
-import * as repositoryStore from "../../utils/repositoryStore";
+import * as repositoryStore from "../../stores/repositoryStore";
 import claimOneTimeKeys from "../../utils/server/claimOneTimeKeys";
 import devicesForContact from "../../graphql/devicesForContact";
 import addCollaboratorToRepositoriesMutation from "../../graphql/addCollaboratorToRepositoriesMutation";
@@ -143,9 +143,8 @@ export default function AddCollaboratorToNoteScreen({ route, navigation }) {
   const repositoryResult = useRepository(route.params.repositoryId);
   const client = useClient();
   // TODO use one hook to calculate the diff contact & contactinvitation between local and server. use it here and in contacts
-  const contactsAndContactInvitations = useContactsAndContactInvitations(
-    navigation
-  );
+  const contactsAndContactInvitations =
+    useContactsAndContactInvitations(navigation);
 
   if (
     deviceResult.type !== "device" ||
@@ -201,9 +200,10 @@ export default function AddCollaboratorToNoteScreen({ route, navigation }) {
                     return;
                   }
 
-                  const contactFromServer = contactsAndContactInvitations.contacts.find(
-                    (contact) => contact.contactUserId === item.id
-                  );
+                  const contactFromServer =
+                    contactsAndContactInvitations.contacts.find(
+                      (contact) => contact.contactUserId === item.id
+                    );
                   if (!contactFromServer) {
                     Alert.alert(
                       "Error",

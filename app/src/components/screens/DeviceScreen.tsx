@@ -6,7 +6,7 @@ import Text from "../ui/Text";
 import ListHeader from "../ui/ListHeader";
 import ListItemInfo from "../ui/ListItemInfo";
 import usePrivateInfo from "../../hooks/usePrivateInfo";
-import * as privateInfoStore from "../../utils/privateInfoStore";
+import * as privateInfoStore from "../../stores/privateInfoStore";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
 import deleteDevice from "../../utils/server/deleteDevice";
 import useMyVerifiedDevices from "../../hooks/useMyVerifiedDevices";

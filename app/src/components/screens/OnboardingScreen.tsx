@@ -1,10 +1,10 @@
 import React from "react";
 import { useMutation, useClient } from "urql";
 import { StyleSheet, View, Alert } from "react-native";
-import * as privateUserSigningKeyStore from "../../utils/privateUserSigningKeyStore";
-import * as deviceStore from "../../utils/deviceStore";
+import * as privateUserSigningKeyStore from "../../stores/privateUserSigningKeyStore";
+import * as deviceStore from "../../stores/deviceStore";
 import * as userStore from "../../stores/userStore";
-import * as privateInfoStore from "../../utils/privateInfoStore";
+import * as privateInfoStore from "../../stores/privateInfoStore";
 import OutlineButton from "../ui/OutlineButton";
 import Spacer from "../ui/Spacer";
 import Text from "../ui/Text";

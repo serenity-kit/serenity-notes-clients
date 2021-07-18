@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import deepEqual from "fast-deep-equal/es6";
 
-import { uInt8ArrayToBase64, base64ToUInt8Array } from "./encoding";
+import { uInt8ArrayToBase64, base64ToUInt8Array } from "../utils/encoding";
 import {
   Repository,
   RepositoryStoreEntry,

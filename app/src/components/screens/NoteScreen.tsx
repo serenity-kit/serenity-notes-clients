@@ -4,7 +4,7 @@ import { IconButton, TouchableRipple } from "react-native-paper";
 import { WebView } from "react-native-webview";
 import deepEqual from "fast-deep-equal/es6";
 import { Y } from "../../vendor/index.js";
-import * as repositoryStore from "../../utils/repositoryStore";
+import * as repositoryStore from "../../stores/repositoryStore";
 import KeyboardAvoidContainer from "../ui/KeyboardAvoidContainer";
 import Spacer from "../ui/Spacer";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";

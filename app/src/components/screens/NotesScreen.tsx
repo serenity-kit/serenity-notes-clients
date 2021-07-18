@@ -4,7 +4,7 @@ import { ListItem } from "react-native-elements";
 import { v4 as uuidv4 } from "uuid";
 import formatDistanceToNow from "../../utils/formatDistanceToNow";
 import { Y } from "../../vendor/index.js";
-import * as repositoryStore from "../../utils/repositoryStore";
+import * as repositoryStore from "../../stores/repositoryStore";
 import { RepositoryStoreEntry } from "../../types";
 import useRepositories from "../../hooks/useRepositories";
 import usePrivateInfo from "../../hooks/usePrivateInfo";
@@ -43,9 +43,8 @@ export default function Notes({ navigation }) {
   const privateInfoResult = usePrivateInfo();
   const hasActiveLicenseResult = useHasActiveLicense();
   const userResult = useUser();
-  const repositoriesWithMutationRetries = useRepositoriesWithMutationRetries(
-    navigation
-  );
+  const repositoriesWithMutationRetries =
+    useRepositoriesWithMutationRetries(navigation);
 
   if (
     repositoriesState.type === "loading" ||

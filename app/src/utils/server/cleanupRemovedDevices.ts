@@ -1,5 +1,5 @@
 import allDeviceTombstones from "../../graphql/allDeviceTombstones";
-import * as privateInfoStore from "../privateInfoStore";
+import * as privateInfoStore from "../../stores/privateInfoStore";
 import { createAuthenticationToken } from "../device";
 import { Y } from "../../vendor/index.js";
 import updatePrivateInfo from "../../utils/server/updatePrivateInfo";

@@ -1,7 +1,7 @@
 import privateInfoQuery from "../../graphql/privateInfo";
 import { createAuthenticationToken } from "../device";
 import { updateYDocWithPrivateInfoContentEntries } from "../updateYDocWithPrivateInfoContentEntries";
-import * as privateInfoStore from "../privateInfoStore";
+import * as privateInfoStore from "../../stores/privateInfoStore";
 import { Y } from "../../vendor/index.js";
 import deepEqualEs6 from "fast-deep-equal/es6";
 

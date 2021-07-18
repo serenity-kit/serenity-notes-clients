@@ -1,7 +1,7 @@
 import deepEqual from "fast-deep-equal/es6";
 import createRepository from "./createRepository";
 import updateRepository from "./updateRepository";
-import * as repositoryStore from "../../utils/repositoryStore";
+import * as repositoryStore from "../../stores/repositoryStore";
 import * as mutationQueueStore from "../../stores/mutationQueueStore";
 import sleep from "../../utils/sleep";
 
@@ -47,7 +47,8 @@ let mutationInProgress: undefined | Mutation = undefined;
 let queueIsActive = false;
 let repositorySubscriptions: RepositorySubscriptionEntry[] = [];
 let repositorySubscriptionsIdCounter = 0;
-let repositoriesWithRetriesSubscriptions: RepositoriesWithRetriesSubscriptionEntry[] = [];
+let repositoriesWithRetriesSubscriptions: RepositoriesWithRetriesSubscriptionEntry[] =
+  [];
 let repositoriesWithRetriesSubscriptionsIdCounter = 0;
 
 // should only be used when restoring the mutations
@@ -243,13 +244,15 @@ export const subscribeToRepositoriesWithRetries = (
   callback: (syncState: RepositoryErrorSyncState) => void
 ) => {
   repositoriesWithRetriesSubscriptionsIdCounter++;
-  const subscriptionId = repositoriesWithRetriesSubscriptionsIdCounter.toString();
+  const subscriptionId =
+    repositoriesWithRetriesSubscriptionsIdCounter.toString();
   repositoriesWithRetriesSubscriptions.push({ callback, subscriptionId });
   return subscriptionId;
 };
 
 export const unsubscribeToRepositoriesWithRetries = (subscriptionId) => {
-  repositoriesWithRetriesSubscriptions = repositoriesWithRetriesSubscriptions.filter(
-    (entry) => entry.subscriptionId !== subscriptionId
-  );
+  repositoriesWithRetriesSubscriptions =
+    repositoriesWithRetriesSubscriptions.filter(
+      (entry) => entry.subscriptionId !== subscriptionId
+    );
 };

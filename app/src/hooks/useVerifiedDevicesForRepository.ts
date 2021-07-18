@@ -3,7 +3,7 @@ import { useClient } from "urql";
 import useDevice from "./useDevice";
 import useUser from "./useUser";
 import verifiedDevicesForRepository from "../hooks/useSyncUtils/verifiedDevicesForRepository";
-import * as repositoryStore from "../utils/repositoryStore";
+import * as repositoryStore from "../stores/repositoryStore";
 
 type State =
   | { type: "loading" }

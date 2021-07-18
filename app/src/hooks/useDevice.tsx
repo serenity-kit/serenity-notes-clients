@@ -1,5 +1,5 @@
 import React from "react";
-import * as deviceStore from "../utils/deviceStore";
+import * as deviceStore from "../stores/deviceStore";
 
 type State =
   | { type: "loading" }

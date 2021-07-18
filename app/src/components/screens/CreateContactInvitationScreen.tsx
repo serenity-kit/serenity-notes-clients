@@ -7,7 +7,7 @@ import usePrivateUserSigningKey from "../../hooks/usePrivateUserSigningKey";
 import useUser from "../../hooks/useUser";
 import { generateSigningPublicKey } from "../../utils/signing";
 import { generateSecret } from "../../utils/verification";
-import * as privateInfoStore from "../../utils/privateInfoStore";
+import * as privateInfoStore from "../../stores/privateInfoStore";
 import { Y } from "../../vendor/index.js";
 import useMyVerifiedDevices from "../../hooks/useMyVerifiedDevices";
 import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
@@ -63,9 +63,8 @@ export default function CreateContactInvitation({ navigation }) {
       serverSecret,
       clientSecret,
     };
-    const newInvitationCode = contactInvitationIdentification.stringify(
-      newInvitation
-    );
+    const newInvitationCode =
+      contactInvitationIdentification.stringify(newInvitation);
 
     try {
       const contactInvitationId = await createContactInvitation(

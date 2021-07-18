@@ -1,9 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { deletePrivateUserSigningKey } from "./privateUserSigningKeyStore";
-import { deleteDevice } from "./deviceStore";
+import { deletePrivateUserSigningKey } from "../stores/privateUserSigningKeyStore";
+import { deleteDevice } from "../stores/deviceStore";
 import { deleteUser } from "../stores/userStore";
-import { deleteRepositories } from "./repositoryStore";
-import { deletePrivateInfo } from "./privateInfoStore";
+import { deleteRepositories } from "../stores/repositoryStore";
+import { deletePrivateInfo } from "../stores/privateInfoStore";
 
 // used to trigger subscribers where implemented
 const wipeStore = async () => {

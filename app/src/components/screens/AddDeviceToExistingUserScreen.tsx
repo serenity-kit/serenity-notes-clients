@@ -2,12 +2,12 @@ import React from "react";
 import { Alert, View } from "react-native";
 import { Divider } from "react-native-paper";
 import { useClient, useMutation } from "urql";
-import * as deviceStore from "../../utils/deviceStore";
+import * as deviceStore from "../../stores/deviceStore";
 import useDevice from "../../hooks/useDevice";
 import useUser from "../../hooks/useUser";
 import usePrivateUserSigningKey from "../../hooks/usePrivateUserSigningKey";
-import * as privateUserSigningKeyStore from "../../utils/privateUserSigningKeyStore";
-import * as privateInfoStore from "../../utils/privateInfoStore";
+import * as privateUserSigningKeyStore from "../../stores/privateUserSigningKeyStore";
+import * as privateInfoStore from "../../stores/privateInfoStore";
 import * as userStore from "../../stores/userStore";
 import {
   generateOneTimeKeysAndSaveDevice,

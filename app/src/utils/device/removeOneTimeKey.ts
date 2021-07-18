@@ -1,4 +1,4 @@
-import * as deviceStore from "../deviceStore";
+import * as deviceStore from "../../stores/deviceStore";
 import extractOneTimeKeyFromMessage from "./extractOneTimeKeyFromMessage";
 import getFallbackKey from "./getFallbackKey";
 import removeOneTimeKeyFromServer from "../server/removeOneTimeKey";

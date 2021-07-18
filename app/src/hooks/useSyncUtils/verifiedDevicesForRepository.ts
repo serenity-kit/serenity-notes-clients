@@ -4,7 +4,7 @@ import { generateSigningPublicKey, verifyDevice } from "../../utils/signing";
 import { DeviceKeys } from "../../types";
 import * as privateUserSigningKeyStore from "../../stores/privateUserSigningKeyStore";
 import * as userStore from "../../stores/userStore";
-import * as privateInfoStore from "../../utils/privateInfoStore";
+import * as privateInfoStore from "../../stores/privateInfoStore";
 import fetchPrivateInfo from "../../utils/server/fetchPrivateInfo";
 
 const verifiedDevicesForRepository = async (

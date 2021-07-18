@@ -6,7 +6,7 @@ import ListItemInfo from "../ui/ListItemInfo";
 import ListWrapper from "../ui/ListWrapper";
 import OutlineButton from "../ui/OutlineButton";
 import usePrivateInfo from "../../hooks/usePrivateInfo";
-import * as privateInfoStore from "../../utils/privateInfoStore";
+import * as privateInfoStore from "../../stores/privateInfoStore";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
 import deleteContact from "../../utils/server/deleteContact";
 import useMyVerifiedDevices from "../../hooks/useMyVerifiedDevices";
@@ -21,9 +21,8 @@ export default function ContactScreen({ navigation, route }) {
   const client = useClient();
   const fetchMyVerifiedDevices = useMyVerifiedDevices();
   // also converts accepted contactInvitations to contacts
-  const contactsAndContactInvitations = useContactsAndContactInvitations(
-    navigation
-  );
+  const contactsAndContactInvitations =
+    useContactsAndContactInvitations(navigation);
   const [processStep, setProcessStep] = React.useState<
     "default" | "deletingContact"
   >("default");

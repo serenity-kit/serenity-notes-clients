@@ -1,6 +1,6 @@
 import { Y } from "../../vendor/index.js";
 import completeContactInvitationMutation from "../../graphql/completeContactInvitationMutation";
-import * as privateInfoStore from "../../utils/privateInfoStore";
+import * as privateInfoStore from "../../stores/privateInfoStore";
 import * as privateUserSigningKeyStore from "../../stores/privateUserSigningKeyStore";
 import {
   createAuthenticationToken,

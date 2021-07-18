@@ -7,7 +7,7 @@ import useDevice from "../../hooks/useDevice";
 import useUser from "../../hooks/useUser";
 import usePrivateUserSigningKey from "../../hooks/usePrivateUserSigningKey";
 import * as privateUserSigningKeyStore from "../../stores/privateUserSigningKeyStore";
-import * as privateInfoStore from "../../utils/privateInfoStore";
+import * as privateInfoStore from "../../stores/privateInfoStore";
 import * as userStore from "../../stores/userStore";
 import {
   generateOneTimeKeysAndSaveDevice,

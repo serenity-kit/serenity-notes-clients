@@ -8,7 +8,7 @@ import useUser from "./useUser";
 import usePrivateInfo from "./usePrivateInfo";
 import fetchPrivateInfo from "../utils/server/fetchPrivateInfo";
 import completeContactInvitation from "../utils/server/completeContactInvitation";
-import * as privateInfoStore from "../utils/privateInfoStore";
+import * as privateInfoStore from "../stores/privateInfoStore";
 import { createAuthenticationToken } from "../utils/device";
 import useMyVerifiedDevices from "../hooks/useMyVerifiedDevices";
 
@@ -52,9 +52,10 @@ const useContactsAndContactInvitations = (navigation: any): State => {
         .toPromise();
 
       if (contactInvitationsResult?.data?.contactInvitations) {
-        const acceptedContactInvitations = contactInvitationsResult.data.contactInvitations.filter(
-          (invitation) => invitation.status === "ACCEPTED"
-        );
+        const acceptedContactInvitations =
+          contactInvitationsResult.data.contactInvitations.filter(
+            (invitation) => invitation.status === "ACCEPTED"
+          );
         if (acceptedContactInvitations.length > 0) {
           // run in serial, because it's easier to manage in the code?!
           for (const contactInvitation of acceptedContactInvitations) {
@@ -98,11 +99,12 @@ const useContactsAndContactInvitations = (navigation: any): State => {
       ) {
         setState({
           type: "result",
-          contactInvitations: contactInvitationsResult?.data?.contactInvitations.map(
-            (invitation) => {
-              return { ...invitation, type: "contactInvitation" };
-            }
-          ),
+          contactInvitations:
+            contactInvitationsResult?.data?.contactInvitations.map(
+              (invitation) => {
+                return { ...invitation, type: "contactInvitation" };
+              }
+            ),
           contacts: contactsResult?.data?.contacts,
         });
       } else {

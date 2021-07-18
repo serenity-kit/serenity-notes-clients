@@ -18,7 +18,7 @@ import Text from "../ui/Text";
 import TextInput from "../ui/TextInput";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
 import OutlineButton from "../ui/OutlineButton";
-import * as privateInfoStore from "../../utils/privateInfoStore";
+import * as privateInfoStore from "../../stores/privateInfoStore";
 import useMyVerifiedDevices from "../../hooks/useMyVerifiedDevices";
 import updatePrivateInfo from "../../utils/server/updatePrivateInfo";
 import * as deviceLinkingIdentification from "../../utils/deviceLinkingIdentification";

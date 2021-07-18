@@ -1,5 +1,5 @@
 import React from "react";
-import * as privateInfoStore from "../utils/privateInfoStore";
+import * as privateInfoStore from "../stores/privateInfoStore";
 
 type State = { type: "loading" } | { type: "privateInfo"; privateInfo: any };
 

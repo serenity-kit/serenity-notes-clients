@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { uInt8ArrayToBase64, base64ToUInt8Array } from "./encoding";
+import { uInt8ArrayToBase64, base64ToUInt8Array } from "../utils/encoding";
 import { Y } from "../vendor/index.js";
 
 type PrivateInfoSubscriptionCallback = (privateInfo?: any) => void;

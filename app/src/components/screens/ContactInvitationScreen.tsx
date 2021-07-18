@@ -4,7 +4,7 @@ import { Alert } from "react-native";
 import ListHeader from "../ui/ListHeader";
 import ListItemInfo from "../ui/ListItemInfo";
 import usePrivateInfo from "../../hooks/usePrivateInfo";
-import * as privateInfoStore from "../../utils/privateInfoStore";
+import * as privateInfoStore from "../../stores/privateInfoStore";
 import ScrollScreenContainer from "../ui/ScrollScreenContainer";
 import ListWrapper from "../ui/ListWrapper";
 import OutlineButton from "../ui/OutlineButton";
@@ -56,9 +56,8 @@ export default function ContactInvitationScreen({ navigation, route }) {
     }
   };
 
-  const yContactInvitations = privateInfoResult.privateInfo.getMap(
-    "contactInvitations"
-  );
+  const yContactInvitations =
+    privateInfoResult.privateInfo.getMap("contactInvitations");
   const contactInvitation = yContactInvitations.get(id);
 
   // during deletion

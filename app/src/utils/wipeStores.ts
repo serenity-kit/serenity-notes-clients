@@ -3,7 +3,7 @@ import { deletePrivateUserSigningKey } from "../stores/privateUserSigningKeyStor
 import { deleteDevice } from "./deviceStore";
 import { deleteUser } from "../stores/userStore";
 import { deleteRepositories } from "../stores/repositoryStore";
-import { deletePrivateInfo } from "./privateInfoStore";
+import { deletePrivateInfo } from "../stores/privateInfoStore";
 
 // used to trigger subscribers where implemented
 const wipeStore = async () => {

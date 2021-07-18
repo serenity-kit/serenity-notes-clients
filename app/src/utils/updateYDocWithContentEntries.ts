@@ -8,7 +8,7 @@ import * as deviceStore from "./deviceStore";
 import * as repositoryInboundGroupSessionsStore from "../stores/repositoryInboundGroupSessionsStore";
 import * as privateInfoStore from "./privateInfoStore";
 import * as privateUserSigningKeyStore from "./privateUserSigningKeyStore";
-import * as userStore from "./userStore";
+import * as userStore from "../stores/userStore";
 import removeOneTimeKey from "./device/removeOneTimeKey";
 import { addDebugLogEntry } from "../stores/debugStore";
 import { verifySchemaVersion } from "../utils/signing";
@@ -117,9 +117,10 @@ export const updateYDocWithContentEntries = async (
       addDebugLogEntry(`Note update | start: ${JSON.stringify(contentEntry)}`);
       // initial value which is used in case there is no existing inboundGroupSession
       let currentMessageIndex = -1;
-      const inboundGroupSessions = await repositoryInboundGroupSessionsStore.getRepositoryInboundGroupSesssions(
-        repositoryId
-      );
+      const inboundGroupSessions =
+        await repositoryInboundGroupSessionsStore.getRepositoryInboundGroupSesssions(
+          repositoryId
+        );
       const receivedPacket = JSON.parse(contentEntry.encryptedContent);
 
       if (

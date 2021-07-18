@@ -3,7 +3,7 @@ import { createAuthenticationToken } from "../../utils/device";
 import { generateSigningPublicKey, verifyDevice } from "../../utils/signing";
 import { DeviceKeys } from "../../types";
 import * as privateUserSigningKeyStore from "../../utils/privateUserSigningKeyStore";
-import * as userStore from "../../utils/userStore";
+import * as userStore from "../../stores/userStore";
 import * as privateInfoStore from "../../utils/privateInfoStore";
 import fetchPrivateInfo from "../../utils/server/fetchPrivateInfo";
 
@@ -33,7 +33,8 @@ const verifiedDevicesForRepository = async (
     )
     .toPromise();
 
-  const privateUserSigningKey = await privateUserSigningKeyStore.getPrivateUserSigningKey();
+  const privateUserSigningKey =
+    await privateUserSigningKeyStore.getPrivateUserSigningKey();
   const user = await userStore.getUser();
   const privateInfo = await privateInfoStore.getPrivateInfo();
 
@@ -70,8 +71,8 @@ const verifiedDevicesForRepository = async (
 
   return {
     verifiedDevices,
-    newGroupSessionNeeded: !result.data.repositoryDevices
-      .groupSessionMessageIdsMatchTargetDevices,
+    newGroupSessionNeeded:
+      !result.data.repositoryDevices.groupSessionMessageIdsMatchTargetDevices,
   };
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import * as userStore from "../utils/userStore";
+import * as userStore from "../stores/userStore";
 import { User } from "../types";
 
 type State =

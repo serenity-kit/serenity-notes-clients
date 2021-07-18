@@ -2,8 +2,9 @@
   "name": "desktop",
   "private": true,
   "scripts": {
-    "dev-macos": "react-native run-macos",
-    "build-macos": "react-native run-macos --configuration Release",
+    "clean-for-dotenv": "rm -rf $TMPDIR/metro-*",
+    "dev-macos": "yarn clean-for-dotenv && react-native run-macos",
+    "build-macos": "yarn clean-for-dotenv && react-native run-macos --configuration Release",
     "test": "jest",
     "lint": "eslint ."
   },

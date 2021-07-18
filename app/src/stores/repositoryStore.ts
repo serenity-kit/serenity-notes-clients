@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import deepEqual from "fast-deep-equal/es6";
-
 import { uInt8ArrayToBase64, base64ToUInt8Array } from "../utils/encoding";
 import {
   Repository,
@@ -10,6 +9,7 @@ import {
   RepositoryUpdate,
 } from "../types";
 import * as yUtils from "../utils/yUtils";
+import storePrefix from "../utils/storePrefix/storePrefix";
 
 try {
   // cleanup outdated store item, removed after 1.4.1
@@ -66,17 +66,18 @@ type RepositoryInput = {
   updatedAt?: string;
 };
 
+const repoKey = `${storePrefix}repo`;
+// prefix + "repo" + uuid length
+const repoKeyLength = storePrefix.length + 4 + 36;
 let repositoryStoreSubscriptions: RepositorySubscriptionEntry[] = [];
 let repositoryStoreIdCounter = 0;
-
 let repositoriesStoreSubscriptions: RepositoriesSubscriptionEntry[] = [];
 let repositoriesStoreIdCounter = 0;
 
 export const getRepositoryList = async (): Promise<RepositoryStoreEntry[]> => {
   const allKeys = await AsyncStorage.getAllKeys();
   const repoKeys = allKeys.filter(
-    // length 40 because that's the length of repo + uuid
-    (key) => key.startsWith("repo") && key.length === 40
+    (key) => key.startsWith(repoKey) && repoKeyLength
   );
 
   const serializedRepos = await AsyncStorage.multiGet(repoKeys);
@@ -130,7 +131,7 @@ export const setRepository = async (repositoryInput: RepositoryInput) => {
   };
 
   const result = await AsyncStorage.setItem(
-    `repo${repository.id}`,
+    `${repoKey}${repository.id}`,
     JSON.stringify(repo)
   );
   const repos = await getRepositoryList();
@@ -154,7 +155,7 @@ export const setRepository = async (repositoryInput: RepositoryInput) => {
 };
 
 export const getRepository = async (id: string): Promise<Repository | null> => {
-  const repoString = await AsyncStorage.getItem(`repo${id}`);
+  const repoString = await AsyncStorage.getItem(`${repoKey}${id}`);
   if (!repoString) return null;
   const rawRepo = JSON.parse(repoString);
   return {
@@ -177,7 +178,7 @@ export const deleteRepository = async (repositoryId: string) => {
   const filteredReposInfo = reposInfo.filter(
     (info) => info.id !== repositoryId
   );
-  await AsyncStorage.removeItem(`repo${repositoryId}`);
+  await AsyncStorage.removeItem(`${repoKey}${repositoryId}`);
 
   repositoryStoreSubscriptions.forEach((entry) => {
     if (entry.repositoryId === repositoryId) {
@@ -194,7 +195,7 @@ export const deleteRepository = async (repositoryId: string) => {
 
 export const deleteRepositories = async () => {
   const reposInfo = await getRepositoryList();
-  const keys = reposInfo.map((info) => `repo${info.id}`);
+  const keys = reposInfo.map((info) => `${repoKey}${info.id}`);
   await AsyncStorage.multiRemove(keys);
   repositoryStoreSubscriptions.forEach((entry) => {
     entry.callback(null);

@@ -1,7 +1,8 @@
 import SecureStore from "react-native-macos-sensitive-info";
+import storePrefix from "../storePrefix/storePrefix";
 
 const options = {
-  keychainService: "Serenity Notes Storage",
+  keychainService: `${storePrefix}Serenity Notes Storage`,
 };
 
 export default {

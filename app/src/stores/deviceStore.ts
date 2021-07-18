@@ -1,5 +1,6 @@
 import Olm from "../utils/olm_legacy";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import storePrefix from "../utils/storePrefix/storePrefix";
 
 export const pickleKey = "SERENITY";
 
@@ -12,7 +13,7 @@ type DeviceSubscriptionEntry = {
   callback: DeviceSubscriptionCallback;
 };
 
-const secureStoreKey = "device";
+const secureStoreKey = `${storePrefix}device`;
 let deviceStoreSubscriptions: DeviceSubscriptionEntry[] = [];
 let deviceStoreIdCounter = 0;
 

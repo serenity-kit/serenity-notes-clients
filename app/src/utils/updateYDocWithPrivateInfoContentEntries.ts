@@ -2,7 +2,7 @@ import { base64ToUInt8Array } from "./base64";
 import { Y } from "../vendor/index.js";
 import { generateSigningPublicKey, verifyDevice } from "./signing";
 import Olm from "./olm_legacy";
-import * as deviceStore from "./deviceStore";
+import * as deviceStore from "../stores/deviceStore";
 import * as privateInfoInboundGroupSessionIdStore from "../stores/privateInfoInboundGroupSessionIdStore";
 import * as privateUserSigningKeyStore from "../stores/privateUserSigningKeyStore";
 import removeOneTimeKey from "./device/removeOneTimeKey";

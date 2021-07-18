@@ -4,7 +4,7 @@ import { Y } from "../vendor/index.js";
 import { generateSigningPublicKey, verifyDevice } from "./signing";
 import fetchPrivateInfo from "./server/fetchPrivateInfo";
 import Olm from "./olm_legacy";
-import * as deviceStore from "./deviceStore";
+import * as deviceStore from "../stores/deviceStore";
 import * as repositoryInboundGroupSessionsStore from "../stores/repositoryInboundGroupSessionsStore";
 import * as privateInfoStore from "../stores/privateInfoStore";
 import * as privateUserSigningKeyStore from "../stores/privateUserSigningKeyStore";

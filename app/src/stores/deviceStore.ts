@@ -1,4 +1,4 @@
-import Olm from "./olm_legacy";
+import Olm from "../utils/olm_legacy";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const pickleKey = "SERENITY";

@@ -1,6 +1,6 @@
 import myDevices from "../../graphql/myDevices";
 import { createAuthenticationToken } from "../device";
-import * as deviceStore from "../../utils/deviceStore";
+import * as deviceStore from "../../stores/deviceStore";
 import * as privateUserSigningKeyStore from "../../stores/privateUserSigningKeyStore";
 import { generateSigningPublicKey, verifyDevice } from "../../utils/signing";
 

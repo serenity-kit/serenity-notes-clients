@@ -1,7 +1,7 @@
 import { Alert } from "react-native";
 import sendOneTimeKeysMutation from "../../graphql/sendOneTimeKeysMutation";
 import { addDebugLogEntry } from "../../stores/debugStore";
-import * as deviceStore from "../../utils/deviceStore";
+import * as deviceStore from "../../stores/deviceStore";
 import {
   generateOneTimeKeysAndSaveDevice,
   createAuthenticationToken,

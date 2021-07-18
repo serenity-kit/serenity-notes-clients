@@ -5,7 +5,7 @@ import { Provider } from "urql";
 import { initOlm } from "./utils/device";
 import { unlockScreenOrientation } from "./utils/screenOrientation";
 import Navigation from "./components/Navigation";
-import { initDeviceStore } from "./utils/deviceStore";
+import { initDeviceStore } from "./stores/deviceStore";
 import { initDebugStore } from "./stores/debugStore";
 import { SyncInfoProvider } from "./context/SyncInfoContext";
 import * as mutationQueueStore from "./stores/mutationQueueStore";

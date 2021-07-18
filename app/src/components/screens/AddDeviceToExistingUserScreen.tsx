@@ -2,7 +2,7 @@ import React from "react";
 import { Alert, View } from "react-native";
 import { Divider } from "react-native-paper";
 import { useClient, useMutation } from "urql";
-import * as deviceStore from "../../utils/deviceStore";
+import * as deviceStore from "../../stores/deviceStore";
 import useDevice from "../../hooks/useDevice";
 import useUser from "../../hooks/useUser";
 import usePrivateUserSigningKey from "../../hooks/usePrivateUserSigningKey";

@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { deletePrivateUserSigningKey } from "../stores/privateUserSigningKeyStore";
-import { deleteDevice } from "./deviceStore";
+import { deleteDevice } from "../stores/deviceStore";
 import { deleteUser } from "../stores/userStore";
 import { deleteRepositories } from "../stores/repositoryStore";
 import { deletePrivateInfo } from "../stores/privateInfoStore";

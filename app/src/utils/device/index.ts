@@ -1,5 +1,5 @@
 import Olm from "../olm_legacy";
-import * as deviceStore from "../deviceStore";
+import * as deviceStore from "../../stores/deviceStore";
 import {
   DevicePublicIdentityKeys,
   GroupSession,
@@ -189,9 +189,8 @@ export const createRepositoryUpdate = (
   // const encryptedGroupMessage = outboundGroupSession.session.encrypt(
   //   JSON.stringify({ content: encodedYState, updatedAt })
   // );
-  const encryptedGroupMessage = outboundGroupSession.session.encrypt(
-    encodedYState
-  );
+  const encryptedGroupMessage =
+    outboundGroupSession.session.encrypt(encodedYState);
 
   const signature = currentDevice.sign(encryptedGroupMessage);
   const deviceIdKeys = JSON.parse(currentDevice.identity_keys());

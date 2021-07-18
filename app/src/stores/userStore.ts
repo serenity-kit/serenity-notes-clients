@@ -1,5 +1,6 @@
 import { User } from "../types";
 import SecureStore from "../utils/secureStore";
+import storePrefix from "../utils/storePrefix/storePrefix";
 
 type UserSubscriptionCallback = (user?: User) => void;
 
@@ -8,15 +9,12 @@ type UserSubscriptionEntry = {
   callback: UserSubscriptionCallback;
 };
 
-const secureStoreKey = "user";
+const userKey = `${storePrefix}user`;
 let userStoreSubscriptions: UserSubscriptionEntry[] = [];
 let userStoreIdCounter = 0;
 
 export const setUser = async (user: User) => {
-  const result = await SecureStore.setItemAsync(
-    secureStoreKey,
-    JSON.stringify(user)
-  );
+  const result = await SecureStore.setItemAsync(userKey, JSON.stringify(user));
   userStoreSubscriptions.forEach((entry) => {
     entry.callback(user);
   });
@@ -24,7 +22,7 @@ export const setUser = async (user: User) => {
 };
 
 export const getUser = async (): Promise<User> => {
-  return JSON.parse(await SecureStore.getItemAsync(secureStoreKey));
+  return JSON.parse(await SecureStore.getItemAsync(userKey));
 };
 
 export const subscribeToUser = (callback: UserSubscriptionCallback) => {
@@ -41,7 +39,7 @@ export const unsubscribeToUser = (subscriptionId) => {
 };
 
 export const deleteUser = async () => {
-  await SecureStore.deleteItemAsync(secureStoreKey);
+  await SecureStore.deleteItemAsync(userKey);
   userStoreSubscriptions.forEach((entry) => {
     entry.callback();
   });

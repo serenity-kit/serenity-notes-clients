@@ -1,4 +1,5 @@
 import SecureStore from "../utils/secureStore";
+import storePrefix from "../utils/storePrefix/storePrefix";
 
 type PrivateUserSigningKeySubscriptionCallback = (
   privateUserSigningKey?: string
@@ -9,15 +10,16 @@ type PrivateUserSigningKeySubscriptionEntry = {
   callback: PrivateUserSigningKeySubscriptionCallback;
 };
 
-const secureStoreKey = "privateUserSigningKey";
-let privateUserSigningKeyStoreSubscriptions: PrivateUserSigningKeySubscriptionEntry[] = [];
+const privateUserSigningKeyKey = `${storePrefix}privateUserSigningKey`;
+let privateUserSigningKeyStoreSubscriptions: PrivateUserSigningKeySubscriptionEntry[] =
+  [];
 let privateUserSigningKeyStoreIdCounter = 0;
 
 export const setPrivateUserSigningKey = async (
   privateUserSigningKey: string
 ) => {
   const result = await SecureStore.setItemAsync(
-    secureStoreKey,
+    privateUserSigningKeyKey,
     privateUserSigningKey
   );
   privateUserSigningKeyStoreSubscriptions.forEach((entry) => {
@@ -27,7 +29,7 @@ export const setPrivateUserSigningKey = async (
 };
 
 export const getPrivateUserSigningKey = async (): Promise<string> => {
-  return await SecureStore.getItemAsync(secureStoreKey);
+  return await SecureStore.getItemAsync(privateUserSigningKeyKey);
 };
 
 export const subscribeToPrivateUserSigningKey = (
@@ -40,13 +42,14 @@ export const subscribeToPrivateUserSigningKey = (
 };
 
 export const unsubscribeToPrivateUserSigningKey = (subscriptionId) => {
-  privateUserSigningKeyStoreSubscriptions = privateUserSigningKeyStoreSubscriptions.filter(
-    (entry) => entry.id !== subscriptionId
-  );
+  privateUserSigningKeyStoreSubscriptions =
+    privateUserSigningKeyStoreSubscriptions.filter(
+      (entry) => entry.id !== subscriptionId
+    );
 };
 
 export const deletePrivateUserSigningKey = async () => {
-  await SecureStore.deleteItemAsync(secureStoreKey);
+  await SecureStore.deleteItemAsync(privateUserSigningKeyKey);
   privateUserSigningKeyStoreSubscriptions.forEach((entry) => {
     entry.callback();
   });

@@ -1,18 +1,23 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DebugEntryType, DebugEntry } from "../types";
 import { debounce } from "../utils/debounce";
+import storePrefix from "../utils/storePrefix/storePrefix";
 
+const debugLogKey = `${storePrefix}debugLog`;
+const debugLogActiveKey = `${storePrefix}debugLogActive`;
 let debugLogActive = false;
 let debugLog: DebugEntry[] = [];
 
 export const initDebugStore = async () => {
-  const serializedDebugLogActive = await AsyncStorage.getItem("debugLogActive");
+  const serializedDebugLogActive = await AsyncStorage.getItem(
+    debugLogActiveKey
+  );
   debugLogActive =
     serializedDebugLogActive !== null && serializedDebugLogActive === "true"
       ? Boolean(serializedDebugLogActive)
       : false;
 
-  const serializedDebugLog = await AsyncStorage.getItem("debugLog");
+  const serializedDebugLog = await AsyncStorage.getItem(debugLogKey);
   debugLog = !serializedDebugLog ? [] : JSON.parse(serializedDebugLog);
 };
 
@@ -22,7 +27,10 @@ export const getDebugLogActive = () => {
 
 export const setDebugLogActive = async (value: boolean) => {
   debugLogActive = value;
-  return await AsyncStorage.setItem("debugLogActive", value ? "true" : "false");
+  return await AsyncStorage.setItem(
+    debugLogActiveKey,
+    value ? "true" : "false"
+  );
 };
 
 export const getDebugLog = () => {
@@ -30,7 +38,7 @@ export const getDebugLog = () => {
 };
 
 const debouncedPersistDebugLog = debounce(() => {
-  AsyncStorage.setItem("debugLog", JSON.stringify(debugLog));
+  AsyncStorage.setItem(debugLogKey, JSON.stringify(debugLog));
 }, 2000);
 
 export const addDebugLogEntry = (

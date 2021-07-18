@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { uInt8ArrayToBase64, base64ToUInt8Array } from "../utils/encoding";
 import { Y } from "../vendor/index.js";
+import storePrefix from "../utils/storePrefix/storePrefix";
 
 type PrivateInfoSubscriptionCallback = (privateInfo?: any) => void;
 
@@ -9,7 +10,7 @@ type PrivateInfoSubscriptionEntry = {
   callback: PrivateInfoSubscriptionCallback;
 };
 
-const storeKey = "privateInfo";
+const privateInfoKey = `${storePrefix}privateInfo`;
 let privateInfoStoreSubscriptions: PrivateInfoSubscriptionEntry[] = [];
 let privateInfoStoreIdCounter = 0;
 
@@ -18,7 +19,7 @@ export const setPrivateInfo = async (privateInfo) => {
     Y.encodeStateAsUpdate(privateInfo)
   );
   const result = await AsyncStorage.setItem(
-    "privateInfo",
+    privateInfoKey,
     serializedPrivateInfo
   );
   privateInfoStoreSubscriptions.forEach((entry) => {
@@ -28,7 +29,7 @@ export const setPrivateInfo = async (privateInfo) => {
 };
 
 export const getPrivateInfo = async () => {
-  const storeItem = await AsyncStorage.getItem(storeKey);
+  const storeItem = await AsyncStorage.getItem(privateInfoKey);
   if (storeItem) {
     const yDoc = new Y.Doc();
     Y.applyUpdate(yDoc, base64ToUInt8Array(storeItem));
@@ -53,7 +54,7 @@ export const unsubscribeToPrivateInfo = (subscriptionId) => {
 };
 
 export const deletePrivateInfo = async () => {
-  await AsyncStorage.removeItem(storeKey);
+  await AsyncStorage.removeItem(privateInfoKey);
   const cleanYDoc = new Y.Doc();
   privateInfoStoreSubscriptions.forEach((entry) => {
     entry.callback(cleanYDoc);

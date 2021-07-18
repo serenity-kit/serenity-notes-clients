@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import deepEqual from "fast-deep-equal/es6";
-
 import { uInt8ArrayToBase64, base64ToUInt8Array } from "../utils/encoding";
 import {
   Repository,
@@ -68,7 +67,6 @@ type RepositoryInput = {
 
 let repositoryStoreSubscriptions: RepositorySubscriptionEntry[] = [];
 let repositoryStoreIdCounter = 0;
-
 let repositoriesStoreSubscriptions: RepositoriesSubscriptionEntry[] = [];
 let repositoriesStoreIdCounter = 0;
 

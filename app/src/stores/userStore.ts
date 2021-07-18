@@ -1,6 +1,5 @@
 import { User } from "../types";
 import SecureStore from "../utils/secureStore";
-import storePrefix from "../utils/storePrefix/storePrefix";
 
 type UserSubscriptionCallback = (user?: User) => void;
 
@@ -9,7 +8,7 @@ type UserSubscriptionEntry = {
   callback: UserSubscriptionCallback;
 };
 
-const userKey = `${storePrefix}user`;
+const userKey = "user";
 let userStoreSubscriptions: UserSubscriptionEntry[] = [];
 let userStoreIdCounter = 0;
 

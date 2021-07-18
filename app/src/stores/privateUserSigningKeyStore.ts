@@ -1,5 +1,4 @@
 import SecureStore from "../utils/secureStore";
-import storePrefix from "../utils/storePrefix/storePrefix";
 
 type PrivateUserSigningKeySubscriptionCallback = (
   privateUserSigningKey?: string
@@ -10,7 +9,7 @@ type PrivateUserSigningKeySubscriptionEntry = {
   callback: PrivateUserSigningKeySubscriptionCallback;
 };
 
-const privateUserSigningKeyKey = `${storePrefix}privateUserSigningKey`;
+const privateUserSigningKeyKey = "privateUserSigningKey";
 let privateUserSigningKeyStoreSubscriptions: PrivateUserSigningKeySubscriptionEntry[] =
   [];
 let privateUserSigningKeyStoreIdCounter = 0;

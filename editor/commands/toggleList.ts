@@ -41,17 +41,36 @@ export const toggleList =
       }
 
       // change list type
-      if (
-        isList(parentList.node) &&
-        listType.validContent(parentList.node.content)
-      ) {
-        if (dispatch) {
-          // TODO make it work for checklists and vice versa
-          // instead of changing the nodeMarkup change the Nodemarkup for every item in the list
-          dispatch(state.tr.setNodeMarkup(parentList.pos, listType));
+      if (isList(parentList.node)) {
+        // e.g. when changing from bullet to ordered list
+        if (listType.validContent(parentList.node.content)) {
+          if (dispatch) {
+            dispatch(state.tr.setNodeMarkup(parentList.pos, listType));
+          }
+          return true;
+          // e.g when chaning from bullet list to checklist or checklist to ordered list
+        } else {
+          const childCount = parentList.node.childCount;
+          const $pos = state.doc.resolve(parentList.pos);
+          const listStart = parentList.pos - $pos.textOffset;
+          const listEnd = listStart + $pos.parent.child($pos.index()).nodeSize;
+          const selectionRange = {
+            $from: state.doc.resolve(listStart),
+            $to: state.doc.resolve(listEnd),
+          };
+          const tr = clearNodes(state.tr, [selectionRange]);
+          const selectionRangeAfterClearingNodes = {
+            $from: tr.doc.resolve(listStart),
+            // (2 + 2 * childCount) is the amount of positions removed
+            // when clearing a list
+            $to: tr.doc.resolve(listEnd - (2 + 2 * childCount)),
+          };
+          return wrapInList(listType)(
+            tr,
+            dispatch,
+            selectionRangeAfterClearingNodes
+          );
         }
-
-        return true;
       }
       return false;
     }

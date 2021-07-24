@@ -1,9 +1,12 @@
 import { liftTarget } from "prosemirror-transform";
-import { Transaction } from "prosemirror-state";
+import { Transaction, SelectionRange } from "prosemirror-state";
 
-export default function clearNodes(tr: Transaction) {
+export default function clearNodes(
+  tr: Transaction,
+  manualRanges?: SelectionRange<any>[]
+) {
   const { selection } = tr;
-  const { ranges } = selection;
+  const ranges = manualRanges || selection.ranges;
   let newTr = tr;
 
   ranges.forEach((range) => {

@@ -5,17 +5,18 @@ import {
   ReplaceAroundStep,
 } from "prosemirror-transform";
 import { Slice, Fragment, NodeRange, NodeType } from "prosemirror-model";
-import { Transaction } from "prosemirror-state";
+import { Transaction, SelectionRange } from "prosemirror-state";
 
 export function wrapInList(listType: NodeType, attrs?: Object) {
   return function (
     tr: Transaction,
-    dispatch?: (tr: Transaction) => boolean | void
+    dispatch?: (tr: Transaction) => boolean | void,
+    manualSelectionRange?: SelectionRange<any>
   ) {
-    let { $from, $to } = tr.selection;
-    let range = $from.blockRange($to),
-      doJoin = false,
-      outerRange = range;
+    let { $from, $to } = manualSelectionRange || tr.selection;
+    let range = $from.blockRange($to);
+    let doJoin = false;
+    let outerRange = range;
     if (!range || !outerRange) return false;
     // This is at the top of an existing list item
     if (
@@ -36,6 +37,7 @@ export function wrapInList(listType: NodeType, attrs?: Object) {
         );
       doJoin = true;
     }
+
     let wrap = findWrapping(outerRange, listType, attrs, range);
     if (!wrap) return false;
     if (dispatch) {

@@ -1,3 +1,5 @@
+import { Node as ProseMirrorNode } from "prosemirror-model";
+
 type ReactNativeWebView = {
   postMessage: (message: string) => void;
 };
@@ -14,3 +16,5 @@ export type HeadingAttrs = {
   level?: 2 | 3;
   ychange: null;
 };
+
+export type Predicate = (node: ProseMirrorNode) => boolean;

@@ -1,6 +1,6 @@
 import React from "react";
 import { EditorView } from "prosemirror-view";
-import { wrapInList } from "../commands/lists";
+import { toggleList } from "../commands/toggleList";
 import { IconType } from "react-icons/lib";
 import Button from "./Button";
 import CSS from "csstype";
@@ -22,7 +22,7 @@ export default function ListButton({
   style,
   children,
 }: Props) {
-  const command = wrapInList(nodeType);
+  const command = toggleList(nodeType);
   const canWrap = command(editorView.state);
   const Icon = icon;
 

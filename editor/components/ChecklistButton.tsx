@@ -1,6 +1,6 @@
 import React from "react";
 import { EditorView } from "prosemirror-view";
-import { wrapInList } from "../commands/lists";
+import { toggleList } from "../commands/toggleList";
 import Button from "./Button";
 import CSS from "csstype";
 import ChecklistIcon from "./ChecklistIcon";
@@ -20,7 +20,7 @@ export default function ChecklistButton({
   style,
   children,
 }: Props) {
-  const command = wrapInList(nodeType);
+  const command = toggleList(nodeType);
   const canWrap = command(editorView.state);
 
   return (

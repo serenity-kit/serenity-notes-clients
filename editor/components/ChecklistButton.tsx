@@ -4,6 +4,7 @@ import { toggleList } from "../commands/toggleList";
 import Button from "./Button";
 import CSS from "csstype";
 import ChecklistIcon from "./ChecklistIcon";
+import isNodeActive from "../utils/isNodeActive";
 
 type Props = {
   editorView: EditorView;
@@ -22,6 +23,7 @@ export default function ChecklistButton({
 }: Props) {
   const command = toggleList(nodeType);
   const canWrap = command(editorView.state);
+  const isActive = isNodeActive(editorView.state, nodeType);
 
   return (
     <Button
@@ -31,6 +33,7 @@ export default function ChecklistButton({
         command(editorView.state, editorView.dispatch);
       }}
       canDoCommand={canWrap}
+      isActive={isActive}
       style={style}
     >
       <ChecklistIcon

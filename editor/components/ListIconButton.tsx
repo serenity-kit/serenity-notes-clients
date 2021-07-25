@@ -3,6 +3,7 @@ import { EditorView } from "prosemirror-view";
 import { toggleList } from "../commands/toggleList";
 import { IconType } from "react-icons/lib";
 import CSS from "csstype";
+import isNodeActive from "../utils/isNodeActive";
 
 type Props = {
   editorView: EditorView;
@@ -20,6 +21,7 @@ export default function ListButton({
 }: Props) {
   const command = toggleList(nodeType);
   const canWrap = command(editorView.state);
+  const isActive = isNodeActive(editorView.state, nodeType);
   const Icon = icon;
 
   return (
@@ -33,8 +35,8 @@ export default function ListButton({
         border: "0 solid transparent",
         fontSize: 26,
         borderRadius: 8,
-        background: "white",
-        color: canWrap ? "black" : "#ccc",
+        background: isActive ? "black" : "white",
+        color: isActive ? "white" : canWrap ? "black" : "#ccc",
         padding: "5px",
         marginRight: "2px",
         display: "inline-flex",

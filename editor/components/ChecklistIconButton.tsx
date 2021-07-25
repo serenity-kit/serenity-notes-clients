@@ -2,6 +2,7 @@ import React from "react";
 import { EditorView } from "prosemirror-view";
 import { toggleList } from "../commands/toggleList";
 import ChecklistIcon from "./ChecklistIcon";
+import isNodeActive from "../utils/isNodeActive";
 
 type Props = {
   editorView: EditorView;
@@ -16,6 +17,7 @@ export default function CheckListButton({
 }: Props) {
   const command = toggleList(nodeType);
   const canWrap = command(editorView.state);
+  const isActive = isNodeActive(editorView.state, nodeType);
 
   return (
     <button
@@ -28,8 +30,8 @@ export default function CheckListButton({
         border: "0 solid transparent",
         fontSize: 26,
         borderRadius: 8,
-        background: "white",
-        color: canWrap ? "black" : "#ccc",
+        background: isActive ? "black" : "white",
+        color: isActive ? "white" : canWrap ? "black" : "#ccc",
         padding: "5px",
         marginRight: "2px",
         display: "inline-flex",

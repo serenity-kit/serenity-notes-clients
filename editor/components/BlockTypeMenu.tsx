@@ -2,27 +2,27 @@ import React from "react";
 import { EditorView } from "prosemirror-view";
 import { BiParagraph, BiHeading } from "react-icons/bi";
 import { MdCode } from "react-icons/md";
-import { setBlockType } from "prosemirror-commands";
 import { schema } from "../schema";
 import BlockTypeButton from "./BlockTypeButton";
 import HorizontalRule from "./HorizontalRule";
 import CloseButton from "./CloseButton";
 import Drawer from "./Drawer";
+import toggleBlockType from "../commands/toggleBlockType";
 
 type Props = {
   editorView: EditorView;
 };
 
-const paragraphCommand = setBlockType(schema.nodes.paragraph);
-const heading2Command = setBlockType(schema.nodes.heading, {
+const paragraphCommand = toggleBlockType(schema.nodes.paragraph);
+const heading2Command = toggleBlockType(schema.nodes.heading, {
   level: 2,
   ychange: null,
 });
-const heading3Command = setBlockType(schema.nodes.heading, {
+const heading3Command = toggleBlockType(schema.nodes.heading, {
   level: 3,
   ychange: null,
 });
-const codeBlockCommand = setBlockType(schema.nodes.code_block);
+const codeBlockCommand = toggleBlockType(schema.nodes.code_block);
 
 export default function BlockTypeMenu({ editorView }: Props) {
   const [isOpen, setIsOpen] = React.useState(false);

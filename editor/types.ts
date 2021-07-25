@@ -18,3 +18,9 @@ export type HeadingAttrs = {
 };
 
 export type Predicate = (node: ProseMirrorNode) => boolean;
+
+export type NodeRange = {
+  node: ProseMirrorNode;
+  from: number;
+  to: number;
+};

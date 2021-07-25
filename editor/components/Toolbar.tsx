@@ -1,6 +1,5 @@
 import React from "react";
 import { EditorView } from "prosemirror-view";
-import { lift } from "prosemirror-commands";
 import { undo, redo } from "prosemirror-history";
 import { schema } from "../schema";
 import ToggleMarkButton from "./ToggleMarkButton";
@@ -8,14 +7,17 @@ import ListIconButton from "./ListIconButton";
 import WrapInIconButton from "./WrapInIconButton";
 import ChecklistIconButton from "./ChecklistIconButton";
 import CommandButton from "./CommandButton";
+import ListCommandButton from "./ListCommandButton";
 import BlockTypeIconButton from "./BlockTypeIconButton";
 import BlockTypeMenu from "./BlockTypeMenu";
+import { sinkListItem, liftListItem } from "prosemirror-schema-list";
 import {
   MdFormatBold,
   MdFormatItalic,
   MdFormatListBulleted,
   MdFormatListNumbered,
   MdFormatIndentDecrease,
+  MdFormatIndentIncrease,
   MdUndo,
   MdRedo,
   MdCode,
@@ -147,8 +149,14 @@ export default function Toolbar({ editorView }: Props) {
           <MiscellaneousMenu editorView={editorView} />
         )}
 
-        <CommandButton
-          command={lift}
+        <ListCommandButton
+          command={sinkListItem}
+          editorView={editorView}
+          icon={MdFormatIndentIncrease}
+          title="Sink list"
+        />
+        <ListCommandButton
+          command={liftListItem}
           editorView={editorView}
           icon={MdFormatIndentDecrease}
           title="Lift out of enclosing block"

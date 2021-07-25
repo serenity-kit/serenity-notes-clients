@@ -9,21 +9,19 @@ import { EditorState, Plugin } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { schema } from "./schema";
 // @ts-ignore
-import { exampleSetup, buildMenuItems } from "prosemirror-example-setup";
+import { exampleSetup } from "prosemirror-example-setup";
 import { keymap } from "prosemirror-keymap";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import inputRulesPlugin from "./plugins/inputRulesPlugin";
-import {
-  splitListItem,
-  liftListItem,
-  sinkListItem,
-} from "prosemirror-schema-list";
+import { splitListItem } from "prosemirror-schema-list";
 import * as theme from "./theme";
 import {
   closeToolbar,
   getActiveDrawer,
   openToolbar,
 } from "./utils/toolbarState";
+import sinkListItem from "./commands/sinkListItem";
+import liftListItem from "./commands/liftListItem";
 
 function toolbarPlugin() {
   return new Plugin({
@@ -102,8 +100,10 @@ window.addEventListener("load", () => {
         inputRulesPlugin,
         keymap({
           Enter: splitListItem(schema.nodes.checklist_item),
-          "Mod-[": liftListItem(schema.nodes.checklist_item),
-          "Mod-]": sinkListItem(schema.nodes.checklist_item),
+          "Mod-[": liftListItem,
+          "Mod-]": sinkListItem,
+          Tab: sinkListItem,
+          "Shift-Tab": liftListItem,
         }),
       ].concat(
         exampleSetup({

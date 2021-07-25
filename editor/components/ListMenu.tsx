@@ -1,6 +1,6 @@
 import React from "react";
 import { EditorView } from "prosemirror-view";
-import { wrapInList } from "../commands/lists";
+import { toggleList } from "../commands/toggleList";
 import { schema } from "../schema";
 import HorizontalRule from "./HorizontalRule";
 import CloseButton from "./CloseButton";
@@ -13,13 +13,13 @@ type Props = {
   editorView: EditorView;
 };
 
-const bulletListCommand = wrapInList(schema.nodes.bullet_list);
-const orderedListCommand = wrapInList(schema.nodes.ordered_list);
-const checklistCommand = wrapInList(schema.nodes.checklist);
+const bulletListCommand = toggleList(schema.nodes.bullet_list);
+const orderedListCommand = toggleList(schema.nodes.ordered_list);
+const checklistCommand = toggleList(schema.nodes.checklist);
 
 export default function ListMenu({ editorView }: Props) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const canWrapInList =
+  const canToggleList =
     bulletListCommand(editorView.state) ||
     orderedListCommand(editorView.state) ||
     checklistCommand(editorView.state);
@@ -43,7 +43,7 @@ export default function ListMenu({ editorView }: Props) {
               fontSize: 26,
               borderRadius: 8,
               background: isOpen ? "black" : "white",
-              color: isOpen ? "white" : canWrapInList ? "black" : "#ccc",
+              color: isOpen ? "white" : canToggleList ? "black" : "#ccc",
               padding: "5px",
               marginRight: "2px",
               display: "inline-flex",

@@ -2,10 +2,11 @@ import React from "react";
 import { EditorView } from "prosemirror-view";
 import { IconType } from "react-icons/lib";
 import { NodeType } from "prosemirror-model";
-import { setBlockType } from "prosemirror-commands";
+import toggleBlockType from "../commands/toggleBlockType";
 import CSS from "csstype";
-import isActiveNode from "../utils/isActiveNode";
+import isNodeActive from "../utils/isNodeActive";
 import { HeadingAttrs } from "../types";
+import headingAttributesMatch from "../utils/headingAttributesMatch";
 
 type Props = {
   editorView: EditorView;
@@ -27,10 +28,14 @@ export default function BlockTypeButton({
   style,
 }: Props) {
   const Icon = icon;
-  const command = setBlockType(nodeType, attrs);
-  const canDoCommand =
-    !isActiveNode({ state: editorView.state, nodeType, attrs }) &&
-    command(editorView.state);
+  const command = toggleBlockType(nodeType, attrs);
+  const canDoCommand = command(editorView.state);
+  const isActive = isNodeActive(
+    editorView.state,
+    nodeType,
+    attrs,
+    headingAttributesMatch
+  );
 
   return (
     <button
@@ -42,8 +47,8 @@ export default function BlockTypeButton({
       style={{
         border: "0 solid transparent",
         borderRadius: 8,
-        background: "white",
-        color: canDoCommand ? "black" : "#ccc",
+        background: isActive ? "black" : "white",
+        color: isActive ? "white" : canDoCommand ? "black" : "#ccc",
         fontSize: 26,
         position: "relative",
         padding: "5px",

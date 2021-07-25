@@ -1,6 +1,5 @@
 import React from "react";
 import { EditorView } from "prosemirror-view";
-import { lift } from "prosemirror-commands";
 import { undo, redo } from "prosemirror-history";
 import { schema } from "../schema";
 import ToggleMarkButton from "./ToggleMarkButton";
@@ -8,14 +7,17 @@ import ListIconButton from "./ListIconButton";
 import WrapInIconButton from "./WrapInIconButton";
 import ChecklistIconButton from "./ChecklistIconButton";
 import CommandButton from "./CommandButton";
+import ListCommandButton from "./ListCommandButton";
 import BlockTypeIconButton from "./BlockTypeIconButton";
 import BlockTypeMenu from "./BlockTypeMenu";
+import { sinkListItem, liftListItem } from "prosemirror-schema-list";
 import {
   MdFormatBold,
   MdFormatItalic,
   MdFormatListBulleted,
   MdFormatListNumbered,
   MdFormatIndentDecrease,
+  MdFormatIndentIncrease,
   MdUndo,
   MdRedo,
   MdCode,
@@ -28,12 +30,14 @@ import ListMenu from "./ListMenu";
 import LinkMenu from "./LinkMenu";
 import MiscellaneousMenu from "./MiscellaneousMenu";
 import InsertIconButton from "./InsertIconButton";
+import useWindowSize from "../hooks/useWindowSize";
 
 type Props = {
   editorView: EditorView;
 };
 
 export default function Toolbar({ editorView }: Props) {
+  const windowSize = useWindowSize();
   return (
     <div
       style={{
@@ -67,10 +71,10 @@ export default function Toolbar({ editorView }: Props) {
         <span
           style={{
             borderRight: `0.5px solid ${theme.colors.divider}`,
-            marginRight: "0.6rem",
+            marginRight: "2px",
           }}
         ></span>
-        {window.isDesktop ? (
+        {window.isDesktop && windowSize.width > 660 ? (
           <>
             <BlockTypeIconButton
               nodeType={schema.nodes.paragraph}
@@ -104,7 +108,7 @@ export default function Toolbar({ editorView }: Props) {
         ) : (
           <BlockTypeMenu editorView={editorView} />
         )}
-        {window.isDesktop ? (
+        {window.isDesktop && windowSize.width > 550 ? (
           <>
             <ListIconButton
               editorView={editorView}
@@ -141,14 +145,19 @@ export default function Toolbar({ editorView }: Props) {
               icon={MdRemove}
               title="Insert horizontal line"
             />
-            {/* TODO Link button */}
           </>
         ) : (
           <MiscellaneousMenu editorView={editorView} />
         )}
 
-        <CommandButton
-          command={lift}
+        <ListCommandButton
+          command={sinkListItem}
+          editorView={editorView}
+          icon={MdFormatIndentIncrease}
+          title="Sink list"
+        />
+        <ListCommandButton
+          command={liftListItem}
           editorView={editorView}
           icon={MdFormatIndentDecrease}
           title="Lift out of enclosing block"

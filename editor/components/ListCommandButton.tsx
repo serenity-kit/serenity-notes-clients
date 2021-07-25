@@ -1,42 +1,44 @@
 import React from "react";
 import { EditorView } from "prosemirror-view";
-import { toggleList } from "../commands/toggleList";
 import { IconType } from "react-icons/lib";
-import CSS from "csstype";
-import isNodeActive from "../utils/isNodeActive";
+import { schema } from "../schema";
 
 type Props = {
   editorView: EditorView;
-  nodeType: any;
   icon: IconType;
   title: string;
-  style?: CSS.Properties;
+  command: any;
 };
 
-export default function ListButton({
+export default function CommandButton({
   editorView,
   icon,
-  nodeType,
   title,
+  command,
 }: Props) {
-  const command = toggleList(nodeType);
-  const canWrap = command(editorView.state);
-  const isActive = isNodeActive(editorView.state, nodeType);
   const Icon = icon;
+  const listCommand = command(schema.nodes.list_item);
+  const checklistCommand = command(schema.nodes.checklist_item);
+  const canDoListCommand = listCommand(editorView.state);
+  const canDoChecklistCommand = checklistCommand(editorView.state);
 
   return (
     <button
       title={title}
       onMouseDown={(evt) => {
         evt.preventDefault();
-        command(editorView.state, editorView.dispatch);
+        if (canDoListCommand) {
+          listCommand(editorView.state, editorView.dispatch);
+        } else if (canDoChecklistCommand) {
+          checklistCommand(editorView.state, editorView.dispatch);
+        }
       }}
       style={{
         border: "0 solid transparent",
         fontSize: 26,
         borderRadius: 8,
-        background: isActive ? "black" : "white",
-        color: isActive ? "white" : canWrap ? "black" : "#ccc",
+        background: "white",
+        color: canDoListCommand || canDoChecklistCommand ? "black" : "#ccc",
         padding: "5px",
         marginRight: "2px",
         display: "inline-flex",

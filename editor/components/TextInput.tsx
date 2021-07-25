@@ -1,4 +1,4 @@
-import React, { Ref } from "react";
+import React from "react";
 import * as theme from "../theme";
 
 type Props = React.DetailedHTMLProps<
@@ -14,8 +14,7 @@ const TextInput = (props: Props, ref: any) => {
       ref={ref}
       className="serenity-text-input"
       style={{
-        // @ts-expect-error just wrong in the types
-        "-webkit-appearance": "none",
+        WebkitAppearance: "none",
         appearance: "none",
         fontSize: 16,
         paddingLeft: 16,

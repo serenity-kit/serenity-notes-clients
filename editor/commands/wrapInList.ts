@@ -5,17 +5,18 @@ import {
   ReplaceAroundStep,
 } from "prosemirror-transform";
 import { Slice, Fragment, NodeRange, NodeType } from "prosemirror-model";
-import { EditorState, Transaction } from "prosemirror-state";
+import { Transaction, SelectionRange } from "prosemirror-state";
 
 export function wrapInList(listType: NodeType, attrs?: Object) {
   return function (
-    state: EditorState,
-    dispatch?: (tr: Transaction) => boolean | void
+    tr: Transaction,
+    dispatch?: (tr: Transaction) => boolean | void,
+    manualSelectionRange?: SelectionRange<any>
   ) {
-    let { $from, $to } = state.selection;
-    let range = $from.blockRange($to),
-      doJoin = false,
-      outerRange = range;
+    let { $from, $to } = manualSelectionRange || tr.selection;
+    let range = $from.blockRange($to);
+    let doJoin = false;
+    let outerRange = range;
     if (!range || !outerRange) return false;
     // This is at the top of an existing list item
     if (
@@ -26,22 +27,24 @@ export function wrapInList(listType: NodeType, attrs?: Object) {
     ) {
       // Don't do anything if this is the top of the list
       if ($from.index(range.depth - 1) == 0) return false;
-      let $insert = state.doc.resolve(range.start - 2);
+      let $insert = tr.doc.resolve(range.start - 2);
       outerRange = new NodeRange($insert, $insert, range.depth);
       if (range.endIndex < range.parent.childCount)
         range = new NodeRange(
           $from,
-          state.doc.resolve($to.end(range.depth)),
+          tr.doc.resolve($to.end(range.depth)),
           range.depth
         );
       doJoin = true;
     }
+
     let wrap = findWrapping(outerRange, listType, attrs, range);
     if (!wrap) return false;
-    if (dispatch)
+    if (dispatch) {
       dispatch(
-        doWrapInList(state.tr, range, wrap, doJoin, listType).scrollIntoView()
+        doWrapInList(tr, range, wrap, doJoin, listType).scrollIntoView()
       );
+    }
 
     return true;
   };

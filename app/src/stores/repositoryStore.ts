@@ -77,7 +77,7 @@ let repositoriesStoreIdCounter = 0;
 export const getRepositoryList = async (): Promise<RepositoryStoreEntry[]> => {
   const allKeys = await AsyncStorage.getAllKeys();
   const repoKeys = allKeys.filter(
-    (key) => key.startsWith(repoKey) && repoKeyLength
+    (key) => key.startsWith(repoKey) && key.length === repoKeyLength
   );
 
   const serializedRepos = await AsyncStorage.multiGet(repoKeys);

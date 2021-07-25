@@ -30,12 +30,14 @@ import ListMenu from "./ListMenu";
 import LinkMenu from "./LinkMenu";
 import MiscellaneousMenu from "./MiscellaneousMenu";
 import InsertIconButton from "./InsertIconButton";
+import useWindowSize from "../hooks/useWindowSize";
 
 type Props = {
   editorView: EditorView;
 };
 
 export default function Toolbar({ editorView }: Props) {
+  const windowSize = useWindowSize();
   return (
     <div
       style={{
@@ -72,7 +74,7 @@ export default function Toolbar({ editorView }: Props) {
             marginRight: "0.6rem",
           }}
         ></span>
-        {window.isDesktop ? (
+        {window.isDesktop && windowSize.width > 660 ? (
           <>
             <BlockTypeIconButton
               nodeType={schema.nodes.paragraph}
@@ -106,7 +108,7 @@ export default function Toolbar({ editorView }: Props) {
         ) : (
           <BlockTypeMenu editorView={editorView} />
         )}
-        {window.isDesktop ? (
+        {window.isDesktop && windowSize.width > 550 ? (
           <>
             <ListIconButton
               editorView={editorView}
@@ -143,7 +145,6 @@ export default function Toolbar({ editorView }: Props) {
               icon={MdRemove}
               title="Insert horizontal line"
             />
-            {/* TODO Link button */}
           </>
         ) : (
           <MiscellaneousMenu editorView={editorView} />

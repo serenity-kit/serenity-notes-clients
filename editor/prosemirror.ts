@@ -86,7 +86,6 @@ window.addEventListener("load", () => {
     styleTag.appendChild(document.createTextNode(css));
   }
 
-  const menuItems = buildMenuItems(schema);
   // @ts-ignore
   new EditorView(editor, {
     state: EditorState.create({
@@ -110,16 +109,6 @@ window.addEventListener("load", () => {
         exampleSetup({
           schema: schema,
           menuBar: false,
-          menuContent: [
-            menuItems.fullMenu[0],
-            [
-              menuItems.blockMenu[0][0],
-              menuItems.blockMenu[0][1],
-              menuItems.blockMenu[0][3],
-              // menuItems.blockMenu[0][2], // merge with top
-            ],
-            menuItems.fullMenu[2],
-          ],
         })
       ),
     }),

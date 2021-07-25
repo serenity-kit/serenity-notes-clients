@@ -71,7 +71,7 @@ export default function Toolbar({ editorView }: Props) {
         <span
           style={{
             borderRight: `0.5px solid ${theme.colors.divider}`,
-            marginRight: "0.6rem",
+            marginRight: "2px",
           }}
         ></span>
         {window.isDesktop && windowSize.width > 660 ? (

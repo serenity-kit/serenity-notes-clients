@@ -83,9 +83,8 @@ const execute = async (mutation: Mutation) => {
         activeCreateRepositoryRequests.splice(index, 1);
       }
     }
-    console.log("error", error);
     if (error) {
-      console.log("create failed");
+      console.log("create note failed", error);
       throw error;
     }
   } else {

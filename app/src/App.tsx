@@ -30,8 +30,9 @@ export default function App({ editorSource }: Props) {
         const existingMutations = await mutationQueueStore.getMutationQueue();
         setRestoredMutations(existingMutations);
         setInitialized(true);
-      } catch (e) {
-        Alert.alert("Failed to initialize encryption utilities.");
+      } catch (err) {
+        Alert.alert("Failed to initialize encryption utilities.", err);
+        console.error(err);
       }
     }
     init();

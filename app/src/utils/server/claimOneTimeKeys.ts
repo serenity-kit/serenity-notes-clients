@@ -3,6 +3,7 @@ import claimOneTimeKeysMutation from "../../graphql/claimOneTimeKeysMutation";
 import { createAuthenticationToken } from "../device";
 import { verifyOneTimeKey } from "../../utils/signing";
 import { DeviceKeys } from "../../types";
+import { addDebugLogEntry } from "../../stores/debugStore";
 
 type OneTimeKeysWithDeviceIdKey = {
   oneTimeKey: { key: string; signature: string };
@@ -45,19 +46,30 @@ const claimOneTimeKeys = async (
     result?.data?.claimOneTimeKeysForMultipleDevices?.oneTimeKeysWithDeviceIdKey
   ) {
     // TODO user should receive a warning in case oneTimeKeys are filtered out because they are not properly signed
-    const verifiedOneTimeKeys = result.data.claimOneTimeKeysForMultipleDevices.oneTimeKeysWithDeviceIdKey.filter(
-      (oneTimeKeysWithDeviceIdKey: OneTimeKeysWithDeviceIdKey) => {
-        const device = verifiedDevices.find(
-          (device) => device.idKey === oneTimeKeysWithDeviceIdKey.deviceIdKey
-        );
-        if (!device) return false;
-        return verifyOneTimeKey(
-          device.signingKey,
-          oneTimeKeysWithDeviceIdKey.oneTimeKey.key,
-          oneTimeKeysWithDeviceIdKey.oneTimeKey.signature
-        );
-      }
-    );
+    const verifiedOneTimeKeys =
+      result.data.claimOneTimeKeysForMultipleDevices.oneTimeKeysWithDeviceIdKey.filter(
+        (oneTimeKeysWithDeviceIdKey: OneTimeKeysWithDeviceIdKey) => {
+          const device = verifiedDevices.find(
+            (device) => device.idKey === oneTimeKeysWithDeviceIdKey.deviceIdKey
+          );
+          if (!device) return false;
+          const isValid = verifyOneTimeKey(
+            device.signingKey,
+            oneTimeKeysWithDeviceIdKey.oneTimeKey.key,
+            oneTimeKeysWithDeviceIdKey.oneTimeKey.signature
+          );
+          if (!isValid) {
+            addDebugLogEntry(
+              `One-time Key could not be verified:
+                ${device.signingKey}
+                ${oneTimeKeysWithDeviceIdKey.oneTimeKey.key}
+                ${oneTimeKeysWithDeviceIdKey.oneTimeKey.signature}`,
+              "error"
+            );
+          }
+          return isValid;
+        }
+      );
 
     return verifiedOneTimeKeys;
   } else {

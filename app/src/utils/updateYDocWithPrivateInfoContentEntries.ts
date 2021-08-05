@@ -21,7 +21,7 @@ export const updateYDocWithPrivateInfoContentEntries = async (
   for (const contentEntry of content) {
     try {
       if (!verifyDevice(contentEntry.authorDevice, publicUserSigningKey)) {
-        throw new Error("Not a valid user device.");
+        throw new Error("Not a valid user device");
       }
 
       const receivedPacket = JSON.parse(contentEntry.encryptedContent);

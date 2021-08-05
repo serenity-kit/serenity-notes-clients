@@ -12,6 +12,7 @@ import {
 } from "../../stores/debugStore";
 import { Clipboard, Alert } from "react-native";
 import { ListItem, Icon } from "react-native-elements";
+import { getOneTimeKeys } from "../../stores/oneTimeKeysFailedToRemoveFromServerStore";
 
 const styles = StyleSheet.create({
   container: {
@@ -42,6 +43,8 @@ export default function DebugScreen({ navigation }) {
     };
   }, [navigation]);
 
+  const oneTimeKeysFailedToRemoveFromTheServer = getOneTimeKeys();
+
   return (
     <View style={styles.container}>
       <ListWrapper>
@@ -56,6 +59,27 @@ export default function DebugScreen({ navigation }) {
         >
           Log Debug Info
         </ListItemToggle>
+      </ListWrapper>
+      <ListWrapper style={{ marginTop: 10 }}>
+        <ListItem
+          underlayColor={colors.underlay}
+          onPress={async () => {
+            await Clipboard.setString(JSON.stringify(debugLog));
+            Alert.alert("Copied to Clipboard");
+          }}
+        >
+          <Icon name="copy" type="feather" color={colors.primary} />
+          <ListItem.Content>
+            <ListItem.Title>
+              One-time keys failed to remove from the server
+            </ListItem.Title>
+            <ListItem.Subtitle>
+              {oneTimeKeysFailedToRemoveFromTheServer.length === 0
+                ? "None"
+                : oneTimeKeysFailedToRemoveFromTheServer.join(", ")}
+            </ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
       </ListWrapper>
       <ListWrapper style={{ marginTop: 10 }}>
         <ListItem

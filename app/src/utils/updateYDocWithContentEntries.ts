@@ -167,14 +167,6 @@ export const updateYDocWithContentEntries = async (
           contentEntry.groupSessionMessage.body
         );
 
-        await removeOneTimeKey({
-          variant: "localAndRemote",
-          message: contentEntry.groupSessionMessage.body,
-          session,
-          device,
-          client,
-        });
-
         const groupSessionInfo = JSON.parse(groupSessionInfoEncrypted);
         inboundSession.create(groupSessionInfo.sessionKey);
         if (inboundSession.session_id() !== groupSessionInfo.sessionId) {
@@ -188,6 +180,14 @@ export const updateYDocWithContentEntries = async (
           repositoryId,
           inboundGroupSessions
         );
+
+        await removeOneTimeKey({
+          variant: "localAndRemote",
+          message: contentEntry.groupSessionMessage.body,
+          session,
+          device,
+          client,
+        });
       }
 
       addDebugLogEntry("Note update | decrypt");

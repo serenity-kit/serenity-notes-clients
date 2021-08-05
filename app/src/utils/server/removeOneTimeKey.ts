@@ -1,4 +1,5 @@
 import removeOneTimeKeyMutation from "../../graphql/removeOneTimeKeyMutation";
+import { addOneTimeKey } from "../../stores/oneTimeKeysFailedToRemoveFromServerStore";
 import createAuthenticationToken from "../createAuthenticationToken";
 
 const removeOneTimeKey = async (
@@ -6,24 +7,29 @@ const removeOneTimeKey = async (
   device: Olm.Account,
   oneTimeKey: string
 ) => {
-  const result = await client
-    .mutation(
-      removeOneTimeKeyMutation,
-      { input: { key: oneTimeKey } },
-      {
-        fetchOptions: {
-          headers: {
-            authorization: `signed-utc-msg ${createAuthenticationToken(
-              device
-            )}`,
+  try {
+    const result = await client
+      .mutation(
+        removeOneTimeKeyMutation,
+        { input: { key: oneTimeKey } },
+        {
+          fetchOptions: {
+            headers: {
+              authorization: `signed-utc-msg ${createAuthenticationToken(
+                device
+              )}`,
+            },
           },
-        },
-      }
-    )
-    .toPromise();
+        }
+      )
+      .toPromise();
 
-  if (!result?.data?.removeOneTimeKey?.success) {
-    throw new Error("Failed to remove onetimekey");
+    if (!result?.data?.removeOneTimeKey?.success) {
+      throw new Error("Failed to remove one-time key");
+    }
+  } catch (err) {
+    // not necessary to wait for it
+    addOneTimeKey(oneTimeKey);
   }
 };
 

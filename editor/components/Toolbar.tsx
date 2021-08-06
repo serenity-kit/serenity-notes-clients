@@ -32,6 +32,10 @@ import MiscellaneousMenu from "./MiscellaneousMenu";
 import InsertIconButton from "./InsertIconButton";
 import useWindowSize from "../hooks/useWindowSize";
 
+const miscellaneousMenuBreakPoint = 660;
+const blockTypeMenuBreakPoint = 590;
+const listMenuBreakPoint = 470;
+
 type Props = {
   editorView: EditorView;
 };
@@ -65,7 +69,7 @@ export default function Toolbar({ editorView }: Props) {
           icon={MdCode}
           title="Toggle code style"
         />
-        {window.isDesktop ? (
+        {windowSize.width > miscellaneousMenuBreakPoint ? (
           <LinkMenu editorView={editorView} iconMode />
         ) : null}
         <span
@@ -74,7 +78,7 @@ export default function Toolbar({ editorView }: Props) {
             marginRight: "2px",
           }}
         ></span>
-        {window.isDesktop && windowSize.width > 660 ? (
+        {windowSize.width > blockTypeMenuBreakPoint ? (
           <>
             <BlockTypeIconButton
               nodeType={schema.nodes.paragraph}
@@ -108,7 +112,7 @@ export default function Toolbar({ editorView }: Props) {
         ) : (
           <BlockTypeMenu editorView={editorView} />
         )}
-        {window.isDesktop && windowSize.width > 550 ? (
+        {windowSize.width > listMenuBreakPoint ? (
           <>
             <ListIconButton
               editorView={editorView}
@@ -131,7 +135,7 @@ export default function Toolbar({ editorView }: Props) {
         ) : (
           <ListMenu editorView={editorView} />
         )}
-        {window.isDesktop ? (
+        {windowSize.width > miscellaneousMenuBreakPoint ? (
           <>
             <WrapInIconButton
               editorView={editorView}

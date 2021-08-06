@@ -26,6 +26,15 @@ export default function App({ editorSource }: Props) {
       try {
         await initOlm();
         await initDebugStore();
+        // NOTE: The currentDevice is storred in the module instead of React's state or context
+        // This can cause issue for hot-reloading while editing the deviceStore file.
+        // Steps to reproduce:
+        // 1. Open the contacts screen
+        // 2. Change the deviceStore file
+        // -> The useDevice hook will run, but not find device since the deviceStore module
+        // is empty at the moment.
+        // Fix: In this case just restart the App or change the contacts screen file to trigger
+        // a reload there.
         await initDeviceStore();
         await initOneTimeKeysFailedToRemoveFromServer();
         await unlockScreenOrientation();
@@ -38,7 +47,7 @@ export default function App({ editorSource }: Props) {
       }
     }
     init();
-    console.log("Initialize Olm & crypto.getRandomValues");
+    console.log("Initialize App");
   }, []);
 
   if (initialized === false) return null;

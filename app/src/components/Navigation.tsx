@@ -38,7 +38,6 @@ import GoodbyeScreen from "./screens/GoodbyeScreen";
 import DebugScreen from "./screens/DebugScreen";
 import { sizes } from "../styles/fonts";
 import { Platform } from "react-native";
-import UpgradeHint from "./ui/UpgradeHint";
 
 const RootStack = createStackNavigator();
 const Stack = createStackNavigator();
@@ -190,9 +189,9 @@ function Contacts() {
 function MainApp() {
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        inactiveTintColor: colors.text,
-        activeTintColor: colors.primary,
+      screenOptions={() => ({
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.text,
         style: {
           // // https://ethercreative.github.io/react-native-shadow-generator/
           shadowColor: "#000",
@@ -205,12 +204,13 @@ function MainApp() {
 
           elevation: 2,
         },
-      }}
+      })}
     >
       <Tab.Screen
-        name="Notes"
+        name="Notes Tab"
         component={Notes}
         options={{
+          headerShown: false,
           tabBarLabel: "Notes",
           tabBarIcon: ({ color, size }) => (
             <Icon name="edit" type="feather" color={color} size={size} />
@@ -218,9 +218,10 @@ function MainApp() {
         }}
       />
       <Tab.Screen
-        name="Contacts"
+        name="Contacts Tab"
         component={Contacts}
         options={{
+          headerShown: false,
           tabBarLabel: "Contacts",
           tabBarIcon: ({ color, size }) => (
             <Icon name="users" type="feather" color={color} size={size} />
@@ -228,9 +229,10 @@ function MainApp() {
         }}
       />
       <Tab.Screen
-        name="Settings"
+        name="Settings Tab"
         component={Settings}
         options={{
+          headerShown: false,
           tabBarLabel: "Settings",
           tabBarIcon: ({ color, size }) => (
             <Icon name="settings" type="feather" color={color} size={size} />

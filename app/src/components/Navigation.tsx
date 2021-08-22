@@ -246,16 +246,16 @@ function MainApp() {
 function MainAppMacos() {
   return (
     <Drawer.Navigator
-      drawerType="permanent"
-      drawerStyle={{
-        backgroundColor: colors.backgroundDesktopSidebar,
-        width: 200,
-      }}
-      drawerContentOptions={{
-        inactiveTintColor: colors.text,
-        activeTintColor: colors.primary,
-        activeBackgroundColor: colors.backgroundDesktopSidebar,
-        labelStyle: {
+      screenOptions={{
+        drawerType: "permanent",
+        drawerStyle: {
+          backgroundColor: colors.backgroundDesktopSidebar,
+          width: 200,
+        },
+        drawerActiveTintColor: colors.primary,
+        drawerInactiveTintColor: colors.text,
+        drawerActiveBackgroundColor: colors.backgroundDesktopSidebar,
+        drawerLabelStyle: {
           fontSize: sizes.medium,
           marginTop: 3,
           marginBottom: 5,
@@ -264,9 +264,10 @@ function MainAppMacos() {
       }}
     >
       <Drawer.Screen
-        name="Notes"
+        name="Notes Tab"
         component={Notes}
         options={{
+          headerShown: false,
           drawerLabel: "Notes",
           drawerIcon: ({ color, size }) => (
             <Icon
@@ -280,9 +281,10 @@ function MainAppMacos() {
         }}
       />
       <Drawer.Screen
-        name="Contacts"
+        name="Contacts Tab"
         component={Contacts}
         options={{
+          headerShown: false,
           drawerLabel: "Contacts",
           drawerIcon: ({ color, size }) => (
             <Icon
@@ -296,9 +298,10 @@ function MainAppMacos() {
         }}
       />
       <Drawer.Screen
-        name="Settings"
+        name="Settings Tab"
         component={Settings}
         options={{
+          headerShown: false,
           drawerLabel: "Settings",
           drawerIcon: ({ color, size }) => (
             <Icon

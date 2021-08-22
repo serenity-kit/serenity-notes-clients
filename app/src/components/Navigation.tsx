@@ -106,17 +106,17 @@ function Notes() {
       <Stack.Screen
         name="AddCollaboratorToNote"
         component={AddCollaboratorToNoteScreen}
-        options={{ title: "Add Collaborator to Note" }}
+        options={{ title: "Add Collaborator to Note", presentation: "modal" }}
       />
       <Stack.Screen
         name="NoteSettings"
         component={NoteSettingsScreen}
-        options={{ title: "Note Settings" }}
+        options={{ title: "Note Settings", presentation: "modal" }}
       />
       <Stack.Screen
         name="NoteCollaborator"
         component={NoteCollaboratorScreen}
-        options={{ title: "Note Collaborator" }}
+        options={{ title: "Note Collaborator", presentation: "modal" }}
       />
     </Stack.Navigator>
   );
@@ -133,12 +133,12 @@ function Settings() {
       <Stack.Screen
         name="VerifyAddDeviceToExistingUserScreen"
         component={VerifyAddDeviceToExistingUserScreen}
-        options={{ title: "Verify new Device" }}
+        options={{ title: "Verify new Device", presentation: "modal" }}
       />
       <Stack.Screen
         name="AddLicenseTokenScreen"
         component={AddLicenseTokenScreen}
-        options={{ title: "Add License Key" }}
+        options={{ title: "Add License Key", presentation: "modal" }}
       />
       <Stack.Screen
         name="DeviceScreen"
@@ -175,12 +175,15 @@ function Contacts() {
       <Stack.Screen
         name="AcceptContactInvitationScreen"
         component={AcceptContactInvitationScreen}
-        options={{ title: "Accept Contact Invitation" }}
+        options={{
+          title: "Accept Contact Invitation",
+          presentation: "modal",
+        }}
       />
       <Stack.Screen
         name="CreateContactInvitationScreen"
         component={CreateContactInvitationScreen}
-        options={{ title: "Create Contact Invitation" }}
+        options={{ title: "Create Contact Invitation", presentation: "modal" }}
       />
     </Stack.Navigator>
   );

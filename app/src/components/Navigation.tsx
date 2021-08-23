@@ -38,7 +38,6 @@ import GoodbyeScreen from "./screens/GoodbyeScreen";
 import DebugScreen from "./screens/DebugScreen";
 import { sizes } from "../styles/fonts";
 import { Platform } from "react-native";
-import UpgradeHint from "./ui/UpgradeHint";
 
 const RootStack = createStackNavigator();
 const Stack = createStackNavigator();
@@ -107,17 +106,17 @@ function Notes() {
       <Stack.Screen
         name="AddCollaboratorToNote"
         component={AddCollaboratorToNoteScreen}
-        options={{ title: "Add Collaborator to Note" }}
+        options={{ title: "Add Collaborator to Note", presentation: "modal" }}
       />
       <Stack.Screen
         name="NoteSettings"
         component={NoteSettingsScreen}
-        options={{ title: "Note Settings" }}
+        options={{ title: "Note Settings", presentation: "modal" }}
       />
       <Stack.Screen
         name="NoteCollaborator"
         component={NoteCollaboratorScreen}
-        options={{ title: "Note Collaborator" }}
+        options={{ title: "Note Collaborator", presentation: "modal" }}
       />
     </Stack.Navigator>
   );
@@ -134,12 +133,12 @@ function Settings() {
       <Stack.Screen
         name="VerifyAddDeviceToExistingUserScreen"
         component={VerifyAddDeviceToExistingUserScreen}
-        options={{ title: "Verify new Device" }}
+        options={{ title: "Verify new Device", presentation: "modal" }}
       />
       <Stack.Screen
         name="AddLicenseTokenScreen"
         component={AddLicenseTokenScreen}
-        options={{ title: "Add License Key" }}
+        options={{ title: "Add License Key", presentation: "modal" }}
       />
       <Stack.Screen
         name="DeviceScreen"
@@ -176,12 +175,15 @@ function Contacts() {
       <Stack.Screen
         name="AcceptContactInvitationScreen"
         component={AcceptContactInvitationScreen}
-        options={{ title: "Accept Contact Invitation" }}
+        options={{
+          title: "Accept Contact Invitation",
+          presentation: "modal",
+        }}
       />
       <Stack.Screen
         name="CreateContactInvitationScreen"
         component={CreateContactInvitationScreen}
-        options={{ title: "Create Contact Invitation" }}
+        options={{ title: "Create Contact Invitation", presentation: "modal" }}
       />
     </Stack.Navigator>
   );
@@ -190,9 +192,9 @@ function Contacts() {
 function MainApp() {
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        inactiveTintColor: colors.text,
-        activeTintColor: colors.primary,
+      screenOptions={() => ({
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.text,
         style: {
           // // https://ethercreative.github.io/react-native-shadow-generator/
           shadowColor: "#000",
@@ -205,12 +207,13 @@ function MainApp() {
 
           elevation: 2,
         },
-      }}
+      })}
     >
       <Tab.Screen
-        name="Notes"
+        name="Notes Tab"
         component={Notes}
         options={{
+          headerShown: false,
           tabBarLabel: "Notes",
           tabBarIcon: ({ color, size }) => (
             <Icon name="edit" type="feather" color={color} size={size} />
@@ -218,9 +221,10 @@ function MainApp() {
         }}
       />
       <Tab.Screen
-        name="Contacts"
+        name="Contacts Tab"
         component={Contacts}
         options={{
+          headerShown: false,
           tabBarLabel: "Contacts",
           tabBarIcon: ({ color, size }) => (
             <Icon name="users" type="feather" color={color} size={size} />
@@ -228,9 +232,10 @@ function MainApp() {
         }}
       />
       <Tab.Screen
-        name="Settings"
+        name="Settings Tab"
         component={Settings}
         options={{
+          headerShown: false,
           tabBarLabel: "Settings",
           tabBarIcon: ({ color, size }) => (
             <Icon name="settings" type="feather" color={color} size={size} />
@@ -244,16 +249,16 @@ function MainApp() {
 function MainAppMacos() {
   return (
     <Drawer.Navigator
-      drawerType="permanent"
-      drawerStyle={{
-        backgroundColor: colors.backgroundDesktopSidebar,
-        width: 200,
-      }}
-      drawerContentOptions={{
-        inactiveTintColor: colors.text,
-        activeTintColor: colors.primary,
-        activeBackgroundColor: colors.backgroundDesktopSidebar,
-        labelStyle: {
+      screenOptions={{
+        drawerType: "permanent",
+        drawerStyle: {
+          backgroundColor: colors.backgroundDesktopSidebar,
+          width: 200,
+        },
+        drawerActiveTintColor: colors.primary,
+        drawerInactiveTintColor: colors.text,
+        drawerActiveBackgroundColor: colors.backgroundDesktopSidebar,
+        drawerLabelStyle: {
           fontSize: sizes.medium,
           marginTop: 3,
           marginBottom: 5,
@@ -262,9 +267,10 @@ function MainAppMacos() {
       }}
     >
       <Drawer.Screen
-        name="Notes"
+        name="Notes Tab"
         component={Notes}
         options={{
+          headerShown: false,
           drawerLabel: "Notes",
           drawerIcon: ({ color, size }) => (
             <Icon
@@ -278,9 +284,10 @@ function MainAppMacos() {
         }}
       />
       <Drawer.Screen
-        name="Contacts"
+        name="Contacts Tab"
         component={Contacts}
         options={{
+          headerShown: false,
           drawerLabel: "Contacts",
           drawerIcon: ({ color, size }) => (
             <Icon
@@ -294,9 +301,10 @@ function MainAppMacos() {
         }}
       />
       <Drawer.Screen
-        name="Settings"
+        name="Settings Tab"
         component={Settings}
         options={{
+          headerShown: false,
           drawerLabel: "Settings",
           drawerIcon: ({ color, size }) => (
             <Icon

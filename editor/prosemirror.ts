@@ -126,6 +126,11 @@ window.addEventListener("load", () => {
           editorView.dispatch(
             toggleChecklistItemAction(editorView.state, pos - 1, node)
           );
+          if (window.ReactNativeWebView) {
+            window.ReactNativeWebView.postMessage(
+              JSON.stringify({ type: "hapticFeedback" })
+            );
+          }
           return true;
         }
         return false;

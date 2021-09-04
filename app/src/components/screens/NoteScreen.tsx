@@ -19,7 +19,7 @@ import * as mutationQueue from "../../hooks/useSyncUtils/mutationQueue";
 import { loadEditorSourceForAndroid } from "../../utils/editorSource/editorSource";
 import { useEditorSource } from "../../context/EditorSourceContext";
 import SchemaVerionUpdateHint from "../ui/SchemaVersionUpdateHint";
-import getValidUrl from "../../utils/getValidUrl/getValidUrl";
+import hapticFeedback from "../../utils/hapticFeedback/hapticFeedback";
 
 const styles = StyleSheet.create({
   container: {
@@ -294,6 +294,9 @@ export default function NoteScreen({ route, navigation }) {
             } else {
               Alert.alert("Can't open URL", message.link);
             }
+          }
+          if (message.type === "hapticFeedback") {
+            hapticFeedback();
           }
         }}
         style={styles.webView}

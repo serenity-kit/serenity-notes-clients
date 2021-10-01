@@ -16,24 +16,25 @@
 		514201522437B4B40078DB4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 514201512437B4B40078DB4F /* Assets.xcassets */; };
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
 		514201582437B4B40078DB4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 514201572437B4B40078DB4F /* main.m */; };
-		5E01B86EACE181F8B529E3B4 /* libPods-serenity-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C23C172802EFE82558E84A3 /* libPods-serenity-iOS.a */; };
-		77AA6C1126360E44005E69DB /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 77AA6C1026360E44005E69DB /* Fonts */; };
-		9307ABCCC2A6AA19E0ABF5EB /* libPods-serenity-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B28CFA99D10165F28C80B1D6 /* libPods-serenity-macOS.a */; };
+		77A79EFA2707AB1A009D7A9B /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 77A79EF92707AB1A009D7A9B /* Fonts */; };
+		7F48243C0DC0741F108467BA /* libPods-serenity-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5319ACF2FCBE270E537DA0AE /* libPods-serenity-macOS.a */; };
+		9C3E7018EDDF24C10C81F85D /* libPods-serenity-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14108C7CD32CCA8EFDDE1A4B /* libPods-serenity-iOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		02422F9FB6FF5F34B4E63E6F /* Pods-Shared-serenity-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shared-serenity-macOS.debug.xcconfig"; path = "Target Support Files/Pods-Shared-serenity-macOS/Pods-Shared-serenity-macOS.debug.xcconfig"; sourceTree = "<group>"; };
-		0D12E7DD98B318BCA95B3CAC /* Pods-serenity-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-serenity-iOS.debug.xcconfig"; path = "Target Support Files/Pods-serenity-iOS/Pods-serenity-iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* serenity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = serenity.app; path = "Serenity Notes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		12BBECA9C145EE82F1122016 /* Pods-serenity-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-serenity-macOS.debug.xcconfig"; path = "Target Support Files/Pods-serenity-macOS/Pods-serenity-macOS.debug.xcconfig"; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* serenity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = serenity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = serenity/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		14108C7CD32CCA8EFDDE1A4B /* libPods-serenity-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-serenity-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		38423A3E24576CBC00BC2EAC /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		514201492437B4B30078DB4F /* Serenity Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Serenity Notes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		514201492437B4B30078DB4F /* Serenity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Serenity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5142014B2437B4B30078DB4F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5142014C2437B4B30078DB4F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		5142014E2437B4B30078DB4F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -43,17 +44,16 @@
 		514201562437B4B40078DB4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		514201572437B4B40078DB4F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		514201592437B4B40078DB4F /* serenity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = serenity.entitlements; sourceTree = "<group>"; };
-		7274909F6F377D18BC84629F /* Pods-serenity-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-serenity-macOS.release.xcconfig"; path = "Target Support Files/Pods-serenity-macOS/Pods-serenity-macOS.release.xcconfig"; sourceTree = "<group>"; };
-		77AA6C1026360E44005E69DB /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
-		8C23C172802EFE82558E84A3 /* libPods-serenity-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-serenity-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5319ACF2FCBE270E537DA0AE /* libPods-serenity-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-serenity-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		77A79EF92707AB1A009D7A9B /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
+		847A941D9CDD84DD221E6B0E /* Pods-serenity-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-serenity-macOS.release.xcconfig"; path = "Target Support Files/Pods-serenity-macOS/Pods-serenity-macOS.release.xcconfig"; sourceTree = "<group>"; };
 		9D32DFD059D5DB6DDEF38881 /* Pods-Shared-serenity-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shared-serenity-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Shared-serenity-iOS/Pods-Shared-serenity-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		9EED22D7E2B39F4B8E0685C7 /* Pods-serenity-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-serenity-iOS.debug.xcconfig"; path = "Target Support Files/Pods-serenity-iOS/Pods-serenity-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		A82DFB63B157C65E5D698CA2 /* Pods-Shared-serenity-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shared-serenity-iOS.release.xcconfig"; path = "Target Support Files/Pods-Shared-serenity-iOS/Pods-Shared-serenity-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		B11A0C4671031D008C5FB6B3 /* Pods-serenity-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-serenity-iOS.release.xcconfig"; path = "Target Support Files/Pods-serenity-iOS/Pods-serenity-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		B28CFA99D10165F28C80B1D6 /* libPods-serenity-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-serenity-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE0E74F571E1F48FF00A8324 /* Pods-Shared-serenity-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shared-serenity-macOS.release.xcconfig"; path = "Target Support Files/Pods-Shared-serenity-macOS/Pods-Shared-serenity-macOS.release.xcconfig"; sourceTree = "<group>"; };
-		DBB4F3FB246CDFF6E0E1A246 /* Pods-serenity-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-serenity-macOS.debug.xcconfig"; path = "Target Support Files/Pods-serenity-macOS/Pods-serenity-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F8CFE4841086F797388F1B36 /* Pods-serenity-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-serenity-iOS.release.xcconfig"; path = "Target Support Files/Pods-serenity-iOS/Pods-serenity-iOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E01B86EACE181F8B529E3B4 /* libPods-serenity-iOS.a in Frameworks */,
+				9C3E7018EDDF24C10C81F85D /* libPods-serenity-iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9307ABCCC2A6AA19E0ABF5EB /* libPods-serenity-macOS.a in Frameworks */,
+				7F48243C0DC0741F108467BA /* libPods-serenity-macOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,10 +97,10 @@
 				A82DFB63B157C65E5D698CA2 /* Pods-Shared-serenity-iOS.release.xcconfig */,
 				02422F9FB6FF5F34B4E63E6F /* Pods-Shared-serenity-macOS.debug.xcconfig */,
 				CE0E74F571E1F48FF00A8324 /* Pods-Shared-serenity-macOS.release.xcconfig */,
-				0D12E7DD98B318BCA95B3CAC /* Pods-serenity-iOS.debug.xcconfig */,
-				B11A0C4671031D008C5FB6B3 /* Pods-serenity-iOS.release.xcconfig */,
-				DBB4F3FB246CDFF6E0E1A246 /* Pods-serenity-macOS.debug.xcconfig */,
-				7274909F6F377D18BC84629F /* Pods-serenity-macOS.release.xcconfig */,
+				9EED22D7E2B39F4B8E0685C7 /* Pods-serenity-iOS.debug.xcconfig */,
+				F8CFE4841086F797388F1B36 /* Pods-serenity-iOS.release.xcconfig */,
+				12BBECA9C145EE82F1122016 /* Pods-serenity-macOS.debug.xcconfig */,
+				847A941D9CDD84DD221E6B0E /* Pods-serenity-macOS.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -110,8 +110,8 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				8C23C172802EFE82558E84A3 /* libPods-serenity-iOS.a */,
-				B28CFA99D10165F28C80B1D6 /* libPods-serenity-macOS.a */,
+				14108C7CD32CCA8EFDDE1A4B /* libPods-serenity-iOS.a */,
+				5319ACF2FCBE270E537DA0AE /* libPods-serenity-macOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -119,7 +119,7 @@
 		5142014A2437B4B30078DB4F /* serenity-macOS */ = {
 			isa = PBXGroup;
 			children = (
-				77AA6C1026360E44005E69DB /* Fonts */,
+				77A79EF92707AB1A009D7A9B /* Fonts */,
 				38423A3E24576CBC00BC2EAC /* main.jsbundle */,
 				5142014B2437B4B30078DB4F /* AppDelegate.h */,
 				5142014C2437B4B30078DB4F /* AppDelegate.m */,
@@ -160,7 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* serenity.app */,
-				514201492437B4B30078DB4F /* Serenity Notes.app */,
+				514201492437B4B30078DB4F /* Serenity.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -178,8 +178,8 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				AB6ED37986DF649184A8EDCD /* [CP] Embed Pods Frameworks */,
-				96912A36525D1A8568E615B1 /* [CP] Copy Pods Resources */,
+				5F08F44A60EC77777E2FAA3C /* [CP] Embed Pods Frameworks */,
+				FB3F1B90A53391FB10F97348 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -200,7 +200,7 @@
 				514201462437B4B30078DB4F /* Frameworks */,
 				514201472437B4B30078DB4F /* Resources */,
 				381D8A6E24576A4E00465D17 /* Bundle React Native code and images */,
-				FE51DDAFAC17EF4CF5590CEB /* [CP] Copy Pods Resources */,
+				5289C8D02872F45CCB9DF74F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -208,7 +208,7 @@
 			);
 			name = "serenity-macOS";
 			productName = serenity;
-			productReference = 514201492437B4B30078DB4F /* Serenity Notes.app */;
+			productReference = 514201492437B4B30078DB4F /* Serenity.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -262,7 +262,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77AA6C1126360E44005E69DB /* Fonts in Resources */,
+				77A79EFA2707AB1A009D7A9B /* Fonts in Resources */,
 				514201522437B4B40078DB4F /* Assets.xcassets in Resources */,
 				514201552437B4B40078DB4F /* Main.storyboard in Resources */,
 			);
@@ -343,6 +343,42 @@
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native-macos/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native-macos/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
 		};
+		5289C8D02872F45CCB9DF74F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-serenity-macOS/Pods-serenity-macOS-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core-macOS/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-serenity-macOS/Pods-serenity-macOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5F08F44A60EC77777E2FAA3C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-serenity-iOS/Pods-serenity-iOS-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-serenity-iOS/Pods-serenity-iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		7BC40D98CAD1562CFD247217 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -365,7 +401,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		96912A36525D1A8568E615B1 /* [CP] Copy Pods Resources */ = {
+		FB3F1B90A53391FB10F97348 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -415,24 +451,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-serenity-iOS/Pods-serenity-iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AB6ED37986DF649184A8EDCD /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-serenity-iOS/Pods-serenity-iOS-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-serenity-iOS/Pods-serenity-iOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -450,24 +468,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native-macos/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native-macos/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		FE51DDAFAC17EF4CF5590CEB /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-serenity-macOS/Pods-serenity-macOS-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core-macOS/AccessibilityResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-serenity-macOS/Pods-serenity-macOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -516,7 +516,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D12E7DD98B318BCA95B3CAC /* Pods-serenity-iOS.debug.xcconfig */;
+			baseConfigurationReference = 9EED22D7E2B39F4B8E0685C7 /* Pods-serenity-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -529,8 +529,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "re.serenity.notes-desktop";
-				PRODUCT_NAME = "Serenity Notes";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = serenity;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -539,7 +539,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B11A0C4671031D008C5FB6B3 /* Pods-serenity-iOS.release.xcconfig */;
+			baseConfigurationReference = F8CFE4841086F797388F1B36 /* Pods-serenity-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -551,8 +551,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "re.serenity.notes-desktop";
-				PRODUCT_NAME = "Serenity Notes";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = serenity;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -560,7 +560,7 @@
 		};
 		5142015B2437B4B40078DB4F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DBB4F3FB246CDFF6E0E1A246 /* Pods-serenity-macOS.debug.xcconfig */;
+			baseConfigurationReference = 12BBECA9C145EE82F1122016 /* Pods-serenity-macOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
@@ -575,15 +575,15 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "re.serenity.notes-desktop";
-				PRODUCT_NAME = "Serenity Notes";
+				PRODUCT_BUNDLE_IDENTIFIER = re.serenity.desktop;
+				PRODUCT_NAME = Serenity;
 				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		5142015C2437B4B40078DB4F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7274909F6F377D18BC84629F /* Pods-serenity-macOS.release.xcconfig */;
+			baseConfigurationReference = 847A941D9CDD84DD221E6B0E /* Pods-serenity-macOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
@@ -597,8 +597,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "re.serenity.notes-desktop";
-				PRODUCT_NAME = "Serenity Notes";
+				PRODUCT_BUNDLE_IDENTIFIER = re.serenity.desktop;
+				PRODUCT_NAME = Serenity;
 				SDKROOT = macosx;
 			};
 			name = Release;

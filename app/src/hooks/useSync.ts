@@ -203,10 +203,12 @@ const useSync = () => {
   const appWasInactive = React.useRef<boolean>(true);
 
   const changeAppState = (nextAppState) => {
-    setAppState(nextAppState);
-    if (appState !== "active" && nextAppState === "active") {
-      appWasInactive.current = true;
-    }
+    setAppState((currentAppState) => {
+      if (currentAppState !== "active" && nextAppState === "active") {
+        appWasInactive.current = true;
+      }
+      return nextAppState;
+    });
   };
 
   React.useEffect(() => {
@@ -226,31 +228,31 @@ const useSync = () => {
       return;
 
     const syncFunction = async () => {
-        if (syncInProgress) return;
-        syncInProgress = true;
-        await fetchRepositories(
+      if (syncInProgress) return;
+      syncInProgress = true;
+      await fetchRepositories(
+        client,
+        deviceResult.device,
+        setLoadRepositoriesSyncState
+      );
+      try {
+        const unclaimedOneTimeKeysCountValue = await unclaimedOneTimeKeysCount(
           client,
-          deviceResult.device,
-          setLoadRepositoriesSyncState
+          deviceResult.device
         );
-        try {
-          const unclaimedOneTimeKeysCountValue = await unclaimedOneTimeKeysCount(
-            client,
-            deviceResult.device
-          );
-          // TODO fetch the claimed & unclaimed oneTimeKeys
-          // then only if the amount is lower than
-          // deviceResult.device.max_number_of_one_time_keys()
-          // start to send more
-          if (unclaimedOneTimeKeysCountValue < 50) {
-            await sendOneTimeKeys(client, deviceResult.device);
-          }
-        } catch (err) {
-          console.log("Failed to fetch unclaimedOneTimeKeysCount");
-          // TODO track errors and notify user if this doesn't work for a long time
+        // TODO fetch the claimed & unclaimed oneTimeKeys
+        // then only if the amount is lower than
+        // deviceResult.device.max_number_of_one_time_keys()
+        // start to send more
+        if (unclaimedOneTimeKeysCountValue < 50) {
+          await sendOneTimeKeys(client, deviceResult.device);
         }
-        syncInProgress = false;
+      } catch (err) {
+        console.log("Failed to fetch unclaimedOneTimeKeysCount");
+        // TODO track errors and notify user if this doesn't work for a long time
       }
+      syncInProgress = false;
+    };
 
     if (appState === "active") {
       if (appWasInactive.current) {

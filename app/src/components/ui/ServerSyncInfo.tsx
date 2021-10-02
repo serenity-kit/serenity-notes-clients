@@ -1,10 +1,17 @@
 import React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Platform } from "react-native";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { sizes } from "../../styles/fonts";
 import { useSyncInfo } from "../../context/SyncInfoContext";
 import LoadingEllipsis from "./LoadingEllipsis";
 import colors from "../../styles/colors";
+
+let syncSuccessThresholdInSeconds = 30;
+
+if (Platform.OS === 'macos') {
+  // more than 10min and 15seconds to give some time to sync
+  syncSuccessThresholdInSeconds = 615;
+}
 
 const styles = StyleSheet.create({
   hint: {
@@ -50,7 +57,7 @@ const ServerSyncInfo: React.FC = () => {
     const secondsToLastSuccessfulSync = Math.round(
       (time - loadRepositoriesSyncState.datetime.getTime()) / 1000
     );
-    if (secondsToLastSuccessfulSync > 30) {
+    if (secondsToLastSuccessfulSync > syncSuccessThresholdInSeconds) {
       const timeDiff =
         secondsToLastSuccessfulSync < 60
           ? `${secondsToLastSuccessfulSync} seconds ago`
@@ -69,6 +76,8 @@ const ServerSyncInfo: React.FC = () => {
       return null;
     }
   }
+
+  // never synced
   if (!loadRepositoriesSyncState.lastSuccessDatetime) {
     return (
       <View style={styles.warningHintWrapper}>

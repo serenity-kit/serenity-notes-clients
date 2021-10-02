@@ -1,5 +1,5 @@
 import React from "react";
-import { AppState, AppStateStatus } from "react-native";
+import { AppState, AppStateStatus, Platform } from "react-native";
 import { useClient } from "urql";
 import useDevice from "./useDevice";
 import useUser from "./useUser";
@@ -204,7 +204,7 @@ const useSync = () => {
 
   const changeAppState = (nextAppState) => {
     setAppState(nextAppState);
-    if (appState === "active" && nextAppState !== "active") {
+    if (appState !== "active" && nextAppState === "active") {
       appWasInactive.current = true;
     }
   };
@@ -221,13 +221,11 @@ const useSync = () => {
     if (
       deviceResult.type !== "device" ||
       userResult.type !== "user" ||
-      privateUserSigningKeyResult.type !== "privateUserSigningKey" ||
-      appState !== "active" // don't fetch if the app is in background
+      privateUserSigningKeyResult.type !== "privateUserSigningKey"
     )
       return;
 
-    if (appWasInactive.current) {
-      const fetchRepositoriesWithSyncInProgressCheck = async () => {
+    const syncFunction = async () => {
         if (syncInProgress) return;
         syncInProgress = true;
         await fetchRepositories(
@@ -235,45 +233,55 @@ const useSync = () => {
           deviceResult.device,
           setLoadRepositoriesSyncState
         );
-        syncInProgress = false;
-      };
-
-      appWasInactive.current = false;
-      // fetch right away when the device gets activated
-      // Note: await is not used in useEffect
-      fetchRepositoriesWithSyncInProgressCheck();
-    }
-
-    const intervalId = setInterval(async () => {
-      if (syncInProgress) return;
-      syncInProgress = true;
-      await fetchRepositories(
-        client,
-        deviceResult.device,
-        setLoadRepositoriesSyncState
-      );
-      try {
-        const unclaimedOneTimeKeysCountValue = await unclaimedOneTimeKeysCount(
-          client,
-          deviceResult.device
-        );
-        // TODO fetch the claimed & unclaimed oneTimeKeys
-        // then only if the amount is lower than
-        // deviceResult.device.max_number_of_one_time_keys()
-        // start to send more
-        if (unclaimedOneTimeKeysCountValue < 50) {
-          await sendOneTimeKeys(client, deviceResult.device);
+        try {
+          const unclaimedOneTimeKeysCountValue = await unclaimedOneTimeKeysCount(
+            client,
+            deviceResult.device
+          );
+          // TODO fetch the claimed & unclaimed oneTimeKeys
+          // then only if the amount is lower than
+          // deviceResult.device.max_number_of_one_time_keys()
+          // start to send more
+          if (unclaimedOneTimeKeysCountValue < 50) {
+            await sendOneTimeKeys(client, deviceResult.device);
+          }
+        } catch (err) {
+          console.log("Failed to fetch unclaimedOneTimeKeysCount");
+          // TODO track errors and notify user if this doesn't work for a long time
         }
-      } catch (err) {
-        console.log("Failed to fetch unclaimedOneTimeKeysCount");
-        // TODO track errors and notify user if this doesn't work for a long time
+        syncInProgress = false;
       }
-      syncInProgress = false;
-    }, 4000); // TODO switch to an interval defined by server or with backup
 
-    return () => {
-      clearInterval(intervalId);
-    };
+    if (appState === "active") {
+      if (appWasInactive.current) {
+        const fetchRepositoriesWithSyncInProgressCheck = async () => {
+          if (syncInProgress) return;
+          syncInProgress = true;
+          await fetchRepositories(
+            client,
+            deviceResult.device,
+            setLoadRepositoriesSyncState
+          );
+          syncInProgress = false;
+        };
+
+        appWasInactive.current = false;
+        // fetch right away when the device gets activated
+        // Note: await is not used in useEffect
+        fetchRepositoriesWithSyncInProgressCheck();
+      }
+
+      const intervalId = setInterval(syncFunction, 4000); // TODO switch to an interval defined by server or with backup
+      return () => {
+        clearInterval(intervalId);
+      };
+    } else if (Platform.OS === "macos") {
+      const intervalId = setInterval(syncFunction, 600000); // 10min
+
+      return () => {
+        clearInterval(intervalId);
+      };
+    }
   }, [
     deviceResult,
     userResult,

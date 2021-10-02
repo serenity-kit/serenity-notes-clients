@@ -8,18 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* SerenityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SerenityTests.m */; };
+		0F6C4D3B46BF55E6B92CD6B9 /* libPods-Serenity-SerenityTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA5CA78EBF1805D33680F14 /* libPods-Serenity-SerenityTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2C76CCFAD0AD5865E6238938 /* libPods-Serenity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A78DC3557E5231B37FD6FD1 /* libPods-Serenity.a */; };
+		1F368971A92BC24CCF1C2E9D /* libPods-Serenity-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28538ED23CDEA8EF7722AB4D /* libPods-Serenity-tvOSTests.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* SerenityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SerenityTests.m */; };
-		6441AC57E96E3DC75DADC1B4 /* libPods-Serenity-SerenityTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB252EC8E7033B8CE1374CB /* libPods-Serenity-SerenityTests.a */; };
+		75A49C9BB7693A0B84F57A6E /* libPods-Serenity-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A67A533FD1F85D8AE848A5E /* libPods-Serenity-tvOS.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		BA6793919C2AF70B91C8B526 /* libPods-Serenity-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30D31F2CF3EC52024493928B /* libPods-Serenity-tvOS.a */; };
-		FEA22C4F6D8B4D2B24B27814 /* libPods-Serenity-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4F8E91FA7A7F8A74851C71 /* libPods-Serenity-tvOSTests.a */; };
+		9726943CA6D83286691DA62E /* libPods-Serenity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CDE7D657F942849B3D2795 /* libPods-Serenity.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,29 +44,29 @@
 		00E356EE1AD99517003FC87E /* SerenityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SerenityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* SerenityTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SerenityTests.m; sourceTree = "<group>"; };
-		0E4F8E91FA7A7F8A74851C71 /* libPods-Serenity-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Serenity-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* Serenity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Serenity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Serenity/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Serenity/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Serenity/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Serenity/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Serenity/main.m; sourceTree = "<group>"; };
+		1A279BD15FF788F5D54AFF97 /* Pods-Serenity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity.release.xcconfig"; path = "Target Support Files/Pods-Serenity/Pods-Serenity.release.xcconfig"; sourceTree = "<group>"; };
+		25CDE7D657F942849B3D2795 /* libPods-Serenity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Serenity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28538ED23CDEA8EF7722AB4D /* libPods-Serenity-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Serenity-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* Serenity-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Serenity-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Serenity-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Serenity-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2DB252EC8E7033B8CE1374CB /* libPods-Serenity-SerenityTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Serenity-SerenityTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		30D31F2CF3EC52024493928B /* libPods-Serenity-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Serenity-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		38B802DF1952AD480AD7AA1D /* Pods-Serenity-SerenityTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity-SerenityTests.release.xcconfig"; path = "Target Support Files/Pods-Serenity-SerenityTests/Pods-Serenity-SerenityTests.release.xcconfig"; sourceTree = "<group>"; };
-		5A78DC3557E5231B37FD6FD1 /* libPods-Serenity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Serenity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		656C25A57720978D77D52834 /* Pods-Serenity-SerenityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity-SerenityTests.debug.xcconfig"; path = "Target Support Files/Pods-Serenity-SerenityTests/Pods-Serenity-SerenityTests.debug.xcconfig"; sourceTree = "<group>"; };
-		66B4C91B28CAB74F5CE6D1A1 /* Pods-Serenity-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Serenity-tvOS/Pods-Serenity-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		2EE53652C0BE165E8DC75CAF /* Pods-Serenity-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Serenity-tvOSTests/Pods-Serenity-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		576DB75FD637A27838405301 /* Pods-Serenity-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Serenity-tvOSTests/Pods-Serenity-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		68BF0D58ED81898F51910CD3 /* Pods-Serenity-SerenityTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity-SerenityTests.release.xcconfig"; path = "Target Support Files/Pods-Serenity-SerenityTests/Pods-Serenity-SerenityTests.release.xcconfig"; sourceTree = "<group>"; };
+		7A67A533FD1F85D8AE848A5E /* libPods-Serenity-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Serenity-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Serenity/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		85ADC17B0B046D23F816A9AB /* Pods-Serenity-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Serenity-tvOS/Pods-Serenity-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		8AC75A66B89C3ECCC3419A72 /* Pods-Serenity-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Serenity-tvOSTests/Pods-Serenity-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		971657F38D5C7E65D22D900D /* Pods-Serenity-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Serenity-tvOSTests/Pods-Serenity-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		CD25ACC9E9D1E647CFF676FB /* Pods-Serenity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity.debug.xcconfig"; path = "Target Support Files/Pods-Serenity/Pods-Serenity.debug.xcconfig"; sourceTree = "<group>"; };
+		972DF59B8BA8300E7746EF0C /* Pods-Serenity-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Serenity-tvOS/Pods-Serenity-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		B00DF5BF6DD8A556367CCFCF /* Pods-Serenity-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Serenity-tvOS/Pods-Serenity-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		C7A7F93A33984FB4F0293B97 /* Pods-Serenity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity.debug.xcconfig"; path = "Target Support Files/Pods-Serenity/Pods-Serenity.debug.xcconfig"; sourceTree = "<group>"; };
+		CCA5CA78EBF1805D33680F14 /* libPods-Serenity-SerenityTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Serenity-SerenityTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		FE9F19F4401C8090089774BD /* Pods-Serenity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity.release.xcconfig"; path = "Target Support Files/Pods-Serenity/Pods-Serenity.release.xcconfig"; sourceTree = "<group>"; };
+		FE00B6E437B08AC03BCCAEB2 /* Pods-Serenity-SerenityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Serenity-SerenityTests.debug.xcconfig"; path = "Target Support Files/Pods-Serenity-SerenityTests/Pods-Serenity-SerenityTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6441AC57E96E3DC75DADC1B4 /* libPods-Serenity-SerenityTests.a in Frameworks */,
+				0F6C4D3B46BF55E6B92CD6B9 /* libPods-Serenity-SerenityTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C76CCFAD0AD5865E6238938 /* libPods-Serenity.a in Frameworks */,
+				9726943CA6D83286691DA62E /* libPods-Serenity.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA6793919C2AF70B91C8B526 /* libPods-Serenity-tvOS.a in Frameworks */,
+				75A49C9BB7693A0B84F57A6E /* libPods-Serenity-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FEA22C4F6D8B4D2B24B27814 /* libPods-Serenity-tvOSTests.a in Frameworks */,
+				1F368971A92BC24CCF1C2E9D /* libPods-Serenity-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,28 +141,12 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				5A78DC3557E5231B37FD6FD1 /* libPods-Serenity.a */,
-				2DB252EC8E7033B8CE1374CB /* libPods-Serenity-SerenityTests.a */,
-				30D31F2CF3EC52024493928B /* libPods-Serenity-tvOS.a */,
-				0E4F8E91FA7A7F8A74851C71 /* libPods-Serenity-tvOSTests.a */,
+				25CDE7D657F942849B3D2795 /* libPods-Serenity.a */,
+				CCA5CA78EBF1805D33680F14 /* libPods-Serenity-SerenityTests.a */,
+				7A67A533FD1F85D8AE848A5E /* libPods-Serenity-tvOS.a */,
+				28538ED23CDEA8EF7722AB4D /* libPods-Serenity-tvOSTests.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		57836D30AF2D6CBCDA929C97 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				CD25ACC9E9D1E647CFF676FB /* Pods-Serenity.debug.xcconfig */,
-				FE9F19F4401C8090089774BD /* Pods-Serenity.release.xcconfig */,
-				656C25A57720978D77D52834 /* Pods-Serenity-SerenityTests.debug.xcconfig */,
-				38B802DF1952AD480AD7AA1D /* Pods-Serenity-SerenityTests.release.xcconfig */,
-				66B4C91B28CAB74F5CE6D1A1 /* Pods-Serenity-tvOS.debug.xcconfig */,
-				85ADC17B0B046D23F816A9AB /* Pods-Serenity-tvOS.release.xcconfig */,
-				971657F38D5C7E65D22D900D /* Pods-Serenity-tvOSTests.debug.xcconfig */,
-				8AC75A66B89C3ECCC3419A72 /* Pods-Serenity-tvOSTests.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -180,7 +164,7 @@
 				00E356EF1AD99517003FC87E /* SerenityTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				57836D30AF2D6CBCDA929C97 /* Pods */,
+				860571AC20992215D76369FE /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -198,6 +182,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		860571AC20992215D76369FE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C7A7F93A33984FB4F0293B97 /* Pods-Serenity.debug.xcconfig */,
+				1A279BD15FF788F5D54AFF97 /* Pods-Serenity.release.xcconfig */,
+				FE00B6E437B08AC03BCCAEB2 /* Pods-Serenity-SerenityTests.debug.xcconfig */,
+				68BF0D58ED81898F51910CD3 /* Pods-Serenity-SerenityTests.release.xcconfig */,
+				B00DF5BF6DD8A556367CCFCF /* Pods-Serenity-tvOS.debug.xcconfig */,
+				972DF59B8BA8300E7746EF0C /* Pods-Serenity-tvOS.release.xcconfig */,
+				2EE53652C0BE165E8DC75CAF /* Pods-Serenity-tvOSTests.debug.xcconfig */,
+				576DB75FD637A27838405301 /* Pods-Serenity-tvOSTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -205,12 +205,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "SerenityTests" */;
 			buildPhases = (
-				9C97C954C1A7DBECB7B27D16 /* [CP] Check Pods Manifest.lock */,
+				E1231FC2DC8472E68AC33687 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				AB2D4A9B9FB79666F5BA7348 /* [CP] Embed Pods Frameworks */,
-				332621C7CF4F23E51BF7D29A /* [CP] Copy Pods Resources */,
+				3FC8AC3752D21A7F6370E58D /* [CP] Embed Pods Frameworks */,
+				E9386E71B29D843AD4700AA9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -226,14 +226,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Serenity" */;
 			buildPhases = (
-				3C1AB228E06A6D5B3D902386 /* [CP] Check Pods Manifest.lock */,
+				66BBABC7F9166240FD7E1699 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				4675FF15D05C003AD1678972 /* [CP] Embed Pods Frameworks */,
-				43C10977C04DE2C5539045F0 /* [CP] Copy Pods Resources */,
+				56BE80626050D3D766663B04 /* [CP] Embed Pods Frameworks */,
+				DF2EB0C5E7F134FA99B59E3C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -248,7 +248,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Serenity-tvOS" */;
 			buildPhases = (
-				76F964FB9B8DDC013D5D817D /* [CP] Check Pods Manifest.lock */,
+				BCB9324301031E7370E9E5FF /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -268,7 +268,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Serenity-tvOSTests" */;
 			buildPhases = (
-				E855BC0CB5C70CBFB44373A0 /* [CP] Check Pods Manifest.lock */,
+				571B7AE653CC33AF64C71F76 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -393,57 +393,65 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		332621C7CF4F23E51BF7D29A /* [CP] Copy Pods Resources */ = {
+		3FC8AC3752D21A7F6370E58D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Serenity-SerenityTests/Pods-Serenity-SerenityTests-resources.sh",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-Serenity-SerenityTests/Pods-Serenity-SerenityTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Serenity-SerenityTests/Pods-Serenity-SerenityTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Serenity-SerenityTests/Pods-Serenity-SerenityTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3C1AB228E06A6D5B3D902386 /* [CP] Check Pods Manifest.lock */ = {
+		56BE80626050D3D766663B04 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Serenity/Pods-Serenity-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Serenity/Pods-Serenity-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		571B7AE653CC33AF64C71F76 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Serenity-tvOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		66BBABC7F9166240FD7E1699 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -465,7 +473,29 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		43C10977C04DE2C5539045F0 /* [CP] Copy Pods Resources */ = {
+		BCB9324301031E7370E9E5FF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Serenity-tvOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DF2EB0C5E7F134FA99B59E3C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -515,47 +545,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Serenity/Pods-Serenity-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4675FF15D05C003AD1678972 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Serenity/Pods-Serenity-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Serenity/Pods-Serenity-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		76F964FB9B8DDC013D5D817D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Serenity-tvOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9C97C954C1A7DBECB7B27D16 /* [CP] Check Pods Manifest.lock */ = {
+		E1231FC2DC8472E68AC33687 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -577,44 +567,54 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AB2D4A9B9FB79666F5BA7348 /* [CP] Embed Pods Frameworks */ = {
+		E9386E71B29D843AD4700AA9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Serenity-SerenityTests/Pods-Serenity-SerenityTests-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+				"${PODS_ROOT}/Target Support Files/Pods-Serenity-SerenityTests/Pods-Serenity-SerenityTests-resources.sh",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Serenity-SerenityTests/Pods-Serenity-SerenityTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E855BC0CB5C70CBFB44373A0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Serenity-tvOSTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Serenity-SerenityTests/Pods-Serenity-SerenityTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -710,7 +710,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 656C25A57720978D77D52834 /* Pods-Serenity-SerenityTests.debug.xcconfig */;
+			baseConfigurationReference = FE00B6E437B08AC03BCCAEB2 /* Pods-Serenity-SerenityTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -733,7 +733,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 38B802DF1952AD480AD7AA1D /* Pods-Serenity-SerenityTests.release.xcconfig */;
+			baseConfigurationReference = 68BF0D58ED81898F51910CD3 /* Pods-Serenity-SerenityTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -753,7 +753,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CD25ACC9E9D1E647CFF676FB /* Pods-Serenity.debug.xcconfig */;
+			baseConfigurationReference = C7A7F93A33984FB4F0293B97 /* Pods-Serenity.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -776,7 +776,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE9F19F4401C8090089774BD /* Pods-Serenity.release.xcconfig */;
+			baseConfigurationReference = 1A279BD15FF788F5D54AFF97 /* Pods-Serenity.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -797,7 +797,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 66B4C91B28CAB74F5CE6D1A1 /* Pods-Serenity-tvOS.debug.xcconfig */;
+			baseConfigurationReference = B00DF5BF6DD8A556367CCFCF /* Pods-Serenity-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -825,7 +825,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 85ADC17B0B046D23F816A9AB /* Pods-Serenity-tvOS.release.xcconfig */;
+			baseConfigurationReference = 972DF59B8BA8300E7746EF0C /* Pods-Serenity-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -853,7 +853,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 971657F38D5C7E65D22D900D /* Pods-Serenity-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 2EE53652C0BE165E8DC75CAF /* Pods-Serenity-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -880,7 +880,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8AC75A66B89C3ECCC3419A72 /* Pods-Serenity-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 576DB75FD637A27838405301 /* Pods-Serenity-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;

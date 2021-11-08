@@ -48,7 +48,7 @@ export const toggleList =
             dispatch(state.tr.setNodeMarkup(parentList.pos, listType));
           }
           return true;
-          // e.g when chaning from bullet list to checklist or checklist to ordered list
+          // e.g when changing from bullet list to checklist or checklist to ordered list
         } else {
           const childCount = parentList.node.childCount;
           const $pos = state.doc.resolve(parentList.pos);
@@ -59,17 +59,30 @@ export const toggleList =
             $to: state.doc.resolve(listEnd),
           };
           const tr = clearNodes(state.tr, [selectionRange]);
-          const selectionRangeAfterClearingNodes = {
-            $from: tr.doc.resolve(listStart),
-            // (2 + 2 * childCount) is the amount of positions removed
-            // when clearing a list
-            $to: tr.doc.resolve(listEnd - (2 + 2 * childCount)),
-          };
-          return wrapInList(listType)(
-            tr,
-            dispatch,
-            selectionRangeAfterClearingNodes
-          );
+          try {
+            const selectionRangeAfterClearingNodes = {
+              $from: tr.doc.resolve(listStart),
+              // (2 + 2 * childCount) is the amount of positions removed
+              // when clearing a list
+              // This calculation is not correct if the sub-list contains
+              // more than 1 entry and we left the next entry e.g.
+              // ```
+              // - aaa
+              //   - ab
+              //   - ac
+              // -
+              // ```
+              // To avoid further errors the try/catch is necessary
+              $to: tr.doc.resolve(listEnd - (2 + 2 * childCount)),
+            };
+            return wrapInList(listType)(
+              tr,
+              dispatch,
+              selectionRangeAfterClearingNodes
+            );
+          } catch (err) {
+            return false;
+          }
         }
       }
       return false;

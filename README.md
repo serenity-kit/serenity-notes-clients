@@ -39,11 +39,12 @@ npx react-native run-macos
 
 ## Mobile Builds
 
-Creating build for iOS Simulator.
+Creating build for iOS & Android.
 
 ```sh
 cd app
 yarn build:ios
+yarn build:android
 ```
 
 Creating a preview build for internal distribution.

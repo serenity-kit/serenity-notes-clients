@@ -33,6 +33,9 @@ export default {
     },
     extra: {
       apiUrl: process.env.API_URL || "https://api.serenity.re/graphql",
+      eas: {
+        projectId: "2eb96ed0-d00b-47ff-9991-914538bc1fce",
+      },
     },
   },
 };

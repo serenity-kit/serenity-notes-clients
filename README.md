@@ -37,6 +37,22 @@ cd ..
 npx react-native run-macos
 ```
 
+## Mobile Builds
+
+Creating build for iOS Simulator.
+
+```sh
+cd app
+yarn build:ios
+```
+
+Creating a preview build for internal distribution.
+
+```sh
+cd app
+yarn build:ios:preview
+```
+
 ## macOS Release
 
 Bump version in app.json & in Xcode in Target `serenity-macOS`.

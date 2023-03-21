@@ -228,6 +228,7 @@ const useSync = () => {
       return;
 
     const syncFunction = async () => {
+      console.log("syncFunction");
       if (syncInProgress) return;
       syncInProgress = true;
       await fetchRepositories(
@@ -256,6 +257,7 @@ const useSync = () => {
 
     if (appState === "active") {
       if (appWasInactive.current) {
+        console.log("activate and fetch");
         const fetchRepositoriesWithSyncInProgressCheck = async () => {
           if (syncInProgress) return;
           syncInProgress = true;
@@ -278,6 +280,7 @@ const useSync = () => {
         clearInterval(intervalId);
       };
     } else if (Platform.OS === "macos") {
+      console.log("mac background sync");
       const intervalId = setInterval(syncFunction, 600000); // 10min
 
       return () => {

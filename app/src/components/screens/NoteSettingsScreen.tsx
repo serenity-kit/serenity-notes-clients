@@ -413,29 +413,48 @@ export default function NoteSettingsScreen({ navigation, route }) {
           marginTop: 10,
         }}
         onPress={async () => {
-          if (!repositoryResult.repository.serverId) {
-            Alert.alert("Note first must be sucessfully synced to the server.");
-            return;
-          }
-          if (!isRepositoryCreator) {
-            Alert.alert("Currently only the creator can remove a note.");
-            return;
-          }
-          try {
-            await deleteRepository(
-              client,
-              repositoryResult.repository.serverId,
-              deviceResult.device
-            );
-          } catch (err) {
-            Alert.alert(
-              "Failed",
-              "Failed to delete the Note from the server. Please try again later."
-            );
-          }
-          await repositoryStore.deleteRepository(route.params.id);
-          navigation.navigate("Notes");
-          Alert.alert("Success", "Deleted the Note.");
+          Alert.alert(
+            "Warning",
+            "Are you sure you want to delete this note?",
+            [
+              {
+                text: 'Cancel',
+                style: "cancel",
+              },
+              {
+                text: 'Delete',
+                style: "destructive",
+                onPress: async () => {
+                  if (!repositoryResult.repository.serverId) {
+                    Alert.alert("Note first must be successfully synced to the server.");
+                    return;
+                  }
+                  if (!isRepositoryCreator) {
+                    Alert.alert("Currently only the creator can remove a note.");
+                    return;
+                  }
+                  try {
+                    await deleteRepository(
+                      client,
+                      repositoryResult.repository.serverId,
+                      deviceResult.device
+                    );
+                  } catch (err) {
+                    Alert.alert(
+                      "Failed",
+                      "Failed to delete the Note from the server. Please try again later."
+                    );
+                  }
+                  await repositoryStore.deleteRepository(route.params.id);
+                  navigation.navigate("Notes");
+                  Alert.alert("Success", "Deleted the Note.");
+                }
+              }
+            ],
+            {
+              cancelable: true,
+            },
+          );
         }}
       >
         Delete Note
